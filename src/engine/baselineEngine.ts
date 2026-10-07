@@ -1,8 +1,10 @@
 import type { MetricData, CheckInState } from '../types/health';
 
 export interface EvaluationResult {
-  divergenceScore: number; // 0.0 - 10.0
+  divergenceScore: number; // Quantitative deviation magnitude (0.0 - 10.0)
   severity: 'none' | 'mild' | 'moderate' | 'significant';
+  patternStatus: 'STABLE' | 'EMERGING CHANGE' | 'SIGNIFICANT CHANGE';
+  flaggedSignalsCount: number;
   triggeredRuleId: string;
   ruleName: string;
   ruleAction: string;
@@ -23,6 +25,7 @@ export function calculateZScore(value: number, mean: number, stdDev: number): nu
 
 /**
  * Evaluates multi-parameter change against personal baselines and deterministic safety rules.
+ * Does NOT diagnose medical conditions or predict disease probability.
  */
 export function evaluateHealthPattern(
   metrics: MetricData[],
@@ -40,9 +43,9 @@ export function evaluateHealthPattern(
   const hrVal = hr ? hr.todayValue : 62;
   const hrBaseline = hr ? hr.baselineAvg : 62;
   const hrDelta = ((hrVal - hrBaseline) / hrBaseline) * 100;
-  if (Math.abs(hrDelta) > 12) {
+  if (Math.abs(hrDelta) > 10) {
     scoreSum += 2.2;
-    deltaSummary.push({ metric: 'Resting Heart Rate', change: `+${hrDelta.toFixed(1)}% elevated` });
+    deltaSummary.push({ metric: 'Resting Heart Rate', change: `${hrDelta > 0 ? '+' : ''}${hrDelta.toFixed(1)}% departure from baseline` });
   }
 
   // HRV drop
@@ -50,76 +53,84 @@ export function evaluateHealthPattern(
   const hrvBaseline = hrv ? hrv.baselineAvg : 55;
   if (hrvVal < hrvBaseline * 0.75) {
     scoreSum += 2.4;
-    deltaSummary.push({ metric: 'HRV Recovery', change: `-30.9% parasympathetic dip` });
+    deltaSummary.push({ metric: 'HRV Metric', change: `-30.9% variance from baseline` });
   }
 
   // Sleep
   const sleepVal = checkIn.sleepHours;
   if (sleepVal < 6.0) {
     scoreSum += 2.0;
-    deltaSummary.push({ metric: 'Sleep Quality', change: `${sleepVal} hrs vs 8.1 hrs normal` });
+    deltaSummary.push({ metric: 'Sleep Duration', change: `${sleepVal} hrs vs ${metrics.find(m => m.id === 'sleep')?.baselineAvg || 8.1} hrs baseline` });
   }
 
   // Temp
   const tempVal = temp ? temp.todayValue : 98.4;
   if (tempVal >= 99.0) {
     scoreSum += 1.8;
-    deltaSummary.push({ metric: 'Dermal Temperature', change: `+0.7°F elevation` });
+    deltaSummary.push({ metric: 'Recorded Temperature', change: `+0.7°F shift` });
   }
 
-  // Subjective symptoms
+  // Subjective symptoms / energy
   if (checkIn.symptoms.length > 0) {
     scoreSum += checkIn.symptoms.length * 0.6;
-    deltaSummary.push({ metric: 'Reported Symptoms', change: checkIn.symptoms.join(', ') });
+    deltaSummary.push({ metric: 'Self-Reported Checks', change: checkIn.symptoms.join(', ') });
   }
 
   const finalScore = Math.min(10, Math.max(0.5, parseFloat(scoreSum.toFixed(1))));
 
   // Deterministic Safety Rules Engine
   let ruleId = 'RULE-100-STABLE';
-  let ruleName = 'Homeostatic Baseline Alignment';
-  let ruleAction = 'Continue routine telemetry tracking';
+  let ruleName = 'Personal Baseline Alignment';
+  let ruleAction = 'Observations within expected personal variance bounds';
   let isEmergency = false;
 
-  // Critical Emergency Filter (Rule #101)
+  // Critical Safeguard Filter
   if ((spo2 && spo2.todayValue < 90) || hrVal > 130) {
     isEmergency = true;
-    ruleId = 'RULE-101-EMERGENCY';
-    ruleName = 'Critical Physiological Threshold Violation';
-    ruleAction = 'Trigger Immediate Emergency Escalation Workflow';
+    ruleId = 'RULE-101-SAFEGUARD';
+    ruleName = 'Severe Deviation Safety Threshold';
+    ruleAction = 'Prompt user to seek qualified emergency medical care';
   } else if (finalScore >= 6.5) {
-    // Autonomic Multi-System Divergence (Rule #204)
-    ruleId = 'RULE-204-AUTO';
-    ruleName = 'Multi-Parameter Autonomic Shift Filter';
-    ruleAction = 'Cleared non-emergent triage; issue early preventive advisory';
+    ruleId = 'RULE-204-MULTI';
+    ruleName = 'Multi-Signal Covariance Deviation Filter';
+    ruleAction = 'Flag meaningful pattern change and provide non-diagnostic guidance';
   } else if (finalScore >= 4.0) {
     ruleId = 'RULE-150-MILD';
-    ruleName = 'Isolated Metric Fluctuating';
-    ruleAction = 'Log in longitudinal database and monitor next cycle';
+    ruleName = 'Single-Metric Transient Variance Filter';
+    ruleAction = 'Record in rolling baseline window and observe next cycle';
   }
 
   let severity: 'none' | 'mild' | 'moderate' | 'significant' = 'none';
-  if (finalScore >= 7.5) severity = 'moderate';
-  else if (finalScore >= 4.0) severity = 'mild';
+  let patternStatus: 'STABLE' | 'EMERGING CHANGE' | 'SIGNIFICANT CHANGE' = 'STABLE';
+
+  if (finalScore >= 6.5) {
+    severity = 'moderate';
+    patternStatus = 'SIGNIFICANT CHANGE';
+  } else if (finalScore >= 4.0) {
+    severity = 'mild';
+    patternStatus = 'EMERGING CHANGE';
+  }
 
   const rationale = finalScore >= 6.0
-    ? `Multiple physiological streams show correlated deviation from your personal 30-day baseline. Rather than isolated variance, the combination of sleep deficit, autonomic suppression (low HRV), and slight thermal shift indicates emerging systemic fatigue or early immune defense activation.`
-    : `Your health telemetry remains closely anchored around your personal homeostatic baseline without significant clustering anomalies.`;
+    ? `Today's observations differ from your recent personal 30-day pattern across multiple signals (sleep deficit, resting heart rate shift, and recorded temperature). HealthShield does not determine the medical cause of this change. It highlights the pattern so you can review recent strain and take appropriate preventive steps.`
+    : `Your health observations remain closely anchored to your personal 30-day baseline without meaningful multi-signal divergence.`;
 
   const nextSteps = isEmergency
     ? [
-        { title: 'Seek Immediate Emergency Assistance', desc: 'Call local emergency services (112 / 911) or proceed to nearest emergency care.', urgency: 'immediate' as const },
-        { title: 'Notify Designated Emergency Contact', desc: 'Auto-dispatch geolocation and vital telemetry snapshot.', urgency: 'immediate' as const }
+        { title: 'Seek Immediate Professional Medical Care', desc: 'Readings are outside safe biological limits. Consult emergency healthcare services or visit the nearest clinic.', urgency: 'immediate' as const },
+        { title: 'Alert Trusted Contact', desc: 'Share your current reading and location with a designated family member.', urgency: 'immediate' as const }
       ]
     : [
-        { title: 'Oral Hydration & Physical Decompression', desc: 'Drink 500ml of water or electrolyte fluid and rest 45–60 minutes before re-checking vitals.', urgency: 'immediate' as const },
-        { title: 'Temperature Re-check in 4 Hours', desc: 'Log thermal readout at 12:00 PM to monitor if dermal temperature stabilizes.', urgency: 'within_hours' as const },
-        { title: 'Prepare Clinician Telemetry Summary', desc: 'Share encrypted delta report with trusted primary doctor if elevated pulse continues.', urgency: 'routine' as const }
+        { title: 'Review Recent Sleep & Pacing', desc: 'Examine recent sleep schedule, hydration, and daily physical exertion over the last 48 hours.', urgency: 'immediate' as const },
+        { title: 'Monitor Over Next Rolling Window', desc: 'Submit tomorrow\'s 60-second check-in to observe if the signals return toward baseline.', urgency: 'within_hours' as const },
+        { title: 'Seek Clinical Guidance if Changes Persist', desc: 'Consider consulting a healthcare provider if feelings of fatigue or unusual discomfort persist or worsen.', urgency: 'routine' as const }
       ];
 
   return {
     divergenceScore: finalScore,
     severity,
+    patternStatus,
+    flaggedSignalsCount: deltaSummary.length,
     triggeredRuleId: ruleId,
     ruleName,
     ruleAction,

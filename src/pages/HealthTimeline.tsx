@@ -27,7 +27,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     summary: 'Initial device sync and self-reported check-in registered. Learning physiological baseline window.',
     metrics: { sleep: 7.4, activity: 8200, hr: 62, wellbeing: 'Good' },
     deltaText: 'Within normal baseline entry',
-    clinicalNote: 'Rolling 30-day kernel initialized. Covariance matrix tracking sleep-activity-HR relationship.'
+    clinicalNote: 'Rolling 30-day kernel initialized. Tracking sleep-activity-HR personal normal bounds.'
   },
   {
     day: 7,
@@ -49,29 +49,29 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     summary: 'Mild sleep curtailment noted on weekend. Activity and resting HR remain completely normal.',
     metrics: { sleep: 6.5, activity: 7600, hr: 64, wellbeing: 'Good' },
     deltaText: 'Sleep -11% (Within transient tolerance)',
-    clinicalNote: 'Deterministic filter suppresses false positive. Single-metric transient does not trigger alert.'
+    clinicalNote: 'Deterministic filter suppresses false alarms. Single-metric transient does not trigger alert.'
   },
   {
     day: 18,
-    date: 'Day 18 • Emerging Strain',
+    date: 'Day 18 • Emerging Drift',
     stage: 'Emerging Multi-Day Signal Drift',
     status: 'EMERGING',
     badgeColor: '#F59E0B',
-    summary: 'Second consecutive day of reduced step count and delayed sleep onset. Autonomic strain creeping upward.',
+    summary: 'Second consecutive day of reduced step count and delayed sleep onset.',
     metrics: { sleep: 6.0, activity: 5800, hr: 68, wellbeing: 'Fair' },
     deltaText: 'Activity -27% • HR +6 bpm',
-    clinicalNote: 'System flags early drift into internal monitor queue. No alarm fatigue; silently observing covariance.'
+    clinicalNote: 'System flags early drift into internal monitor queue. No alarm fatigue; observing multi-signal change.'
   },
   {
     day: 20,
-    date: 'Day 20 • Multi-Param Shift',
+    date: 'Day 20 • Multi-Signal Shift',
     stage: 'Compound Physiological Divergence',
     status: 'EMERGING',
     badgeColor: '#F59E0B',
     summary: 'Sleep drops below 5.5h. Self-reported well-being shifts to Low. Nighttime resting HR elevated.',
     metrics: { sleep: 5.4, activity: 4900, hr: 74, wellbeing: 'Low' },
     deltaText: 'Sleep -26% • Activity -38% • HR +12 bpm',
-    clinicalNote: 'Safety engine HS-WELL-001 primes detection. Triad of sleep, activity, and HR departure confirmed.'
+    clinicalNote: 'Safety rule HS-RULE-001 primes detection. Triad of sleep, activity, and HR departure confirmed.'
   },
   {
     day: 21,
@@ -86,7 +86,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
   }
 ];
 
-export const IncidentReplay: React.FC = () => {
+export const HealthTimeline: React.FC = () => {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
@@ -136,10 +136,10 @@ export const IncidentReplay: React.FC = () => {
       >
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(14, 164, 122, 0.2)', border: '1px solid rgba(14, 164, 122, 0.4)', borderRadius: 20, padding: '4px 12px', fontSize: 11, fontWeight: 700, color: '#34D399', marginBottom: 12 }}>
           <span>⏱️</span>
-          <span>HEALTH TIMELINE REPLAY • THEME 3 CORE DEMONSTRATION</span>
+          <span>HEALTH TIMELINE • 21-DAY DEVIATION PROGRESSION</span>
         </div>
         <h1 style={{ fontSize: 26, fontWeight: 800, margin: '0 0 8px', letterSpacing: '-0.02em' }}>
-          Personal Health Pattern Replay (Days 1 → 21)
+          Personal Health Pattern Timeline (Days 1 → 21)
         </h1>
         <p style={{ fontSize: 14, color: '#94A3B8', margin: 0, maxWidth: 760, lineHeight: 1.5 }}>
           Witness how HealthShield establishes a 30-day baseline, suppresses harmless isolated variations, and deterministically flags a multi-signal physiological departure on Day 21 with explainable evidence.
@@ -227,7 +227,7 @@ export const IncidentReplay: React.FC = () => {
         {/* Current State Capsule */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: 11, color: '#64748B', fontWeight: 600 }}>REPLAY POSITION</div>
+            <div style={{ fontSize: 11, color: '#64748B', fontWeight: 600 }}>TIMELINE POSITION</div>
             <strong style={{ fontSize: 15, color: '#0F172A' }}>{currentEvent.date}</strong>
           </div>
           <div 
@@ -290,7 +290,7 @@ export const IncidentReplay: React.FC = () => {
       {/* Main Dual Cards View: Stage Summary & Live Telemetry Inspector */}
       <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 24, marginBottom: 24 }}>
         
-        {/* Left: Stage Narrative & Clinical Decision Log */}
+        {/* Left: Stage Narrative & Decision Log */}
         <div style={{ background: '#FFFFFF', borderRadius: 16, border: '1px solid #E2E8F0', padding: 24, boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
             <span style={{ fontSize: 20 }}>🔍</span>
@@ -305,7 +305,7 @@ export const IncidentReplay: React.FC = () => {
 
           <div style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: 12, padding: 16, marginBottom: 18 }}>
             <div style={{ fontSize: 11, fontWeight: 800, color: '#64748B', letterSpacing: '0.04em', marginBottom: 6 }}>
-              COVARIANCE &amp; DEVIATION STATUS
+              SIGNAL DEVIATION STATUS
             </div>
             <div style={{ fontSize: 15, fontWeight: 800, color: currentEvent.status === 'DETECTED' ? '#DC2626' : currentEvent.status === 'EMERGING' ? '#D97706' : '#059669' }}>
               {currentEvent.deltaText}
@@ -315,7 +315,7 @@ export const IncidentReplay: React.FC = () => {
           <div style={{ background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: 12, padding: 16 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
               <span className="material-symbols-outlined" style={{ fontSize: 18, color: '#16A34A' }}>verified_user</span>
-              <span style={{ fontSize: 11, fontWeight: 800, color: '#166534' }}>DETERMINISTIC SAFETY ENGINE VERIFICATION</span>
+              <span style={{ fontSize: 11, fontWeight: 800, color: '#166534' }}>DETERMINISTIC SAFETY RULE VERIFICATION</span>
             </div>
             <p style={{ fontSize: 13, color: '#14532D', margin: 0, lineHeight: 1.5 }}>
               {currentEvent.clinicalNote}
@@ -327,7 +327,7 @@ export const IncidentReplay: React.FC = () => {
         <div style={{ background: '#FFFFFF', borderRadius: 16, border: '1px solid #E2E8F0', padding: 24, boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
             <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', margin: 0 }}>
-              Day {currentEvent.day} Telemetry Readings
+              Day {currentEvent.day} Observations
             </h3>
             <span style={{ fontSize: 11, fontWeight: 700, color: '#64748B' }}>vs 30-Day Baseline</span>
           </div>
@@ -342,7 +342,7 @@ export const IncidentReplay: React.FC = () => {
               <div style={{ background: '#E2E8F0', height: 8, borderRadius: 4, overflow: 'hidden' }}>
                 <div style={{ width: `${(currentEvent.metrics.sleep / 8) * 100}%`, background: currentEvent.metrics.sleep < 6 ? '#EF4444' : '#10B981', height: '100%' }} />
               </div>
-              <div style={{ fontSize: 11, color: '#64748B', marginTop: 4 }}>Usual Baseline: 7.3 hrs</div>
+              <div style={{ fontSize: 11, color: '#64748B', marginTop: 4 }}>Personal Baseline: 7.3 hrs</div>
             </div>
 
             {/* Steps */}
@@ -354,7 +354,7 @@ export const IncidentReplay: React.FC = () => {
               <div style={{ background: '#E2E8F0', height: 8, borderRadius: 4, overflow: 'hidden' }}>
                 <div style={{ width: `${(currentEvent.metrics.activity / 10000) * 100}%`, background: currentEvent.metrics.activity < 6000 ? '#EF4444' : '#10B981', height: '100%' }} />
               </div>
-              <div style={{ fontSize: 11, color: '#64748B', marginTop: 4 }}>Usual Baseline: 7,900 steps</div>
+              <div style={{ fontSize: 11, color: '#64748B', marginTop: 4 }}>Personal Baseline: 7,900 steps</div>
             </div>
 
             {/* Resting HR */}
@@ -366,7 +366,7 @@ export const IncidentReplay: React.FC = () => {
               <div style={{ background: '#E2E8F0', height: 8, borderRadius: 4, overflow: 'hidden' }}>
                 <div style={{ width: `${(currentEvent.metrics.hr / 100) * 100}%`, background: currentEvent.metrics.hr > 72 ? '#EF4444' : '#10B981', height: '100%' }} />
               </div>
-              <div style={{ fontSize: 11, color: '#64748B', marginTop: 4 }}>Usual Baseline: 62 bpm</div>
+              <div style={{ fontSize: 11, color: '#64748B', marginTop: 4 }}>Personal Baseline: 62 bpm</div>
             </div>
 
             {/* Well-being */}
@@ -377,7 +377,7 @@ export const IncidentReplay: React.FC = () => {
                   {currentEvent.metrics.wellbeing}
                 </span>
               </div>
-              <div style={{ fontSize: 11, color: '#64748B', marginTop: 4 }}>Usual Baseline: Good</div>
+              <div style={{ fontSize: 11, color: '#64748B', marginTop: 4 }}>Personal Baseline: Good</div>
             </div>
           </div>
         </div>
@@ -390,15 +390,14 @@ export const IncidentReplay: React.FC = () => {
             background: '#FEF2F2', 
             border: '1.5px solid #FCA5A5', 
             borderRadius: 16, 
-            padding: '24px 28px',
-            animation: 'pulse 2s infinite'
+            padding: '24px 28px'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
             <span style={{ fontSize: 32 }}>🚨</span>
             <div>
               <h4 style={{ fontSize: 17, fontWeight: 800, color: '#991B1B', margin: '0 0 6px' }}>
-                Day 21 Outcome: Explainable Action Generated
+                Day 21 Outcome: Explainable Guidance Generated
               </h4>
               <p style={{ fontSize: 13, color: '#7F1D1D', lineHeight: 1.5, margin: '0 0 14px' }}>
                 Three independent physiological signals departed from their personal 30-day baseline simultaneously over a 72-hour rolling window. HealthShield does not attempt a disease diagnosis; it presents the concrete evidence and suggests reviewing sleep debt, physical pacing, and seeking clinical consultation if the trend persists.
@@ -422,4 +421,4 @@ export const IncidentReplay: React.FC = () => {
   );
 };
 
-export default IncidentReplay;
+export default HealthTimeline;

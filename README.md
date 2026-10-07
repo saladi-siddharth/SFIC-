@@ -1,188 +1,168 @@
-# 🏥 Medivora AI & HealthShield Clinical Command Center
-### *Personal Preventive Intelligence • SFIC National Track A • On-Device Qwen2.5-Coder-7B AI Copilot*
+# 🛡️ HealthShield AI
+### *Personal Preventive Health Intelligence*
+**SFIC Track A • Theme 3: Swasth & Samavesh Bharat (Health & Well-being)**
 
-> **Executive Overview:**  
-> Medivora AI & HealthShield is an institutional-grade clinical command center and preventive health platform. It integrates **13 dedicated clinical modules** powered by an on-device local Large Language Model (`Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf`), ensuring **100% zero-cloud telemetry privacy**, strict DPDP Act 2023 & HIPAA compliance, and deterministic baseline anomaly detection.
-
----
-
-## 🖥️ 13 Dedicated Clinical Modules
-
-The platform features individual, high-efficiency pages tailored to clinical operational workflows:
-
-1. **Dashboard (`/`)**: Executive clinical overview with organ health status (Heart, Lungs, Brain, Kidneys, Liver), 24h vitals trend charts, health risk indexing, and instant quick actions.
-2. **Patients**: Inpatient cohort directory, real-time vitals monitoring, baseline departure triage scores, bed assignment, and one-click on-device Qwen2.5 clinical case reviews.
-3. **Appointments**: Multi-tier scheduling calendar (Today, Tomorrow, Upcoming), in-person arrival check-in, and instant WebRTC telemedicine launch.
-4. **Health Records**: Longitudinal electronic health records (Holter ECG, Comprehensive Metabolic Panels, Chest X-rays, Discharge Summaries) with LOINC codes and one-click ABDM FHIR R4 JSON bundle exports.
-5. **AI Insights**: Autonomic stress forecasts, circadian phase alignment, pharmacokinetics correlation models, and an interactive prompt sandbox running on the local Qwen2.5 model.
-6. **Diagnostics**: High-precision diagnostic telemetry including 12-lead ECG intervals (PR, QRS, QTc), hs-cTnI troponin, nocturnal desaturation, and hs-CRP with automatic reference range flags.
-7. **Treatments**: Active care protocol tracking, interactive milestone checkboxes, daily clinical directives, and multidisciplinary care team assignments.
-8. **Medications**: Smart pharmacy scheduler (Morning, Noon, Evening, Bedtime), adherence rate metrics, drug-drug interaction warnings (e.g. Lisinopril + Spironolactone hyperkalemia guardrails), and electronic refill requests.
-9. **Reports**: Clinical discharge summaries, longitudinal baseline reports, and digitally signed clinical PDF/plain-text downloads.
-10. **Analytics**: Hospital operations telemetry including bed occupancy (84.2%), 30-day readmission reduction metrics (-18.4%), and 24-hour baseline drift heatmaps.
-11. **Alerts (Badge 6)**: Triage escalation feed displaying all 6 critical alerts (Sarah Vance resting tachycardia, David Okafor SpO2 desaturation, Michael Davis hypertensive spike) with Rapid Response Team dispatch.
-12. **Messages**: Multi-channel clinical communications (Patients, Cardiology, Rapid Response Team, Hospital Pharmacy) with integrated Qwen2.5 draft assistance.
-13. **Settings**: Clinician preferences, local Qwen2.5 temperature controls, DPDP Act 2023 audit logging toggles, and ABDM sandbox endpoint configuration.
+> **HealthShield is a preventive-health awareness prototype that learns a user's recent wellness pattern, detects meaningful deviations from that personal baseline, explains the observed change, and guides the user toward an appropriate next step.**
 
 ---
 
-## 🧠 Local On-Device AI Architecture (Zero-Cloud Privacy)
+## 💡 What Makes It Different?
 
-- **Local Model**: `Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf` (4.68 GB quantized model).
-- **Runtime Engine**: `node-llama-cpp` with multi-threaded CPU execution.
-- **Air-Gapped Privacy**: Zero patient telemetry or health data leaves the local machine. All inference occurs locally in-process.
-- **REST Endpoints**:
-  - `GET /api/ai/status`: Inspect model readiness, memory, and provider status.
-  - `POST /api/ai/chat`: Clinical assistant query and conversational copilot.
-  - `POST /api/ai/explain`: Grounded anomaly and baseline departure explanation.
-  - `POST /api/ai/daily-insight`: Telemetry summary generation.
+1. **Personal Baseline Instead of Generic Thresholds:** Learns individual 30-day physiological normal corridors rather than relying exclusively on generic population cutoffs.
+2. **Multi-Signal Change Detection:** Requires synchronized shifts across multiple signals (sleep duration, physical activity, resting heart rate, and subjective well-being) before flagging a meaningful divergence.
+3. **Structured Explainable Alerts ("Explain My Change"):** Distinguishes between *what changed*, *what supports the change*, *what HealthShield knows*, *what it does not know*, and *what the user can do*.
+4. **Deterministic Safety Layer:** Baseline math, covariance shift detection, and safety rules are strictly deterministic code. The system does not claim to diagnose disease or prescribe treatments.
+5. **On-Device AI Explanation Layer:** Quantized on-device LLM (`Qwen2.5-Coder-7B-Instruct GGUF`) is used exclusively for conversational explanation, natural-language summarization, and multilingual assistance.
+6. **Offline-First • User-Controlled Data:** Core observation logging, local baseline evaluation, and daily check-ins operate entirely offline with resilient client-side queuing.
+7. **Assistive & Multilingual Accessibility:** Built for diverse users with multi-language support (English, తెలుగు, हिंदी), voice query integration, large text, high contrast, and a 1-click Simple Mode.
 
 ---
 
-## 🧭 Concept Axiom
+## 🧭 Core Architectural Flow
 
 ```
-PERSONAL BASELINE → CHANGE DETECTION → SAFETY LOGIC → EXPLAINABLE GUIDANCE → APPROPRIATE NEXT STEP
+USER
+ │
+ ▼
+HEALTH OBSERVATIONS (Wearable / Manual / Device Adapter)
+ │
+ ▼
+DATA QUALITY CHECK (Physiological bounds, freshness, unit integrity)
+ │
+ ▼
+PERSONAL BASELINE
+ ┌────────┴────────┐
+ │                 │
+ ▼                 ▼
+CURRENT DATA     RECENT PATTERN (Rolling 30-day corridor)
+ │                 │
+ └────────┬────────┘
+          ▼
+   CHANGE DETECTION
+          │
+          ▼
+ MULTI-SIGNAL PATTERN CHECK
+          │
+          ▼
+   SAFETY RULE ENGINE (Deterministic Guardrails)
+     ┌────┴────┐
+     ▼         ▼
+  STABLE     CHANGE DETECTED
+               │
+               ▼
+   EXPLAINABLE SUMMARY
+   ┌───────────┴───────────┐
+   │                       │
+   ▼                       ▼
+STRUCTURED DECISION CARD   ON-DEVICE AI EXPLAINER
+                           (Natural language & Indian languages)
+               │
+               ▼
+    APPROPRIATE NEXT STEP
+    (Rest, monitor, or seek healthcare advice)
 ```
 
-HealthShield is a preventive-health awareness and pattern-recognition platform. **It is NOT a diagnostic system and never claims to diagnose disease.**
+> **Design Principle:** AI explains; the deterministic safety engine decides the workflow.
 
 ---
 
-## 🏛️ SFIC Evaluation Criteria Mapping
+## 🏛️ SFIC Six Evaluation Criteria Alignment
 
-| SFIC Scoring Criterion | Implementation in HealthShield AI | Verified Component |
+| SFIC Scoring Criterion | HealthShield AI Implementation | Prototype Evidence |
 | :--- | :--- | :--- |
-| **1. Problem Clarity** | Resolves the disconnect where raw telemetry (e.g. 78 BPM) provides a number but lacks personal meaning. | Personal Baseline Engine & Change Detection |
-| **2. Originality** | Personal baseline learned over rolling windows + deterministic safety rules overriding language models. | Safety Engine & Content Governance (`HS-WELL-001`) |
-| **3. Feasibility** | Working software prototype, browser IndexedDB offline-first synchronization, device adapter layer. | Dual-DB (PostgreSQL / SQLite) + Express API |
-| **4. Cost & Sustainability** | ₹8.40 / user / month transparent cost calculator without proprietary cloud lock-in. | Interactive Cost Calculator & "Who Pays?" model |
-| **5. Beneficiary Impact** | Individual → Trusted Family Circle → Campus Cohort → Community. | Trusted Circle & Feedback Loop Survey |
-| **6. Scalability** | ABDM FHIR R4 interoperability layer + de-identified institutional dashboard. | FHIR Bundle Mapping (`/api/fhir/observation`) |
+| **01 — Problem Clarity** | Raw telemetry numbers (e.g., 78 BPM) lack meaning without an individual context. People often cannot tell if numbers represent an unusual change for *them*. | Dynamic comparison against learned personal baseline vs population cutoffs. |
+| **02 — Originality** | Personal baseline corridor + multi-signal covariance departure detection. Replaces anxiety-inducing chatbots with a structured explainability card. | Deterministic rule registry (`HS-RULE-001`) with clear boundaries. |
+| **03 — Feasibility** | Fully functional interactive browser prototype with simulated test scenarios, offline queue, and device adapter abstraction layer. | Verified in browser across 10-step Judge Mode and interactive Health Change Lab. |
+| **04 — Cost & Sustainability** | Software-first design with low recurring costs; runs on standard student/community mobile hardware. | Prototype operating cost model detailing individual, college, and program adoption. |
+| **05 — Beneficiary Impact** | Individual early awareness $\rightarrow$ Trusted Circle family notifications $\rightarrow$ Campus/community wellness tracking $\rightarrow$ District programs. | Granular consent controls, family alert toggles, and inclusive assistive modes. |
+| **06 — Scalability** | Reusable edge architecture with an ABDM-ready FHIR R4 interoperability pathway for polytechnic campuses and public health programs. | Standardized FHIR Observation JSON mapping and multi-district deployment model. |
 
 ---
 
-## 🌟 Key Phase 2 Upgrades
+## 🔬 Prototype Evidence & Validation
 
-### 1. Data Provenance & Observations Model
-Every telemetry reading records:
-- `metric`, `value`, `unit`, `timestamp`
-- `source_type`: `MANUAL`, `SELF_REPORTED`, `DEVICE`, `IMPORTED`, `SIMULATED`
-- `source_name`, `device_id`
-- `quality_status`: `VALID`, `PARTIAL`, `SUSPICIOUS`, `REJECTED`
-- `user_consent_context`, `idempotency_key`
-- Interactive **"View Data Source"** provenance inspection modal.
+HealthShield reports honest, verified prototype testing stages rather than premature commercial pilot claims:
 
-### 2. Device Adapter Architecture
-```
-                    HEALTHSHIELD
-                         │
-        ┌────────────────┼────────────────┐
-        ↓                ↓                ↓
-     Manual         Wearable API      Health Device API
-     Entry               │                │
-        └────────────────┼────────────────┘
-                         ↓
-                 DATA NORMALIZER
-                         ↓
-                  HEALTH DATA MODEL
-```
-- `ManualAdapter`: Self-reported checks.
-- `SimulatedWearableAdapter`: Demonstrates realistic multi-sensor telemetry without falsely claiming live commercial device certifications.
-- `BluetoothHealthDeviceAdapter`: Web Bluetooth GATT architecture ready for future BLE oximeters and blood pressure monitors.
-- `DataQualityEngine`: Range checking, unit validation, timestamp freshness, and physiological bounds.
+### Verification Completed (Current Stage)
+- **Core Interaction Testing:** End-to-end user check-in flow, metric sliders, and interactive scenario simulation.
+- **Baseline Calculation Testing:** 30-day rolling mean, variance bounds, and outlier detection verified.
+- **Change Detection Scenario Testing:** Evaluated across stable, emerging, and multi-signal strain scenarios in the **Health Change Lab**.
+- **Offline Workflow Testing:** Verified queue operations, local persistence, and background sync transitions.
+- **Accessibility Workflow Testing:** Verified high contrast, text sizing, screen reader landmarks, and Telugu/Hindi translation tokens.
 
-### 3. DPDP Act 2023 Purpose-Bound Consent Center
-Replaces generic checkboxes with granular, revocable consent states:
-1. Health observations (Allowed)
-2. Daily check-ins (Allowed)
-3. Trend analysis (Allowed)
-4. AI explanation (Allowed)
-5. Trusted contact sharing (Revocable)
-6. Voice processing (Revocable, 100% on-device)
-7. Institutional sharing (Revocable, k-anonymized)
-8. Research use (Revocable, de-identified)
-- Every permission details: *Purpose*, *Data Used*, *Who Receives It*, *Retention Period*, and *Withdraw Consent Action*.
-- Tamper-resistant consent history audit log.
-
-### 4. User-Controlled Longitudinal Health Record (PHR)
-- Chronological timeline matching ABDM personal health-record guidelines.
-- Filter chips: `ALL`, `CHECK-INS`, `VITALS`, `ACTIVITY`, `SLEEP`, `ALERTS`.
-- Complete visibility into who can access each event and why it was processed.
-
-### 5. Safety Architecture & Clinical Governance
-- **Hard Rule:** AI can explain a result; AI cannot override the safety engine.
-- Clinician-reviewed rule registry (`health_content_rules`):
-  - `HS-WELL-001` (Resting Tachycardia Shift) — Reviewed by Dr. S. K. Raman (MD, Prev. Med)
-  - `HS-WELL-002` (Sub-Threshold SpO2 Desaturation) — Reviewed by Dr. V. Lakshmi (Pulmonology)
-  - `HS-WELL-003` (Compound Sleep Depletion) — Reviewed by Dr. K. Narayana (Behavioral Health)
-- Prominent notice: *"Clinical review and regulatory assessment are required before clinical deployment or diagnostic use."*
-
-### 6. Campus Wellness Pilot & Honest Evidence
-- Real configured pilot: **50 Target Participants**, 30 Days duration, Day 12 active.
-- **Honest Evidence Dashboard:** Zero fabricated 90% claims!
-  - Check-in Completion Rate: **81.4%** (Measured, 512 submissions)
-  - Avg. Time to Complete Check-in: **48 seconds** (Measured)
-  - User Understanding Score: **88.2% Positive** (Measured, 34 alert feedbacks)
-  - Clinical Outcome Reduction: **NOT YET MEASURED** (Explicitly labeled as Planned)
-  - Diagnostic Accuracy: **NOT APPLICABLE** (Explicit non-diagnostic tool)
-
-### 7. Theme 3 Assistive Inclusion & Simple Mode
-- **Language Switcher:** English + తెలుగు (Telugu) + हिंदी (Hindi) with `locales/en.json`, `locales/te.json`, `locales/hi.json`.
-- **Simple Mode:** Minimal UI for elderly or low digital literacy users:
-  - Big vibrant touch targets: **"HOW ARE YOU TODAY? 😊 GOOD / 😐 OKAY / 😟 NOT WELL"**
-- **Accessibility Toolbar:** Text Size (Normal/Large/XL), High Contrast Mode, Reduced Motion, Voice Speech Synthesis.
-
-### 8. Trusted Circle & Community Caregiver Mode
-- Granular sharing controls: Sleep trend (shared), Pattern alerts (shared), Raw telemetry (private), AI conversations (private).
-- Dispatch verified email notifications with safety disclaimers.
-
-### 9. Institutional Dashboard
-- K-anonymized cohort analytics (adherence, follow-up count, accessibility usage).
-- Never leaks individual names, private observations, or AI chat logs.
-
-### 10. ABDM-Ready Interoperability Layer
-- Standardized FHIR R4 Bundle mapping (`/api/fhir/observation`).
-- Architecture pathway: `HealthShield Model → FHIR Mapping Layer → Future ABDM Gateway`.
-- Zero false claims of pre-existing government certification.
-
-### 11. Security Center & Data Subject Controls
-- OWASP Top 10 security headers (`Content-Security-Policy`, `X-Content-Type-Options`).
-- Parameterized queries & Express rate limiter (300 req/min).
-- **Download My Data:** Generates portable JSON archive under DPDP Section 11.
-- **Delete My Data:** Right to erasure workflow preserving statutory compliance audit trails.
-- **My Activity:** Tamper-evident log of all processing events.
-
-### 12. 3-Minute SFIC National Judge Demonstration (Judge Mode 2.0)
-Deterministic 12-step guided walkthrough:
-`01 Problem → 02 Baseline → 03 Observation → 04 Change Detected → 05 Alert → 06 Safety → 07 Inclusion → 08 Offline → 09 Trusted Circle → 10 Evidence → 11 Cost → 12 Scale`
+### Next Planned Validation (30-Day Campus Pilot)
+- **Cohort Target:** 30–50 student and polytechnic community participants.
+- **Duration:** 30 consecutive days.
+- **Key Measures:** Daily check-in completion rate, time-to-check-in (target <60s), user comprehension of alerts, false-alert feedback, and usability across Indian languages.
 
 ---
 
-## 🚀 Running the Platform Locally
+## 🔒 Privacy, Safety & Interoperability
 
-### 1. Frontend Development Server (Vite + React)
+### Safety Rule Registry (Prototype Logic)
+| Rule ID | Rule Scope | Evaluation Logic | Prototype Status |
+| :--- | :--- | :--- | :--- |
+| `HS-RULE-001` | Multi-Signal Baseline Deviation | $\geq 2$ signals depart from 30-day corridor ($\Delta > 15\%$) | Prototype logic |
+| `HS-RULE-002` | Isolated Signal Variance | Single metric variance without compound shift | Prototype logic |
+| `HS-RULE-003` | Ingestion Quality Guardrail | Out-of-bounds or corrupted sensor readings | Prototype safeguard |
+| `HS-SAFE-001` | Critical Safety Threshold | Extreme physiological readings prompting emergency notice | Prototype safeguard |
+| `HS-SAFE-002` | Medical Advice Boundary | Restricts system from clinical diagnoses or prescriptions | Permanent safeguard |
+
+*Safety rules represent prototype demonstration logic and require formal clinical review before real-world clinical deployment.*
+
+### ABDM-Ready Interoperability Pathway
+HealthShield does not falsely claim active governmental ABDM integration. Instead, it provides a standards-compliant architecture:
+```
+HealthShield
+    │
+    ▼
+FHIR R4-Compatible Data Model (LOINC-coded observations)
+    │
+    ▼
+Interoperability Layer (Encrypted JSON payload exports)
+    │
+    ▼
+Future ABDM Milestone Pathway (Ayushman Bharat Digital Mission)
+```
+
+---
+
+## 💰 Prototype Estimated Operating Model
+
+| Component | Cost Profile | Description |
+| :--- | :--- | :--- |
+| **Core Web App** | Low | Static client hosting (Vite/React) with minimal server overhead. |
+| **Local Inference** | Device-Dependent | Runs on-device (CPU/NPU) using local quantized GGUF models; zero API fees. |
+| **Sync & Backup** | Usage-Dependent | Lightweight encrypted SQLite/PostgreSQL sync for connected workflows. |
+| **Notifications** | Usage-Dependent | Optional email/SMS alerts to designated trusted circle members. |
+
+### Who Pays?
+- **Individual User:** Free basic tier for self-monitoring and personal awareness.
+- **College / Polytechnic Campus:** Institutional wellness deployment covering student cohorts.
+- **Public Health Program:** Program-level deployment for district preventive wellness initiatives.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or pnpm
+
+### Installation
 ```bash
+git clone https://github.com/saladi-siddharth/SFIC-.git
+cd SFIC-
+npm install
+```
+
+### Run Locally
+```bash
+# Start frontend dev server
 npm run dev
-# Running on http://localhost:5173
-```
 
-### 2. Backend Express API Server (Node.js)
-```bash
+# (Optional) Start on-device AI backend server
 npx tsx server/index.ts
-# Running on http://localhost:3001
 ```
-
-### 3. Production Verification
-```bash
-npm run build
-# Compiles TypeScript and builds optimized bundle in ~600ms
-```
-
----
-
-## 🚫 Real-World Limitations ("What HealthShield Is Not")
-1. HealthShield is **NOT a diagnostic engine** and does not diagnose disease.
-2. HealthShield is **NOT a replacement for a medical doctor or hospital consultation**.
-3. HealthShield is **NOT an emergency response dispatch service**.
-4. HealthShield is **NOT a clinically validated medical-device software product** until prospective clinical trials and regulatory approvals are completed.
+The web application will be accessible at `http://localhost:5173/`.
+Click **▶ JUDGE MODE** in the top navigation bar to launch the 90-second guided evaluation walkthrough!

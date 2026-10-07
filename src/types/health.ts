@@ -24,7 +24,9 @@ export interface CheckInState {
 }
 
 export interface AnomalyReport {
-  overallRiskScore: number; // 0-10
+  patternStatus: 'STABLE' | 'EMERGING CHANGE' | 'SIGNIFICANT CHANGE';
+  flaggedSignalsCount?: number;
+  overallRiskScore?: number;
   divergenceLevel: 'none' | 'mild' | 'moderate' | 'significant';
   flaggedMetrics: string[];
   clinicalRationale: string;

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { HomePage } from './pages/HomePage';
-import { MedivoraDashboard } from './pages/MedivoraDashboard';
 import { HealthChangeLab } from './pages/HealthChangeLab';
-import { IncidentReplay } from './pages/IncidentReplay';
+import { HealthTimeline } from './pages/HealthTimeline';
 import { PatternExplorer } from './pages/PatternExplorer';
 import { MyBaseline } from './pages/MyBaseline';
 import { DailyCheck } from './pages/DailyCheck';
@@ -11,6 +10,7 @@ import { PersonalHealthRecord } from './pages/PersonalHealthRecord';
 import { PilotCenter } from './pages/PilotCenter';
 import { CostModel } from './pages/CostModel';
 import { ConsentCenter } from './pages/ConsentCenter';
+import { TrustedCircle } from './pages/TrustedCircle';
 import { SimpleMode } from './pages/SimpleMode';
 import { TechnologyPage } from './pages/TechnologyPage';
 import { ImpactPage } from './pages/ImpactPage';
@@ -25,11 +25,27 @@ import { LanguageProvider } from './i18n/LanguageContext';
 import { offlineStorage } from './engine/offlineStorage';
 import type { SyncState } from './engine/offlineStorage';
 
+export type AppTab = 
+  | 'home' 
+  | 'baseline' 
+  | 'checkin' 
+  | 'lab' 
+  | 'alert' 
+  | 'record' 
+  | 'timeline' 
+  | 'pilot' 
+  | 'cost' 
+  | 'consent' 
+  | 'circle' 
+  | 'technology' 
+  | 'impact' 
+  | 'explorer' 
+  | 'simple';
+
 const MainAppContent: React.FC = () => {
-  // Single Unified Navigation State (Defaults to 1st Dashboard from Image 5)
-  const [currentTab, setCurrentTab] = useState<
-    'home' | 'dashboard' | 'lab' | 'replay' | 'baseline' | 'checkin' | 'alert' | 'explorer' | 'record' | 'pilot' | 'cost' | 'consent' | 'simple' | 'technology' | 'impact'
-  >('dashboard');
+  // Primary navigation defaults to Home page
+  const [currentTab, setCurrentTab] = useState<AppTab>('home');
+  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState<boolean>(false);
   
   // State for SFIC Preventive Baseline Engine
   const [metrics, setMetrics] = useState<MetricData[]>(INITIAL_METRICS);
@@ -56,11 +72,12 @@ const MainAppContent: React.FC = () => {
 
   const anomalyReport = React.useMemo(() => {
     return {
-      overallRiskScore: evalResult.divergenceScore,
+      patternStatus: evalResult.patternStatus,
+      flaggedSignalsCount: evalResult.flaggedSignalsCount,
       divergenceLevel: evalResult.severity,
       flaggedMetrics: evalResult.deltaSummary.map(d => `${d.metric} (${d.change})`),
       clinicalRationale: evalResult.rationale,
-      boundaryWarning: 'Clinical Guardrail: HealthShield AI is not a diagnostic device. It detects early deviations from personal baselines to prompt timely, safe preventive care before acute escalation.',
+      boundaryWarning: 'Safety Safeguard: HealthShield AI is not a diagnostic device. It detects early deviations from personal baselines to prompt timely, safe preventive awareness.',
       ruleTriggered: {
         id: evalResult.triggeredRuleId,
         name: evalResult.ruleName,
@@ -101,30 +118,60 @@ const MainAppContent: React.FC = () => {
   const currentSpo2 = metrics.find(m => m.id === 'spo2')?.todayValue || 98;
 
   const handleJumpToTab = (target: string) => {
-    const tabMap: Record<string, typeof currentTab> = {
-      command: 'dashboard',
-      dashboard: 'dashboard',
+    setIsMoreMenuOpen(false);
+    const tabMap: Record<string, AppTab> = {
+      home: 'home',
+      dashboard: 'home',
+      command: 'home',
       lab: 'lab',
-      replay: 'replay',
-      timeline: 'replay',
+      changelab: 'lab',
+      replay: 'timeline',
+      timeline: 'timeline',
       baseline: 'baseline',
       checkin: 'checkin',
+      check: 'checkin',
       alert: 'alert',
+      explained: 'alert',
       explorer: 'explorer',
       record: 'record',
-      consent: 'consent',
-      security: 'consent',
       pilot: 'pilot',
-      circle: 'pilot',
+      evidence: 'pilot',
       cost: 'cost',
-      simple: 'simple',
+      scale: 'cost',
+      consent: 'consent',
+      privacy: 'consent',
+      circle: 'circle',
       technology: 'technology',
-      impact: 'impact'
+      tech: 'technology',
+      impact: 'impact',
+      simple: 'simple'
     };
     if (tabMap[target]) {
       setCurrentTab(tabMap[target]);
     }
   };
+
+  const PRIMARY_NAV = [
+    { id: 'home' as AppTab, label: 'Home' },
+    { id: 'baseline' as AppTab, label: 'My Baseline' },
+    { id: 'checkin' as AppTab, label: 'Health Check' },
+    { id: 'lab' as AppTab, label: 'Change Lab', badge: 'Demo' },
+    { id: 'alert' as AppTab, label: 'Change Explained' },
+    { id: 'record' as AppTab, label: 'Health Record' }
+  ];
+
+  const MORE_NAV = [
+    { id: 'timeline' as AppTab, label: 'Health Timeline', icon: '🕒' },
+    { id: 'pilot' as AppTab, label: 'Pilot Evidence', icon: '📋' },
+    { id: 'cost' as AppTab, label: 'Cost & Scale (SFIC Criteria)', icon: '📊' },
+    { id: 'technology' as AppTab, label: 'Technology Architecture', icon: '⚙️' },
+    { id: 'consent' as AppTab, label: 'Privacy & DPDP Act', icon: '🔒' },
+    { id: 'circle' as AppTab, label: 'Trusted Circle', icon: '👥' },
+    { id: 'impact' as AppTab, label: 'Beneficiary Impact', icon: '🌱' },
+    { id: 'explorer' as AppTab, label: 'Pattern Explorer', icon: '📈' }
+  ];
+
+  const isMoreActive = MORE_NAV.some(m => m.id === currentTab);
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh', background: '#F8FAFC' }}>
@@ -133,7 +180,7 @@ const MainAppContent: React.FC = () => {
       <AccessibilityToolbar
         onToggleSimpleMode={() => {
           if (currentTab === 'simple') {
-            setCurrentTab('dashboard');
+            setCurrentTab('home');
           } else {
             setCurrentTab('simple');
           }
@@ -141,7 +188,7 @@ const MainAppContent: React.FC = () => {
         isSimpleMode={currentTab === 'simple'}
       />
 
-      {/* ================= PRIMARY HEALTHSHIELD NAVIGATION HEADER ================= */}
+      {/* ================= STREAMLINED HEALTHSHIELD NAVIGATION HEADER ================= */}
       <header 
         style={{ 
           background: '#FFFFFF', 
@@ -193,33 +240,24 @@ const MainAppContent: React.FC = () => {
           </div>
         </div>
 
-        {/* Primary Navigation Tabs Focused Strictly on Problem & Solution */}
-        <nav style={{ display: 'flex', gap: 3, flexWrap: 'wrap', alignItems: 'center' }}>
-          {[
-            { id: 'home', label: 'Home', icon: 'home' },
-            { id: 'dashboard', label: 'Health Command', icon: 'dashboard', badge: '1st Dash' },
-            { id: 'lab', label: 'Change Lab', icon: 'biotech' },
-            { id: 'replay', label: 'Incident Replay', icon: 'history' },
-            { id: 'baseline', label: 'My Baseline', icon: 'stacked_line_chart' },
-            { id: 'checkin', label: 'Daily Check', icon: 'fact_check' },
-            { id: 'alert', label: 'Change Explained', icon: 'warning' },
-            { id: 'explorer', label: 'Pattern Explorer', icon: 'monitoring' },
-            { id: 'record', label: 'Health Record', icon: 'folder_shared' },
-            { id: 'pilot', label: 'Pilot Evidence', icon: 'verified' },
-            { id: 'cost', label: 'Cost & Scale', icon: 'payments' },
-          ].map(tab => {
+        {/* Primary Navigation Tabs */}
+        <nav style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+          {PRIMARY_NAV.map(tab => {
             const isActive = currentTab === tab.id;
             return (
               <button
                 key={tab.id}
-                onClick={() => setCurrentTab(tab.id as any)}
+                onClick={() => {
+                  setCurrentTab(tab.id);
+                  setIsMoreMenuOpen(false);
+                }}
                 style={{
                   background: isActive ? '#E6F7F1' : 'transparent',
                   color: isActive ? '#00694D' : '#475569',
                   border: 'none',
                   borderRadius: 8,
-                  padding: '7px 11px',
-                  fontSize: 12,
+                  padding: '7px 12px',
+                  fontSize: 13,
                   fontWeight: isActive ? 800 : 600,
                   cursor: 'pointer',
                   display: 'flex',
@@ -230,17 +268,91 @@ const MainAppContent: React.FC = () => {
               >
                 <span>{tab.label}</span>
                 {tab.badge && (
-                  <span style={{ fontSize: 9, background: '#2563EB', color: '#FFF', borderRadius: 4, padding: '1px 4px', fontWeight: 800 }}>
+                  <span style={{ fontSize: 9, background: '#10B981', color: '#FFF', borderRadius: 4, padding: '1px 5px', fontWeight: 800 }}>
                     {tab.badge}
                   </span>
                 )}
               </button>
             );
           })}
+
+          {/* More Menu Dropdown */}
+          <div style={{ position: 'relative' }}>
+            <button
+              onClick={() => setIsMoreMenuOpen(prev => !prev)}
+              style={{
+                background: isMoreActive ? '#E6F7F1' : isMoreMenuOpen ? '#F1F5F9' : 'transparent',
+                color: isMoreActive ? '#00694D' : '#475569',
+                border: 'none',
+                borderRadius: 8,
+                padding: '7px 12px',
+                fontSize: 13,
+                fontWeight: isMoreActive ? 800 : 600,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 4
+              }}
+            >
+              <span>More</span>
+              <span style={{ fontSize: 10 }}>{isMoreMenuOpen ? '▲' : '▼'}</span>
+            </button>
+
+            {isMoreMenuOpen && (
+              <div 
+                style={{
+                  position: 'absolute',
+                  top: '100%',
+                  right: 0,
+                  marginTop: 6,
+                  width: 240,
+                  background: '#FFFFFF',
+                  borderRadius: 12,
+                  boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
+                  border: '1px solid #E2E8F0',
+                  padding: '6px',
+                  zIndex: 100,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 2
+                }}
+              >
+                {MORE_NAV.map(item => {
+                  const isActive = currentTab === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        setCurrentTab(item.id);
+                        setIsMoreMenuOpen(false);
+                      }}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 10,
+                        padding: '8px 12px',
+                        borderRadius: 8,
+                        background: isActive ? '#E6F7F1' : 'transparent',
+                        color: isActive ? '#00694D' : '#334155',
+                        border: 'none',
+                        fontSize: 12,
+                        fontWeight: isActive ? 800 : 600,
+                        cursor: 'pointer',
+                        textAlign: 'left'
+                      }}
+                    >
+                      <span style={{ fontSize: 14 }}>{item.icon}</span>
+                      <span>{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </nav>
 
-        {/* Evaluator & Action Controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        {/* Right side controls: Offline Sync + On-Device AI + Judge Mode */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           {/* Offline Sync Status Badge */}
           <div 
             style={{
@@ -248,39 +360,41 @@ const MainAppContent: React.FC = () => {
               color: syncState === 'SYNC_COMPLETE' ? '#065F46' : syncState === 'SYNCING' ? '#1E40AF' : '#92400E',
               border: '1px solid currentColor',
               borderRadius: 8,
-              padding: '4px 8px',
+              padding: '5px 9px',
               fontSize: 11,
               fontWeight: 700,
               display: 'flex',
               alignItems: 'center',
               gap: 4
             }}
-            title={pendingCount > 0 ? `${pendingCount} events pending sync` : '100% on-device synced'}
+            title={pendingCount > 0 ? `${pendingCount} events queued for local sync` : 'Offline-first • User data controlled on device'}
           >
             <span>{syncState === 'SYNC_COMPLETE' ? '● Synced' : syncState === 'SYNCING' ? '⏳ Syncing' : '⚠️ Offline'}</span>
           </div>
 
-          {/* Local Qwen2.5 GGUF Model Badge */}
+          {/* On-Device AI Badge (Deterministic Engine + AI Explainer) */}
           <div 
+            onClick={() => handleJumpToTab('technology')}
             style={{
               background: '#F5F3FF',
               color: '#6D28D9',
               border: '1px solid #DDD6FE',
               borderRadius: 8,
-              padding: '4px 8px',
+              padding: '5px 9px',
               fontSize: 11,
               fontWeight: 700,
               display: 'flex',
               alignItems: 'center',
-              gap: 4
+              gap: 5,
+              cursor: 'pointer'
             }}
-            title="Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf running on-device"
+            title="On-device AI: Used strictly for explanation and accessibility. Pattern detection remains deterministic."
           >
             <span>🤖</span>
-            <span>Qwen2.5 Local</span>
+            <span>ON-DEVICE AI</span>
           </div>
 
-          {/* JUDGE MODE / LIVE DEMO Button */}
+          {/* JUDGE MODE / 90s Story Demo Button */}
           <button 
             onClick={() => setIsJudgeDemoOpen(true)}
             style={{ 
@@ -288,35 +402,19 @@ const MainAppContent: React.FC = () => {
               color: '#FFF', 
               border: 'none', 
               borderRadius: 8, 
-              padding: '7px 14px', 
+              padding: '8px 16px', 
               fontSize: 12, 
               fontWeight: 800, 
               cursor: 'pointer', 
               display: 'flex', 
               alignItems: 'center', 
               gap: 6,
-              boxShadow: '0 2px 8px rgba(14, 164, 122, 0.25)'
+              boxShadow: '0 2px 8px rgba(14, 164, 122, 0.25)',
+              letterSpacing: '0.02em'
             }}
           >
             <span>▶</span>
-            <span>JUDGE DEMO</span>
-          </button>
-
-          {/* Emergency Trigger */}
-          <button 
-            onClick={() => setIsEmergencyOpen(true)}
-            style={{ 
-              background: '#FEE2E2', 
-              color: '#DC2626', 
-              border: '1px solid #FECACA', 
-              borderRadius: 8, 
-              padding: '7px 12px', 
-              fontSize: 12, 
-              fontWeight: 700, 
-              cursor: 'pointer' 
-            }}
-          >
-            Emergency
+            <span>JUDGE MODE</span>
           </button>
         </div>
       </header>
@@ -329,12 +427,6 @@ const MainAppContent: React.FC = () => {
           onNavigate={(tab) => handleJumpToTab(tab)}
         />
       )}
-
-      {currentTab === 'dashboard' && <MedivoraDashboard />}
-
-      {currentTab === 'lab' && <HealthChangeLab />}
-
-      {currentTab === 'replay' && <IncidentReplay />}
 
       {currentTab === 'baseline' && (
         <MyBaseline 
@@ -352,6 +444,8 @@ const MainAppContent: React.FC = () => {
         />
       )}
 
+      {currentTab === 'lab' && <HealthChangeLab />}
+
       {currentTab === 'alert' && (
         <ExplainableAlert 
           anomalyReport={anomalyReport} 
@@ -361,9 +455,11 @@ const MainAppContent: React.FC = () => {
         />
       )}
 
-      {currentTab === 'explorer' && <PatternExplorer />}
-
       {currentTab === 'record' && <PersonalHealthRecord />}
+
+      {currentTab === 'timeline' && <HealthTimeline />}
+
+      {currentTab === 'explorer' && <PatternExplorer />}
 
       {currentTab === 'pilot' && <PilotCenter />}
 
@@ -371,13 +467,15 @@ const MainAppContent: React.FC = () => {
 
       {currentTab === 'consent' && <ConsentCenter />}
 
+      {currentTab === 'circle' && <TrustedCircle />}
+
       {currentTab === 'technology' && <TechnologyPage onNavigate={(t) => handleJumpToTab(t)} />}
 
       {currentTab === 'impact' && <ImpactPage onNavigate={(t) => handleJumpToTab(t)} />}
 
       {currentTab === 'simple' && (
         <SimpleMode
-          onBackToStandard={() => setCurrentTab('dashboard')}
+          onBackToStandard={() => setCurrentTab('home')}
           onOpenEmergency={() => setIsEmergencyOpen(true)}
         />
       )}

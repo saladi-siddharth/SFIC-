@@ -1,222 +1,200 @@
 import React, { useState } from 'react';
 
-interface PilotMetric {
-  title: string;
-  value: string;
-  status: 'MEASURED' | 'PLANNED' | 'NOT_APPLICABLE';
-  source: string;
-  period: string;
-  sampleSize: string;
-}
-
-const HONEST_EVIDENCE: PilotMetric[] = [
-  {
-    title: 'PARTICIPANTS ENROLLED',
-    value: '42 / 50 Target',
-    status: 'MEASURED',
-    source: 'Campus Pilot Registry (Polytechnic)',
-    period: 'Day 12 of 30 active',
-    sampleSize: '42 enrolled students'
-  },
-  {
-    title: 'CHECK-IN COMPLETION RATE',
-    value: '81.4%',
-    status: 'MEASURED',
-    source: 'Check-in interaction logs',
-    period: 'Past 12 days',
-    sampleSize: '512 total submissions'
-  },
-  {
-    title: 'AVG. TIME TO COMPLETE CHECK-IN',
-    value: '48 seconds',
-    status: 'MEASURED',
-    source: 'Frontend interaction telemetry',
-    period: 'Day 1 - 12',
-    sampleSize: '512 check-in completions'
-  },
-  {
-    title: 'USER UNDERSTANDING SCORE',
-    value: '88.2% Positive',
-    status: 'MEASURED',
-    source: 'Post-alert user feedback survey',
-    period: 'Day 1 - 12',
-    sampleSize: '34 alert feedbacks'
-  },
-  {
-    title: 'SYSTEM UPTIME',
-    value: '99.9%',
-    status: 'MEASURED',
-    source: 'Express /api/health heartbeat logs',
-    period: '30-day monitoring',
-    sampleSize: '14,400 ping cycles'
-  },
-  {
-    title: 'CLINICAL SYMPTOM REDUCTION',
-    value: 'NOT YET MEASURED',
-    status: 'PLANNED',
-    source: 'Requires prospective hospital trial',
-    period: 'Phase 3 Multi-center trial',
-    sampleSize: 'Planned 500 patients'
-  },
-  {
-    title: 'DIAGNOSTIC ACCURACY',
-    value: 'NOT APPLICABLE',
-    status: 'NOT_APPLICABLE',
-    source: 'Non-diagnostic preventive tool',
-    period: 'Guardrail invariant',
-    sampleSize: 'Zero clinical diagnostic claims'
-  }
-];
-
 export const PilotCenter: React.FC = () => {
   const [feedbackVote, setFeedbackVote] = useState<{ helpful?: string; clear?: string }>({});
   const [feedbackSubmitted, setFeedbackSubmitted] = useState<boolean>(false);
 
-  const handleSubmitFeedback = () => {
-    setFeedbackSubmitted(true);
-  };
-
   return (
-    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 20px', fontFamily: 'system-ui, sans-serif' }}>
+    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 20px', fontFamily: "'Inter', system-ui, sans-serif" }}>
       {/* Header */}
-      <div style={{ marginBottom: 28, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16 }}>
-        <div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#DCFCE7', color: '#166534', padding: '4px 12px', borderRadius: 20, fontSize: 12, fontWeight: 700, marginBottom: 8 }}>
-            <span>🔬</span>
-            <span>PILOT COMMAND CENTER &amp; HONEST EVIDENCE ENGINE</span>
-          </div>
-          <h1 style={{ fontSize: 28, fontWeight: 900, color: '#0F172A', margin: '0 0 6px 0' }}>
-            Impact Evidence &amp; Pilot Program
-          </h1>
-          <p style={{ fontSize: 14, color: '#64748B', margin: 0, maxWidth: 680 }}>
-            Real measured evidence from controlled campus pilot. Zero fabricated 90% claims. Unmeasured clinical metrics are explicitly marked as <em>PLANNED</em> to preserve judge credibility.
-          </p>
+      <div style={{ marginBottom: 28 }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#DCFCE7', color: '#166534', padding: '4px 12px', borderRadius: 20, fontSize: 12, fontWeight: 800, marginBottom: 8 }}>
+          <span>🔬</span>
+          <span>SFIC TRACK A • DEMONSTRATED FEASIBILITY &amp; PROTOTYPE EVIDENCE</span>
         </div>
+        <h1 style={{ fontSize: 28, fontWeight: 900, color: '#0F172A', margin: '0 0 6px 0', letterSpacing: '-0.02em' }}>
+          Prototype Evidence &amp; Validation Roadmap
+        </h1>
+        <p style={{ fontSize: 14, color: '#64748B', margin: 0, maxWidth: 820, lineHeight: 1.5 }}>
+          Honest evidence status: HealthShield is currently an engineering-validated software prototype demonstrated with controlled baseline datasets. We do not claim fabricated clinical trials; we provide rigorous prototype verification and a planned campus pilot framework.
+        </p>
+      </div>
 
-        {/* Pilot Status Badge */}
-        <div style={{ background: '#FFFFFF', border: '2px solid #86EFAC', padding: '12px 20px', borderRadius: 14, textAlign: 'right' }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: '#16A34A', textTransform: 'uppercase' }}>PILOT STATUS</div>
-          <div style={{ fontSize: 16, fontWeight: 900, color: '#0F172A', marginTop: 2 }}>
-            ACTIVE (CAMPUS PILOT 01)
+      {/* Stage Banner */}
+      <div 
+        style={{ 
+          background: 'linear-gradient(135deg, #0EA47A, #00513A)', 
+          borderRadius: 16, 
+          padding: '24px 28px', 
+          color: '#FFFFFF',
+          marginBottom: 28,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 16
+        }}
+      >
+        <div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: '#A7F3D0', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+            CURRENT READINESS STAGE
           </div>
-          <div style={{ fontSize: 12, color: '#64748B', marginTop: 2 }}>Duration: 30 Days (Day 12)</div>
+          <div style={{ fontSize: 22, fontWeight: 800, marginTop: 4 }}>
+            Track A Functional Working Prototype
+          </div>
+          <div style={{ fontSize: 13, color: '#E6F7F1', marginTop: 4 }}>
+            Verified with simulated physiological datasets and real-time on-device inference engines.
+          </div>
+        </div>
+        <div style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 12, padding: '12px 18px', textAlign: 'center' }}>
+          <div style={{ fontSize: 11, color: '#DCFCE7', fontWeight: 700 }}>VERIFICATION STATUS</div>
+          <div style={{ fontSize: 18, fontWeight: 800, color: '#FFFFFF' }}>Software Verified ✓</div>
         </div>
       </div>
 
-      {/* Honest Evidence Grid */}
-      <div style={{ marginBottom: 36 }}>
-        <h2 style={{ fontSize: 18, fontWeight: 800, color: '#0F172A', marginBottom: 16 }}>
-          Measured Pilot Metrics (No Fabricated Data)
-        </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
-          {HONEST_EVIDENCE.map((m, idx) => (
-            <div
-              key={idx}
-              style={{
-                background: '#FFFFFF',
-                borderRadius: 16,
-                padding: '20px 22px',
-                border: m.status === 'MEASURED' ? '1px solid #E2E8F0' : '1px dashed #CBD5E1',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                gap: 12
-              }}
-            >
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                  <span style={{ fontSize: 11, fontWeight: 800, color: '#64748B' }}>{m.title}</span>
-                  <span
-                    style={{
-                      background: m.status === 'MEASURED' ? '#DCFCE7' : m.status === 'PLANNED' ? '#FEF3C7' : '#F1F5F9',
-                      color: m.status === 'MEASURED' ? '#166534' : m.status === 'PLANNED' ? '#92400E' : '#475569',
-                      borderRadius: 6,
-                      padding: '2px 6px',
-                      fontSize: 10,
-                      fontWeight: 800
-                    }}
-                  >
-                    {m.status}
+      {/* Two Column Grid: Validation Completed vs Planned Pilot Framework */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 28 }}>
+        
+        {/* Column 1: Completed Prototype Testing */}
+        <div style={{ background: '#FFFFFF', borderRadius: 16, border: '1px solid #E2E8F0', padding: 24, boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+            <span style={{ fontSize: 20 }}>✅</span>
+            <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', margin: 0 }}>
+              Completed Prototype Verification
+            </h3>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {[
+              {
+                title: 'Core Interaction Testing',
+                desc: '60-second check-in, smooth state transitions, and interactive touch controls verified across desktop and mobile viewports.',
+                status: 'Verified ✓'
+              },
+              {
+                title: 'Baseline Calculation Testing',
+                desc: 'Deterministic rolling 30-day mean and variance z-score mathematics verified against test vectors without drift.',
+                status: 'Verified ✓'
+              },
+              {
+                title: 'Change-Detection Scenario Testing',
+                desc: 'Stress testing with multi-parameter covariance deviations (sleep contraction + resting HR shift) accurately triggering rule HS-RULE-001.',
+                status: 'Verified ✓'
+              },
+              {
+                title: 'Offline Workflow Testing',
+                desc: 'Browser IndexedDB queue verified; check-in entries persist offline and automatically synchronize when connectivity returns.',
+                status: 'Verified ✓'
+              },
+              {
+                title: 'Accessibility & Multilingual Testing',
+                desc: 'English, Telugu (తెలుగు), and Hindi localization verified alongside Simple Mode, text scaling (A/A+/A++), and voice input.',
+                status: 'Verified ✓'
+              }
+            ].map(item => (
+              <div key={item.title} style={{ background: '#F8FAFC', padding: '12px 14px', borderRadius: 10, border: '1px solid #E2E8F0' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <strong style={{ fontSize: 13, color: '#0F172A' }}>{item.title}</strong>
+                  <span style={{ fontSize: 11, fontWeight: 800, color: '#16A34A', background: '#DCFCE7', padding: '2px 8px', borderRadius: 6 }}>
+                    {item.status}
                   </span>
                 </div>
-                <div style={{ fontSize: 24, fontWeight: 900, color: m.status === 'MEASURED' ? '#0F172A' : '#64748B' }}>
-                  {m.value}
-                </div>
+                <p style={{ fontSize: 12, color: '#64748B', margin: '4px 0 0', lineHeight: 1.4 }}>
+                  {item.desc}
+                </p>
               </div>
-
-              {/* Provenance details */}
-              <div style={{ background: '#F8FAFC', borderRadius: 8, padding: '10px 12px', fontSize: 11, color: '#475569', display: 'flex', flexDirection: 'column', gap: 4 }}>
-                <div><strong>Data Source:</strong> {m.source}</div>
-                <div><strong>Period:</strong> {m.period}</div>
-                <div><strong>Sample Size:</strong> {m.sampleSize}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* User Feedback Loop Interactive Widget */}
-      <div style={{ background: '#FFFFFF', borderRadius: 20, padding: '28px 32px', border: '1px solid #E2E8F0', boxShadow: '0 4px 14px rgba(0,0,0,0.03)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-          <span style={{ fontSize: 24 }}>💬</span>
-          <div>
-            <h3 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: '#0F172A' }}>
-              User Feedback Loop (Beneficiary Impact Engine)
-            </h3>
-            <span style={{ fontSize: 13, color: '#64748B' }}>
-              Empirical evidence collection: Was the guidance understandable and actionable?
-            </span>
+            ))}
           </div>
         </div>
 
-        {!feedbackSubmitted ? (
-          <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 18 }}>
-            {/* Question 1 */}
-            <div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: '#1E293B', marginBottom: 8 }}>
-                1. Was the pattern explanation understandable and helpful?
-              </div>
-              <div style={{ display: 'flex', gap: 10 }}>
-                {['YES', 'PARTLY', 'NO'].map(opt => (
-                  <button
-                    key={opt}
-                    onClick={() => setFeedbackVote(prev => ({ ...prev, helpful: opt }))}
-                    style={{
-                      background: feedbackVote.helpful === opt ? '#2563EB' : '#F1F5F9',
-                      color: feedbackVote.helpful === opt ? '#FFFFFF' : '#334155',
-                      border: 'none',
-                      borderRadius: 8,
-                      padding: '8px 20px',
-                      fontSize: 13,
-                      fontWeight: 700,
-                      cursor: 'pointer'
-                    }}
-                  >
-                    {opt}
-                  </button>
-                ))}
-              </div>
-            </div>
+        {/* Column 2: Planned Pilot Framework */}
+        <div style={{ background: '#FFFFFF', borderRadius: 16, border: '1px solid #E2E8F0', padding: 24, boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+            <span style={{ fontSize: 20 }}>🎯</span>
+            <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', margin: 0 }}>
+              Planned Campus &amp; Cohort Pilot (Phase 2)
+            </h3>
+          </div>
 
-            {/* Question 2 */}
+          <div style={{ background: '#EFF6FF', border: '1px solid #BFDBFE', borderRadius: 12, padding: 14, marginBottom: 16 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, color: '#1E40AF', letterSpacing: '0.04em', textTransform: 'uppercase', marginBottom: 4 }}>
+              NEXT VALIDATION STEP
+            </div>
+            <p style={{ fontSize: 13, color: '#1E3A8A', margin: 0, lineHeight: 1.4 }}>
+              A 30-day observational study with 30–50 campus students and residential staff to evaluate real-world adherence, usability, and alert clarity.
+            </p>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {[
+              { metric: 'Cohort Size Target', target: '30–50 Participants', note: 'Polytechnic students & staff' },
+              { metric: 'Study Duration', target: '30 Days', note: 'Continuous longitudinal window' },
+              { metric: 'Primary Measure 1', target: 'Check-in Adherence Rate', note: 'Target: >75% weekly completions' },
+              { metric: 'Primary Measure 2', target: 'Time to Complete Check-in', note: 'Target: <60 seconds median' },
+              { metric: 'Primary Measure 3', target: 'User Understanding Score', note: 'Clarity of explainable guidance' },
+              { metric: 'Primary Measure 4', target: 'False-Alarm Feedback', note: 'User perception of alert relevance' },
+              { metric: 'Primary Measure 5', target: 'Inclusion & Accessibility', note: 'Usage of Simple Mode & Telugu/Hindi' }
+            ].map(m => (
+              <div key={m.metric} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: '#F8FAFC', borderRadius: 8, border: '1px solid #E2E8F0' }}>
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#0F172A' }}>{m.metric}</div>
+                  <div style={{ fontSize: 10, color: '#64748B' }}>{m.note}</div>
+                </div>
+                <div style={{ fontSize: 12, fontWeight: 800, color: '#2563EB' }}>{m.target}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+
+      {/* Honest Boundary Notice */}
+      <div style={{ background: '#FFFBEB', border: '1.5px solid #FDE68A', borderRadius: 14, padding: 20, marginBottom: 24 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+          <span style={{ fontSize: 24 }}>🛡️</span>
+          <div>
+            <strong style={{ fontSize: 14, color: '#92400E', display: 'block', marginBottom: 4 }}>
+              Scientific Honesty &amp; Non-Diagnostic Positioning
+            </strong>
+            <p style={{ fontSize: 13, color: '#78350F', margin: 0, lineHeight: 1.5 }}>
+              HealthShield AI explicitly avoids fabricating clinical outcome statistics (e.g. claiming &quot;95% diagnostic accuracy&quot; or &quot;30% reduction in cardiac events&quot;). Clinical trial outcome claims require multi-center medical trials with ethics board approval. HealthShield is positioned truthfully as a <strong>preventive-health awareness platform</strong> that recognizes personal pattern changes and encourages timely, informed self-care.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Interactive Evaluator Feedback Sandbox */}
+      <div style={{ background: '#FFFFFF', borderRadius: 16, border: '1px solid #E2E8F0', padding: 24 }}>
+        <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', marginBottom: 8 }}>
+          Evaluator Usability Feedback (Live Survey Sandbox)
+        </h3>
+        <p style={{ fontSize: 13, color: '#64748B', marginBottom: 16 }}>
+          Test the feedback submission loop that pilot participants use after reviewing a pattern change alert.
+        </p>
+
+        {feedbackSubmitted ? (
+          <div style={{ background: '#DCFCE7', border: '1px solid #BBF7D0', color: '#166534', padding: '14px 20px', borderRadius: 10, fontWeight: 700, fontSize: 13 }}>
+            ✓ Feedback captured into local demonstration registry. Thank you!
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: '#1E293B', marginBottom: 8 }}>
-                2. Was the recommended next step clear and achievable?
+              <div style={{ fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 8 }}>
+                1. Did the explanation clearly explain WHICH personal signals moved away from your baseline?
               </div>
               <div style={{ display: 'flex', gap: 10 }}>
-                {['YES', 'NO'].map(opt => (
+                {['Yes, very clear', 'Somewhat clear', 'Unclear'].map(opt => (
                   <button
                     key={opt}
                     onClick={() => setFeedbackVote(prev => ({ ...prev, clear: opt }))}
                     style={{
-                      background: feedbackVote.clear === opt ? '#2563EB' : '#F1F5F9',
-                      color: feedbackVote.clear === opt ? '#FFFFFF' : '#334155',
-                      border: 'none',
+                      background: feedbackVote.clear === opt ? '#0EA47A' : '#F8FAFC',
+                      color: feedbackVote.clear === opt ? '#FFF' : '#334155',
+                      border: '1px solid #CBD5E1',
                       borderRadius: 8,
-                      padding: '8px 20px',
-                      fontSize: 13,
-                      fontWeight: 700,
+                      padding: '8px 14px',
+                      fontSize: 12,
+                      fontWeight: 600,
                       cursor: 'pointer'
                     }}
                   >
@@ -227,30 +205,52 @@ export const PilotCenter: React.FC = () => {
             </div>
 
             <div>
-              <button
-                disabled={!feedbackVote.helpful || !feedbackVote.clear}
-                onClick={handleSubmitFeedback}
-                style={{
-                  background: (!feedbackVote.helpful || !feedbackVote.clear) ? '#CBD5E1' : '#059669',
-                  color: '#FFFFFF',
-                  border: 'none',
-                  borderRadius: 10,
-                  padding: '10px 24px',
-                  fontSize: 14,
-                  fontWeight: 700,
-                  cursor: (!feedbackVote.helpful || !feedbackVote.clear) ? 'not-allowed' : 'pointer'
-                }}
-              >
-                Submit Feedback to Pilot Evidence Database
-              </button>
+              <div style={{ fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 8 }}>
+                2. Were the suggested next steps (review pacing, rest, consult doctor if persistent) appropriate?
+              </div>
+              <div style={{ display: 'flex', gap: 10 }}>
+                {['Yes, appropriate and safe', 'Too cautious', 'Not clear'].map(opt => (
+                  <button
+                    key={opt}
+                    onClick={() => setFeedbackVote(prev => ({ ...prev, helpful: opt }))}
+                    style={{
+                      background: feedbackVote.helpful === opt ? '#0EA47A' : '#F8FAFC',
+                      color: feedbackVote.helpful === opt ? '#FFF' : '#334155',
+                      border: '1px solid #CBD5E1',
+                      borderRadius: 8,
+                      padding: '8px 14px',
+                      fontSize: 12,
+                      fontWeight: 600,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        ) : (
-          <div style={{ marginTop: 20, padding: '16px 20px', background: '#ECFDF5', border: '1px solid #A7F3D0', borderRadius: 12, color: '#065F46', fontSize: 14, fontWeight: 700 }}>
-            ✓ Feedback captured into active pilot database. Thank you for contributing verifiable evidence!
+
+            <button
+              onClick={() => setFeedbackSubmitted(true)}
+              style={{
+                alignSelf: 'flex-start',
+                background: '#0EA47A',
+                color: '#FFF',
+                border: 'none',
+                borderRadius: 8,
+                padding: '10px 18px',
+                fontSize: 13,
+                fontWeight: 700,
+                cursor: 'pointer'
+              }}
+            >
+              Submit Evaluator Test Feedback
+            </button>
           </div>
         )}
       </div>
     </div>
   );
 };
+
+export default PilotCenter;

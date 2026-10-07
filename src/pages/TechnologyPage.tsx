@@ -155,10 +155,10 @@ export const TechnologyPage: React.FC<TechnologyPageProps> = ({ onNavigate }) =>
 
           <div className="glass-card" style={{ padding: 24 }}>
             <h4 style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', marginBottom: 8 }}>
-              4. Open Clinical Interoperability
+              4. ABDM-Ready Interoperability Pathway
             </h4>
             <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.6 }}>
-              Produces standardized FHIR-compliant JSON and encrypted clinical summaries ready for ingestion into India's Ayushman Bharat Digital Mission (ABDM) electronic health records.
+              Produces standardized FHIR R4-compatible JSON and encrypted health summaries designed for an interoperability pathway toward India's Ayushman Bharat Digital Mission (ABDM) electronic health records.
             </p>
           </div>
 
@@ -166,21 +166,21 @@ export const TechnologyPage: React.FC<TechnologyPageProps> = ({ onNavigate }) =>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
               <span style={{ fontSize: 24 }}>🤖</span>
               <h4 style={{ fontSize: 16, fontWeight: 800, color: '#4C1D95', margin: 0 }}>
-                5. On-Device Local LLM: Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf
+                5. On-Device AI Explanation Layer: Local Quantized Model
               </h4>
             </div>
             <p style={{ fontSize: 13, color: '#334155', lineHeight: 1.6, margin: '0 0 10px 0' }}>
-              All neural explanations, Medivora AI Copilot chats, and daily check-in reflections are powered natively on-device by the local quantized <strong>Qwen2.5-Coder-7B-Instruct (Q4_K_M) GGUF</strong> model. Zero cloud transmission, zero third-party API keys, and 100% compliant with India&apos;s DPDP Act 2023.
+              <strong>AI explains; deterministic engine decides:</strong> Pattern detection, statistical baseline deviation, and safety threshold rules are 100% deterministic code. On-device AI (powered by local quantized <strong>Qwen2.5-Coder-7B-Instruct GGUF</strong>) is used strictly for natural-language summaries, multilingual translation, and accessible user interaction. The prototype supports local/offline processing for supported workflows under India&apos;s DPDP Act 2023.
             </p>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               <span style={{ background: '#EDE9FE', color: '#6D28D9', padding: '3px 10px', borderRadius: 6, fontSize: 11, fontWeight: 700 }}>
-                Model: Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf (4.68 GB)
+                On-Device Engine: Qwen2.5-Coder-7B GGUF
               </span>
               <span style={{ background: '#DCFCE7', color: '#166534', padding: '3px 10px', borderRadius: 6, fontSize: 11, fontWeight: 700 }}>
-                Runtime: node-llama-cpp v3.22 (CPU Offload)
+                Safety: Deterministic Rule Registry (No LLM Diagnosis)
               </span>
               <span style={{ background: '#DBEAFE', color: '#1E40AF', padding: '3px 10px', borderRadius: 6, fontSize: 11, fontWeight: 700 }}>
-                Safety: Strict Deterministic Guardrails
+                Privacy: Offline-First • User-Controlled Data
               </span>
             </div>
           </div>

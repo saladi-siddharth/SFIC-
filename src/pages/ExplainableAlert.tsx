@@ -89,16 +89,63 @@ export const ExplainableAlert: React.FC<ExplainableAlertProps> = ({
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="badge badge-alert" style={{ fontSize: 13, padding: '6px 12px' }}>
-                Statistical Divergence: 8.4 / 10
+              <span className="badge badge-alert" style={{ fontSize: 13, padding: '6px 14px', background: '#FEF2F2', color: '#DC2626', border: '1px solid #FECACA', fontWeight: 800 }}>
+                Pattern Status: SIGNIFICANT CHANGE
               </span>
             </div>
           </div>
 
-          {/* Section 1: What Changed? */}
+          {/* Structured "Explain My Change" Core Decision Card */}
+          <div style={{ background: '#FFFFFF', border: '1.5px solid #E2E8F0', borderRadius: 14, padding: 22, marginBottom: 28, boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+              <span style={{ fontSize: 22 }}>📋</span>
+              <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', margin: 0 }}>
+                Structured Explainability Card (Explain My Change)
+              </h3>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 12 }}>
+              <div style={{ background: '#F8FAFC', padding: 12, borderRadius: 10, borderLeft: '4px solid #2563EB' }}>
+                <span style={{ fontSize: 11, fontWeight: 800, color: '#2563EB', textTransform: 'uppercase' }}>WHAT CHANGED?</span>
+                <p style={{ fontSize: 13, color: '#1E293B', margin: '4px 0 0', fontWeight: 600 }}>
+                  Your sleep duration (5.4h vs 7.1h) and physical activity (4,900 vs 7,800 steps) are significantly lower than your personal 30-day baseline, while resting heart rate has trended upward (78 vs 72 bpm).
+                </p>
+              </div>
+
+              <div style={{ background: '#F8FAFC', padding: 12, borderRadius: 10, borderLeft: '4px solid #0EA47A' }}>
+                <span style={{ fontSize: 11, fontWeight: 800, color: '#0EA47A', textTransform: 'uppercase' }}>WHAT SUPPORTS THIS?</span>
+                <p style={{ fontSize: 13, color: '#1E293B', margin: '4px 0 0', fontWeight: 600 }}>
+                  Three independent personal telemetry observations shifted together over consecutive cycles, confirmed by deterministic rule HS-RULE-001.
+                </p>
+              </div>
+
+              <div style={{ background: '#F8FAFC', padding: 12, borderRadius: 10, borderLeft: '4px solid #7C3AED' }}>
+                <span style={{ fontSize: 11, fontWeight: 800, color: '#7C3AED', textTransform: 'uppercase' }}>WHAT DOES HEALTHSHIELD KNOW?</span>
+                <p style={{ fontSize: 13, color: '#1E293B', margin: '4px 0 0', fontWeight: 600 }}>
+                  HealthShield knows that these values diverge meaningfully from your own historical norms learned across the past 30 days.
+                </p>
+              </div>
+
+              <div style={{ background: '#FFFBEB', padding: 12, borderRadius: 10, borderLeft: '4px solid #F59E0B' }}>
+                <span style={{ fontSize: 11, fontWeight: 800, color: '#B45309', textTransform: 'uppercase' }}>WHAT DOES IT NOT KNOW?</span>
+                <p style={{ fontSize: 13, color: '#78350F', margin: '4px 0 0', fontWeight: 600 }}>
+                  HealthShield cannot determine the clinical or medical cause of this change. It does not diagnose illness, infections, or pathology.
+                </p>
+              </div>
+
+              <div style={{ background: '#F0FDF4', padding: 12, borderRadius: 10, borderLeft: '4px solid #16A34A' }}>
+                <span style={{ fontSize: 11, fontWeight: 800, color: '#15803D', textTransform: 'uppercase' }}>WHAT CAN YOU DO?</span>
+                <p style={{ fontSize: 13, color: '#14532D', margin: '4px 0 0', fontWeight: 600 }}>
+                  Review your recent sleep and physical strain. Monitor tomorrow&apos;s 60-second check-in, and seek professional medical guidance if discomfort or fatigue persists or worsens.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 1: Detailed Signal Deltas */}
           <div style={{ marginBottom: 28 }}>
             <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 12 }}>
-              1. What Changed from your Personal Baseline?
+              1. Observed Signal Departures vs Personal 30-Day Baseline
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

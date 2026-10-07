@@ -34,7 +34,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             }}
           >
             <span className="material-symbols-outlined" style={{ fontSize: 16 }}>verified</span>
-            SFIC TRACK A PROTOTYPE • CLINICAL PATTERN ENGINE
+            SFIC TRACK A PROTOTYPE • PERSONAL HEALTH PATTERN ENGINE
           </div>
 
           {/* Main Headline */}
@@ -68,38 +68,44 @@ export const HomePage: React.FC<HomePageProps> = ({
               lineHeight: 1.6
             }}
           >
-            An AI-assisted preventive-health platform designed to identify meaningful changes from a person’s usual health pattern and guide them toward an appropriate next step.
+            A preventive-health awareness prototype designed to identify meaningful deviations from a person’s usual personal pattern and guide them toward an appropriate next step — without claiming to diagnose disease.
           </p>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-center gap-4" style={{ marginBottom: 48 }}>
+          <div className="flex items-center justify-center gap-4" style={{ marginBottom: 48, flexWrap: 'wrap' }}>
             <button 
               onClick={onLaunchDemo} 
               className="btn-primary" 
-              style={{ padding: '14px 28px', fontSize: 16, borderRadius: 12 }}
+              style={{ padding: '14px 28px', fontSize: 16, borderRadius: 12, boxShadow: '0 4px 14px rgba(14, 164, 122, 0.35)' }}
             >
               <span className="material-symbols-outlined" style={{ fontSize: 20 }}>play_arrow</span>
-              ▶ Launch Live Demo
+              ▶ Launch Judge Demo (90s Story)
             </button>
             <button 
-              onClick={() => onNavigate('technology')} 
+              onClick={() => onNavigate('lab')} 
               className="btn-secondary" 
               style={{ padding: '13px 26px', fontSize: 15, borderRadius: 12 }}
             >
-              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>memory</span>
-              Explore the Technology
+              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>science</span>
+              ⚡ Health Change Lab
+            </button>
+            <button 
+              onClick={() => onNavigate('baseline')} 
+              style={{ padding: '13px 24px', fontSize: 14, borderRadius: 12, background: '#F8FAFC', border: '1px solid #CBD5E1', color: '#1E293B', fontWeight: 700, cursor: 'pointer' }}
+            >
+              📈 View My Baseline
             </button>
           </div>
 
           {/* Trust Metrics */}
-          <div className="flex items-center justify-center gap-8 text-on-surface-variant" style={{ fontSize: 13, fontWeight: 600 }}>
+          <div className="flex items-center justify-center gap-8 text-on-surface-variant" style={{ fontSize: 13, fontWeight: 600, flexWrap: 'wrap' }}>
             <span className="flex items-center gap-1.5">
               <span className="material-symbols-outlined" style={{ color: '#0EA47A', fontSize: 18 }}>check_circle</span>
               30-Day Personalized Baseline
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="material-symbols-outlined" style={{ color: '#0EA47A', fontSize: 18 }}>security</span>
-              100% Offline / Zero PHI Leak
+              <span className="material-symbols-outlined" style={{ color: '#0EA47A', fontSize: 18 }}>lock</span>
+              Offline-First • User-Controlled Data
             </span>
             <span className="flex items-center gap-1.5">
               <span className="material-symbols-outlined" style={{ color: '#0EA47A', fontSize: 18 }}>balance</span>
@@ -121,123 +127,112 @@ export const HomePage: React.FC<HomePageProps> = ({
             }}
           >
             {/* Console Header */}
-            <div className="flex items-center justify-between" style={{ paddingBottom: 16, borderBottom: '1px solid #E2E8F0', marginBottom: 24 }}>
+            <div className="flex items-center justify-between" style={{ paddingBottom: 16, borderBottom: '1px solid #E2E8F0', marginBottom: 24, flexWrap: 'wrap', gap: 10 }}>
               <div className="flex items-center gap-3">
                 <span className="status-dot status-dot-green pulse-anim" />
-                <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.06em', color: '#1E293B', textTransform: 'uppercase' }}>
-                  YOUR PERSONAL HEALTH PATTERN CONSOLE
-                </span>
-              </div>
-              <div className="badge badge-stable">
-                Continuous Telemetry Stream
-              </div>
-            </div>
-
-            {/* 4 Metric Horizontal Comparison Bars */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4" style={{ marginBottom: 32 }}>
-              {/* Heart */}
-              <div style={{ background: '#F8FAFC', padding: 16, borderRadius: 12, border: '1px solid #E2E8F0' }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
-                  <div className="flex items-center gap-2">
-                    <span style={{ fontSize: 18 }}>❤️</span>
-                    <span style={{ fontWeight: 700, fontSize: 14, color: '#1E293B' }}>Resting Heart Rate</span>
-                  </div>
-                  <span className="badge badge-stable">STABLE</span>
-                </div>
-                <div className="progress-track" style={{ height: 10 }}>
-                  <div className="progress-fill" style={{ width: '85%', background: '#10B981' }} />
-                </div>
-                <div className="flex items-center justify-between" style={{ fontSize: 11, color: '#64748B', marginTop: 6 }}>
-                  <span>Baseline: 62 bpm</span>
-                  <strong style={{ color: '#0F172A' }}>Current: 64 bpm</strong>
+                <div>
+                  <span style={{ fontSize: 13, fontWeight: 900, letterSpacing: '0.04em', color: '#0F172A', textTransform: 'uppercase' }}>
+                    MY BASELINE • YOUR RECENT HEALTH PATTERN
+                  </span>
+                  <div style={{ fontSize: 11, color: '#64748B' }}>Learned individual 30-day normal bounds vs today's incoming observations</div>
                 </div>
               </div>
-
-              {/* Oxygen */}
-              <div style={{ background: '#F8FAFC', padding: 16, borderRadius: 12, border: '1px solid #E2E8F0' }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
-                  <div className="flex items-center gap-2">
-                    <span style={{ fontSize: 18 }}>🫁</span>
-                    <span style={{ fontWeight: 700, fontSize: 14, color: '#1E293B' }}>Blood Oxygen (SpO₂)</span>
-                  </div>
-                  <span className="badge badge-stable">STABLE</span>
-                </div>
-                <div className="progress-track" style={{ height: 10 }}>
-                  <div className="progress-fill" style={{ width: '98%', background: '#10B981' }} />
-                </div>
-                <div className="flex items-center justify-between" style={{ fontSize: 11, color: '#64748B', marginTop: 6 }}>
-                  <span>Baseline: 98%</span>
-                  <strong style={{ color: '#0F172A' }}>Current: 98.2%</strong>
-                </div>
-              </div>
-
-              {/* Temp */}
-              <div style={{ background: '#F8FAFC', padding: 16, borderRadius: 12, border: '1px solid #E2E8F0' }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
-                  <div className="flex items-center gap-2">
-                    <span style={{ fontSize: 18 }}>🌡</span>
-                    <span style={{ fontWeight: 700, fontSize: 14, color: '#1E293B' }}>Core Temperature</span>
-                  </div>
-                  <span className="badge badge-monitor">MONITOR</span>
-                </div>
-                <div className="progress-track" style={{ height: 10 }}>
-                  <div className="progress-fill" style={{ width: '75%', background: '#F59E0B' }} />
-                </div>
-                <div className="flex items-center justify-between" style={{ fontSize: 11, color: '#64748B', marginTop: 6 }}>
-                  <span>Baseline: 98.4°F</span>
-                  <strong style={{ color: '#D97706' }}>Current: 99.1°F (+0.7°)</strong>
-                </div>
-              </div>
-
-              {/* Sleep */}
-              <div style={{ background: '#F8FAFC', padding: 16, borderRadius: 12, border: '1.5px solid #93C5FD' }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
-                  <div className="flex items-center gap-2">
-                    <span style={{ fontSize: 18 }}>😴</span>
-                    <span style={{ fontWeight: 700, fontSize: 14, color: '#1E293B' }}>Sleep Architecture</span>
-                  </div>
-                  <span className="badge badge-changed">CHANGED</span>
-                </div>
-                <div className="progress-track" style={{ height: 10 }}>
-                  <div className="progress-fill" style={{ width: '50%', background: '#3B82F6' }} />
-                </div>
-                <div className="flex items-center justify-between" style={{ fontSize: 11, color: '#64748B', marginTop: 6 }}>
-                  <span>Baseline: 8.1 hrs</span>
-                  <strong style={{ color: '#1D4ED8' }}>Today: 5.2 hrs (↓ 35%)</strong>
-                </div>
+              <div style={{ background: '#FEF2F2', border: '1px solid #FCA5A5', color: '#DC2626', padding: '4px 12px', borderRadius: 20, fontSize: 11, fontWeight: 800 }}>
+                ⚠ PATTERN CHANGE DETECTED
               </div>
             </div>
 
-            {/* Vertical Flow Diagram */}
+            {/* Structured Personal Baseline Comparison Table */}
+            <div style={{ overflowX: 'auto', marginBottom: 28 }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: 13 }}>
+                <thead>
+                  <tr style={{ background: '#F8FAFC', borderBottom: '2px solid #E2E8F0', color: '#475569', fontSize: 12, fontWeight: 800, textTransform: 'uppercase' }}>
+                    <th style={{ padding: '12px 16px' }}>Signal</th>
+                    <th style={{ padding: '12px 16px' }}>Personal Baseline</th>
+                    <th style={{ padding: '12px 16px' }}>Today</th>
+                    <th style={{ padding: '12px 16px' }}>Change</th>
+                    <th style={{ padding: '12px 16px' }}>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style={{ borderBottom: '1px solid #F1F5F9' }}>
+                    <td style={{ padding: '14px 16px', fontWeight: 700, color: '#0F172A' }}>😴 Sleep Duration</td>
+                    <td style={{ padding: '14px 16px', color: '#475569' }}>7.1 h</td>
+                    <td style={{ padding: '14px 16px', fontWeight: 800, color: '#DC2626' }}>5.4 h</td>
+                    <td style={{ padding: '14px 16px', fontWeight: 800, color: '#DC2626' }}>↓ 24%</td>
+                    <td style={{ padding: '14px 16px' }}><span style={{ background: '#FEE2E2', color: '#DC2626', padding: '3px 8px', borderRadius: 6, fontSize: 11, fontWeight: 800 }}>Diverged</span></td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid #F1F5F9' }}>
+                    <td style={{ padding: '14px 16px', fontWeight: 700, color: '#0F172A' }}>🚶 Daily Activity</td>
+                    <td style={{ padding: '14px 16px', color: '#475569' }}>7,800 steps</td>
+                    <td style={{ padding: '14px 16px', fontWeight: 800, color: '#DC2626' }}>4,900 steps</td>
+                    <td style={{ padding: '14px 16px', fontWeight: 800, color: '#DC2626' }}>↓ 37%</td>
+                    <td style={{ padding: '14px 16px' }}><span style={{ background: '#FEE2E2', color: '#DC2626', padding: '3px 8px', borderRadius: 6, fontSize: 11, fontWeight: 800 }}>Diverged</span></td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid #F1F5F9' }}>
+                    <td style={{ padding: '14px 16px', fontWeight: 700, color: '#0F172A' }}>❤️ Resting Heart Rate</td>
+                    <td style={{ padding: '14px 16px', color: '#475569' }}>72 bpm</td>
+                    <td style={{ padding: '14px 16px', fontWeight: 800, color: '#DC2626' }}>78 bpm</td>
+                    <td style={{ padding: '14px 16px', fontWeight: 800, color: '#DC2626' }}>↑ 8%</td>
+                    <td style={{ padding: '14px 16px' }}><span style={{ background: '#FEE2E2', color: '#DC2626', padding: '3px 8px', borderRadius: 6, fontSize: 11, fontWeight: 800 }}>Diverged</span></td>
+                  </tr>
+                  <tr>
+                    <td style={{ padding: '14px 16px', fontWeight: 700, color: '#0F172A' }}>😊 Self-Reported Well-being</td>
+                    <td style={{ padding: '14px 16px', color: '#475569' }}>Good</td>
+                    <td style={{ padding: '14px 16px', fontWeight: 800, color: '#D97706' }}>Low</td>
+                    <td style={{ padding: '14px 16px', fontWeight: 800, color: '#D97706' }}>Changed</td>
+                    <td style={{ padding: '14px 16px' }}><span style={{ background: '#FEF3C7', color: '#D97706', padding: '3px 8px', borderRadius: 6, fontSize: 11, fontWeight: 800 }}>Shifted</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Pattern Engine Step-by-Step Flow */}
             <div 
               style={{ 
-                background: 'linear-gradient(180deg, #FFFFFF, #F8FAFC)', 
+                background: 'linear-gradient(180deg, #F8FAFC, #F1F5F9)', 
                 border: '1px solid #E2E8F0', 
-                borderRadius: 12, 
-                padding: '24px 20px',
+                borderRadius: 14, 
+                padding: '22px 20px',
                 textAlign: 'center' 
               }}
             >
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#64748B', textTransform: 'uppercase', marginBottom: 12 }}>
-                HOW HEALTHSHIELD PROCESSES YOUR DATA
+              <div style={{ fontSize: 11, fontWeight: 800, color: '#475569', textTransform: 'uppercase', marginBottom: 14, letterSpacing: '0.05em' }}>
+                DETERMINISTIC PATTERN ENGINE WORKFLOW
               </div>
 
-              <div className="flex items-center justify-center gap-3 flex-wrap">
-                <div style={{ background: '#E6F7F1', border: '1.5px solid #10B981', padding: '10px 18px', borderRadius: 8, fontWeight: 700, fontSize: 13, color: '#00694D' }}>
-                  PERSONAL BASELINE
-                </div>
-                <span className="material-symbols-outlined" style={{ color: '#94A3B8' }}>arrow_forward</span>
-                <div style={{ background: '#EFF6FF', border: '1.5px solid #3B82F6', padding: '10px 18px', borderRadius: 8, fontWeight: 700, fontSize: 13, color: '#1D4ED8' }}>
-                  CHANGE DETECTED
-                </div>
-                <span className="material-symbols-outlined" style={{ color: '#94A3B8' }}>arrow_forward</span>
-                <div style={{ background: '#FEF3C7', border: '1.5px solid #F59E0B', padding: '10px 18px', borderRadius: 8, fontWeight: 700, fontSize: 13, color: '#92400E' }}>
-                  SAFETY RULES VERIFIED
-                </div>
-                <span className="material-symbols-outlined" style={{ color: '#94A3B8' }}>arrow_forward</span>
-                <div style={{ background: '#FEE2E2', border: '1.5px solid #EF4444', padding: '10px 18px', borderRadius: 8, fontWeight: 700, fontSize: 13, color: '#991B1B' }}>
-                  EXPLAINABLE ALERT & ACTION
-                </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, flexWrap: 'wrap' }}>
+                <span style={{ background: '#FFFFFF', border: '1px solid #CBD5E1', padding: '7px 12px', borderRadius: 8, fontSize: 11, fontWeight: 700, color: '#334155' }}>
+                  INPUT
+                </span>
+                <span style={{ color: '#94A3B8', fontWeight: 900 }}>↓</span>
+                <span style={{ background: '#FFFFFF', border: '1px solid #CBD5E1', padding: '7px 12px', borderRadius: 8, fontSize: 11, fontWeight: 700, color: '#334155' }}>
+                  Recent Observations
+                </span>
+                <span style={{ color: '#94A3B8', fontWeight: 900 }}>↓</span>
+                <span style={{ background: '#EFF6FF', border: '1px solid #93C5FD', padding: '7px 12px', borderRadius: 8, fontSize: 11, fontWeight: 700, color: '#1D4ED8' }}>
+                  Data Quality Check
+                </span>
+                <span style={{ color: '#94A3B8', fontWeight: 900 }}>↓</span>
+                <span style={{ background: '#E6F7F1', border: '1.5px solid #10B981', padding: '7px 12px', borderRadius: 8, fontSize: 11, fontWeight: 800, color: '#00694D' }}>
+                  Personal Baseline
+                </span>
+                <span style={{ color: '#94A3B8', fontWeight: 900 }}>↓</span>
+                <span style={{ background: '#FEF3C7', border: '1px solid #FCD34D', padding: '7px 12px', borderRadius: 8, fontSize: 11, fontWeight: 700, color: '#92400E' }}>
+                  Deviation Detection
+                </span>
+                <span style={{ color: '#94A3B8', fontWeight: 900 }}>↓</span>
+                <span style={{ background: '#FEE2E2', border: '1px solid #FCA5A5', padding: '7px 12px', borderRadius: 8, fontSize: 11, fontWeight: 700, color: '#991B1B' }}>
+                  Multi-Signal Check
+                </span>
+                <span style={{ color: '#94A3B8', fontWeight: 900 }}>↓</span>
+                <span style={{ background: '#EDE9FE', border: '1px solid #C4B5FD', padding: '7px 12px', borderRadius: 8, fontSize: 11, fontWeight: 700, color: '#5B21B6' }}>
+                  Safety Rules
+                </span>
+                <span style={{ color: '#94A3B8', fontWeight: 900 }}>↓</span>
+                <span style={{ background: '#F0FDF4', border: '1.5px solid #86EFAC', padding: '7px 12px', borderRadius: 8, fontSize: 11, fontWeight: 800, color: '#166534' }}>
+                  Explanation & Next Step
+                </span>
               </div>
             </div>
           </div>
@@ -340,6 +335,78 @@ export const HomePage: React.FC<HomePageProps> = ({
                 Normal dashboards passively dump raw numbers (e.g. 82 bpm). HealthShield actively identifies when coupled biometric changes matter and explains exactly why.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Theme 3 Assistive Technology & Inclusion Section */}
+      <section style={{ padding: '20px 0 60px', background: '#F8FAFC', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0' }}>
+        <div className="container-max" style={{ maxWidth: 1120 }}>
+          <div className="text-center" style={{ marginBottom: 36 }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#EFF6FF', color: '#2563EB', padding: '4px 12px', borderRadius: 20, fontSize: 11, fontWeight: 800, marginBottom: 10 }}>
+              <span>♿</span>
+              <span>THEME 3 CORE SCOPE • ASSISTIVE TECH &amp; INCLUSION</span>
+            </div>
+            <h2 style={{ fontSize: 30, fontWeight: 800, color: '#0F172A', letterSpacing: '-0.02em', margin: 0 }}>
+              Built for More People
+            </h2>
+            <p style={{ fontSize: 14, color: '#64748B', marginTop: 8 }}>
+              Healthcare technology must be accessible regardless of age, literacy, language, or connectivity.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div style={{ background: '#FFFFFF', padding: 20, borderRadius: 14, border: '1px solid #E2E8F0', textAlign: 'center' }}>
+              <div style={{ fontSize: 32, marginBottom: 8 }}>👵</div>
+              <h4 style={{ fontSize: 14, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>Elderly Users</h4>
+              <p style={{ fontSize: 12, color: '#64748B', margin: 0, lineHeight: 1.4 }}>
+                One-tap Simple Mode with large friendly touch cards and zero technical jargon.
+              </p>
+            </div>
+
+            <div style={{ background: '#FFFFFF', padding: 20, borderRadius: 14, border: '1px solid #E2E8F0', textAlign: 'center' }}>
+              <div style={{ fontSize: 32, marginBottom: 8 }}>🗣️</div>
+              <h4 style={{ fontSize: 14, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>Voice Users</h4>
+              <p style={{ fontSize: 12, color: '#64748B', margin: 0, lineHeight: 1.4 }}>
+                Ask &quot;How has my health changed this week?&quot; with on-device vocal response.
+              </p>
+            </div>
+
+            <div style={{ background: '#FFFFFF', padding: 20, borderRadius: 14, border: '1px solid #E2E8F0', textAlign: 'center' }}>
+              <div style={{ fontSize: 32, marginBottom: 8 }}>🇮🇳</div>
+              <h4 style={{ fontSize: 14, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>Indian Languages</h4>
+              <p style={{ fontSize: 12, color: '#64748B', margin: 0, lineHeight: 1.4 }}>
+                Full first-class localization in English, తెలుగు (Telugu), and हिन्दी (Hindi).
+              </p>
+            </div>
+
+            <div style={{ background: '#FFFFFF', padding: 20, borderRadius: 14, border: '1px solid #E2E8F0', textAlign: 'center' }}>
+              <div style={{ fontSize: 32, marginBottom: 8 }}>👁️</div>
+              <h4 style={{ fontSize: 14, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>Low-Vision</h4>
+              <p style={{ fontSize: 12, color: '#64748B', margin: 0, lineHeight: 1.4 }}>
+                Instant dynamic text scaling (A / A+ / A++) and WCAG AAA high-contrast toggle.
+              </p>
+            </div>
+
+            <div style={{ background: '#FFFFFF', padding: 20, borderRadius: 14, border: '1px solid #E2E8F0', textAlign: 'center' }}>
+              <div style={{ fontSize: 32, marginBottom: 8 }}>📵</div>
+              <h4 style={{ fontSize: 14, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>Low-Connectivity</h4>
+              <p style={{ fontSize: 12, color: '#64748B', margin: 0, lineHeight: 1.4 }}>
+                Offline-first local check-ins queueing securely in browser until sync returns.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Simulated Demonstration Data Banner */}
+      <section style={{ padding: '24px 0 10px' }}>
+        <div className="container-max text-center" style={{ maxWidth: 840 }}>
+          <div style={{ background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: 12, padding: '12px 20px', display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 12, color: '#92400E' }}>
+            <span style={{ fontSize: 16 }}>ℹ️</span>
+            <span>
+              <strong>PROTOTYPE DEMONSTRATION DATA:</strong> Telemetry metrics displayed are controlled demonstration values used to validate the HealthShield detection and explanation workflow. Not clinical evidence.
+            </span>
           </div>
         </div>
       </section>

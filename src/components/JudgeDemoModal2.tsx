@@ -66,8 +66,8 @@ const STEPS: Step[] = [
     stepNumber: '06',
     title: 'SAFETY ENGINE GUARDRAIL',
     timeMark: '1:30 - 1:45',
-    narrative: 'Hard Architectural Rule: AI can explain a result; AI cannot override the safety engine. All triage logic follows clinician-reviewed Rule HS-WELL-001. HealthShield never claims medical diagnosis.',
-    visualHighlight: 'Safety Engine HS-WELL-001 active; AI temperature bound; triage locked.',
+    narrative: 'Hard Architectural Rule: AI can explain a result; AI cannot override the safety engine. All pattern logic follows deterministic Rule HS-RULE-001. HealthShield never claims medical diagnosis.',
+    visualHighlight: 'Safety Engine HS-RULE-001 active; AI explanation bound; deterministic triage locked.',
     keyTakeaway: 'Deterministic safety rules protect beneficiaries from language model hallucinations.',
     tabTarget: 'technology'
   },
@@ -87,7 +87,7 @@ const STEPS: Step[] = [
     narrative: 'Field-ready resilience: In intermittent connectivity areas, check-ins persist in browser IndexedDB. Upon reconnection, records sync idempotently without duplicate observations.',
     visualHighlight: 'Sync banner: LOCAL MODE → SYNC PENDING → SYNC COMPLETE.',
     keyTakeaway: 'Network outages do not interrupt vital personal health logging.',
-    tabTarget: 'command'
+    tabTarget: 'dashboard'
   },
   {
     stepNumber: '09',
@@ -96,15 +96,15 @@ const STEPS: Step[] = [
     narrative: 'User remains sovereign over their data. Granular DPDP consents allow sharing sleep trends with family while keeping detailed telemetry and AI interactions strictly private.',
     visualHighlight: 'Trusted Contact Ananya Rao: Sleep trend shared ✓, Raw observations private ✕.',
     keyTakeaway: 'DPDP Act 2023 compliant privacy by design, not a single blanket checkbox.',
-    tabTarget: 'circle'
+    tabTarget: 'consent'
   },
   {
     stepNumber: '10',
     title: 'PILOT EVIDENCE & HONESTY',
     timeMark: '2:30 - 2:45',
-    narrative: 'SFIC Evaluators value verifiable evidence over fake claims. We display measured metrics from our 42-student campus pilot (81.4% check-in completion, 48s avg time) and openly label clinical trials as PLANNED.',
-    visualHighlight: 'Evidence Scorecard: 5 Measured Metrics + 2 Planned Clinical Trials.',
-    keyTakeaway: 'Honesty and measured pilot evidence build undeniable judge credibility.',
+    narrative: 'SFIC Evaluators value verifiable evidence over fake claims. We display completed software prototype verification (baseline math, offline storage, covariance stress testing) and openly outline our 30-50 participant campus pilot as PLANNED.',
+    visualHighlight: 'Evidence Scorecard: 5 Verified Prototype Tests + 30-Day Planned Pilot Framework.',
+    keyTakeaway: 'Honesty and demonstrated prototype feasibility build undeniable credibility.',
     tabTarget: 'pilot'
   },
   {

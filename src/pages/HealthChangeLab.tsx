@@ -19,30 +19,32 @@ export const HealthChangeLab: React.FC = () => {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [pipelineStep, setPipelineStep] = useState<number>(0);
   const [evaluationResult, setEvaluationResult] = useState<{
-    divergenceScore: number;
-    severity: 'STABLE' | 'MONITOR' | 'ACTION_RECOMMENDED';
+    patternStatus: 'STABLE' | 'EMERGING CHANGE' | 'SIGNIFICANT CHANGE';
+    divergedSignalsCount: number;
     deltas: { label: string; delta: string; status: 'Normal' | 'Changed' }[];
-    clinicalRationale: string;
+    explanation: string;
+    nextStep: string;
   } | null>({
-    divergenceScore: 84,
-    severity: 'ACTION_RECOMMENDED',
+    patternStatus: 'SIGNIFICANT CHANGE',
+    divergedSignalsCount: 3,
     deltas: [
-      { label: 'Sleep Duration', delta: '↓ 23.9% (5.4h vs 7.1h baseline)', status: 'Changed' },
-      { label: 'Physical Activity', delta: '↓ 37.2% (4,900 vs 7,800 steps)', status: 'Changed' },
-      { label: 'Resting Heart Rate', delta: '↑ +8.3% (78 bpm vs 72 bpm baseline)', status: 'Changed' },
-      { label: 'Self-Reported Well-being', delta: 'Shifted from Good → Low', status: 'Changed' }
+      { label: 'Sleep Duration', delta: '↓ 24% (5.4h vs 7.1h baseline)', status: 'Changed' },
+      { label: 'Physical Activity', delta: '↓ 37% (4,900 vs 7,800 steps)', status: 'Changed' },
+      { label: 'Resting Heart Rate', delta: '↑ 8% (78 bpm vs 72 bpm baseline)', status: 'Changed' },
+      { label: 'Self-Reported Well-being', delta: 'Shifted Good → Low', status: 'Changed' }
     ],
-    clinicalRationale: 'Simultaneous covariance departure across 3 physiological signals within 48h rolling window.'
+    explanation: "Today's observations differ from your recent personal pattern across multiple signals.",
+    nextStep: 'Monitor the pattern and consider seeking professional medical advice if the change persists or symptoms concern you.'
   });
 
   const handleRunSimulation = () => {
     setIsProcessing(true);
     setPipelineStep(1);
 
-    setTimeout(() => setPipelineStep(2), 600); // Validation
-    setTimeout(() => setPipelineStep(3), 1200); // Baseline comparison
-    setTimeout(() => setPipelineStep(4), 1800); // Pattern engine
-    setTimeout(() => setPipelineStep(5), 2400); // Safety rules
+    setTimeout(() => setPipelineStep(2), 500); // Validation
+    setTimeout(() => setPipelineStep(3), 1000); // Baseline comparison
+    setTimeout(() => setPipelineStep(4), 1500); // Pattern engine
+    setTimeout(() => setPipelineStep(5), 2000); // Safety rules
     setTimeout(() => {
       // Calculate real differences
       const sleepDelta = ((sleepInput - BASELINE.sleep) / BASELINE.sleep) * 100;
@@ -51,28 +53,34 @@ export const HealthChangeLab: React.FC = () => {
 
       const hasSleepChg = sleepDelta < -15;
       const hasActChg = actDelta < -20;
-      const hasHrChg = hrDelta > 8;
+      const hasHrChg = hrDelta > 7;
       const hasWbChg = wellbeingInput !== 'Good';
 
       const changeCount = [hasSleepChg, hasActChg, hasHrChg, hasWbChg].filter(Boolean).length;
-      const score = Math.min(95, changeCount * 25 + 10);
+      const status: 'STABLE' | 'EMERGING CHANGE' | 'SIGNIFICANT CHANGE' = 
+        changeCount >= 3 ? 'SIGNIFICANT CHANGE' : changeCount >= 1 ? 'EMERGING CHANGE' : 'STABLE';
 
       setEvaluationResult({
-        divergenceScore: score,
-        severity: score >= 60 ? 'ACTION_RECOMMENDED' : score >= 35 ? 'MONITOR' : 'STABLE',
+        patternStatus: status,
+        divergedSignalsCount: changeCount,
         deltas: [
-          { label: 'Sleep Duration', delta: `${sleepDelta < 0 ? '↓' : '↑'} ${Math.abs(sleepDelta).toFixed(1)}% (${sleepInput}h vs ${BASELINE.sleep}h)`, status: hasSleepChg ? 'Changed' : 'Normal' },
-          { label: 'Daily Steps', delta: `${actDelta < 0 ? '↓' : '↑'} ${Math.abs(actDelta).toFixed(1)}% (${activityInput.toLocaleString()} vs ${BASELINE.activity.toLocaleString()})`, status: hasActChg ? 'Changed' : 'Normal' },
-          { label: 'Resting Heart Rate', delta: `${hrDelta > 0 ? '↑' : '↓'} ${Math.abs(hrDelta).toFixed(1)}% (${hrInput} bpm vs ${BASELINE.hr} bpm)`, status: hasHrChg ? 'Changed' : 'Normal' },
+          { label: 'Sleep Duration', delta: `${sleepDelta < 0 ? '↓' : '↑'} ${Math.abs(Math.round(sleepDelta))}% (${sleepInput}h vs ${BASELINE.sleep}h)`, status: hasSleepChg ? 'Changed' : 'Normal' },
+          { label: 'Daily Steps', delta: `${actDelta < 0 ? '↓' : '↑'} ${Math.abs(Math.round(actDelta))}% (${activityInput.toLocaleString()} vs ${BASELINE.activity.toLocaleString()})`, status: hasActChg ? 'Changed' : 'Normal' },
+          { label: 'Resting Heart Rate', delta: `${hrDelta > 0 ? '↑' : '↓'} ${Math.abs(Math.round(hrDelta))}% (${hrInput} bpm vs ${BASELINE.hr} bpm)`, status: hasHrChg ? 'Changed' : 'Normal' },
           { label: 'Self-Reported Well-being', delta: `Observed: ${wellbeingInput} (Baseline: Good)`, status: hasWbChg ? 'Changed' : 'Normal' }
         ],
-        clinicalRationale: changeCount >= 2 
-          ? `Detected ${changeCount} synchronized baseline departures. Rule HS-WELL-001 confirmed compound strain.` 
-          : 'Fluctuations remain within the individual 95% confidence interval.'
+        explanation: status === 'STABLE' 
+          ? "All incoming observations remain comfortably within your learned personal normal range."
+          : `Today's observations differ from your recent personal pattern across ${changeCount} signal${changeCount > 1 ? 's' : ''}. HealthShield does not determine the medical cause of this change.`,
+        nextStep: status === 'SIGNIFICANT CHANGE'
+          ? 'Monitor the pattern closely and consider seeking professional healthcare advice if the change persists or symptoms concern you.'
+          : status === 'EMERGING CHANGE'
+          ? 'Log another check-in tomorrow to see if this represents an isolated day or an emerging trend.'
+          : 'Continue regular daily check-ins to keep your personal baseline adaptive and accurate.'
       });
       setPipelineStep(6);
       setIsProcessing(false);
-    }, 3000);
+    }, 2500);
   };
 
   const handleLoadPresetScenario = (scenario: 'baseline' | 'stress' | 'subtle') => {
@@ -326,27 +334,41 @@ export const HealthChangeLab: React.FC = () => {
       {evaluationResult && (
         <div 
           style={{ 
-            background: evaluationResult.severity === 'ACTION_RECOMMENDED' ? '#FEF2F2' : '#F0FDF4', 
-            border: evaluationResult.severity === 'ACTION_RECOMMENDED' ? '1.5px solid #FCA5A5' : '1.5px solid #BBF7D0', 
+            background: evaluationResult.patternStatus === 'SIGNIFICANT CHANGE' ? '#FEF2F2' : evaluationResult.patternStatus === 'EMERGING CHANGE' ? '#FFFBEB' : '#F0FDF4', 
+            border: evaluationResult.patternStatus === 'SIGNIFICANT CHANGE' ? '1.5px solid #FCA5A5' : evaluationResult.patternStatus === 'EMERGING CHANGE' ? '1.5px solid #FDE68A' : '1.5px solid #BBF7D0', 
             borderRadius: 16, 
             padding: 24 
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 16 }}>
             <div>
-              <div style={{ display: 'inline-block', background: evaluationResult.severity === 'ACTION_RECOMMENDED' ? '#EF4444' : '#10B981', color: '#FFF', fontSize: 11, fontWeight: 800, padding: '3px 10px', borderRadius: 20, marginBottom: 6 }}>
-                {evaluationResult.severity === 'ACTION_RECOMMENDED' ? '⚠ PATTERN CHANGE DETECTED' : '✓ HEALTH PATTERN STABLE'}
+              <div style={{ 
+                display: 'inline-block', 
+                background: evaluationResult.patternStatus === 'SIGNIFICANT CHANGE' ? '#DC2626' : evaluationResult.patternStatus === 'EMERGING CHANGE' ? '#D97706' : '#10B981', 
+                color: '#FFF', 
+                fontSize: 11, 
+                fontWeight: 800, 
+                padding: '4px 12px', 
+                borderRadius: 20, 
+                marginBottom: 8 
+              }}>
+                {evaluationResult.patternStatus === 'SIGNIFICANT CHANGE' ? '⚠ PATTERN CHANGE DETECTED' : evaluationResult.patternStatus === 'EMERGING CHANGE' ? '⚡ EMERGING VARIANCE' : '✓ PATTERN STABLE'}
               </div>
-              <h3 style={{ fontSize: 18, fontWeight: 800, color: '#0F172A', margin: 0 }}>
-                {evaluationResult.severity === 'ACTION_RECOMMENDED' 
-                  ? 'Meaningful Divergence from Personal Baseline' 
-                  : 'Observations Align with Established 30-Day Norms'}
+              <h3 style={{ fontSize: 20, fontWeight: 800, color: '#0F172A', margin: 0 }}>
+                {evaluationResult.patternStatus === 'SIGNIFICANT CHANGE' 
+                  ? 'Significant Multi-Signal Deviation from Personal Baseline' 
+                  : evaluationResult.patternStatus === 'EMERGING CHANGE'
+                  ? 'Isolated Signal Divergence Under Observation'
+                  : 'All Signals Within Established Personal Normal Range'}
               </h3>
             </div>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 11, color: '#64748B', fontWeight: 600 }}>DIVERGENCE SCORE</div>
-              <div style={{ fontSize: 24, fontWeight: 800, color: evaluationResult.severity === 'ACTION_RECOMMENDED' ? '#DC2626' : '#16A34A' }}>
-                {evaluationResult.divergenceScore} / 100
+            <div style={{ textAlign: 'right', background: '#FFFFFF', padding: '10px 16px', borderRadius: 10, border: '1px solid #E2E8F0' }}>
+              <div style={{ fontSize: 11, color: '#64748B', fontWeight: 700 }}>PATTERN STATUS</div>
+              <div style={{ fontSize: 16, fontWeight: 900, color: evaluationResult.patternStatus === 'SIGNIFICANT CHANGE' ? '#DC2626' : evaluationResult.patternStatus === 'EMERGING CHANGE' ? '#D97706' : '#16A34A' }}>
+                {evaluationResult.patternStatus}
+              </div>
+              <div style={{ fontSize: 11, color: '#64748B' }}>
+                {evaluationResult.divergedSignalsCount} of 4 signals moved away
               </div>
             </div>
           </div>
@@ -363,9 +385,27 @@ export const HealthChangeLab: React.FC = () => {
             ))}
           </div>
 
-          <div style={{ fontSize: 13, color: '#334155', lineHeight: 1.5, background: '#FFFFFF', padding: 14, borderRadius: 10, border: '1px solid #E2E8F0' }}>
-            <strong>Evidence-Based Explanation: </strong>
-            These observations differ from the user's recent personal pattern. HealthShield does not diagnose a medical condition; it recommends reviewing your sleep and activity pacing and consulting a licensed healthcare practitioner if fatigue or concerns persist.
+          {/* Why Was This Flagged? & What Next? */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div style={{ background: '#FFFFFF', padding: 16, borderRadius: 12, border: '1px solid #E2E8F0' }}>
+              <div style={{ fontSize: 12, fontWeight: 800, color: '#0F172A', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span>🔍</span>
+                <span>WHY WAS THIS FLAGGED?</span>
+              </div>
+              <p style={{ fontSize: 13, color: '#334155', lineHeight: 1.5, margin: 0 }}>
+                {evaluationResult.explanation}
+              </p>
+            </div>
+
+            <div style={{ background: '#FFFFFF', padding: 16, borderRadius: 12, border: '1px solid #E2E8F0' }}>
+              <div style={{ fontSize: 12, fontWeight: 800, color: '#0F172A', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span>🛡️</span>
+                <span>WHAT NEXT?</span>
+              </div>
+              <p style={{ fontSize: 13, color: '#334155', lineHeight: 1.5, margin: 0 }}>
+                {evaluationResult.nextStep}
+              </p>
+            </div>
           </div>
         </div>
       )}
