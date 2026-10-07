@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { localAiService } from '../services/localAiService';
-import { PatientsPage } from './medivora/PatientsPage';
-import { AppointmentsPage } from './medivora/AppointmentsPage';
-import { HealthRecordsPage } from './medivora/HealthRecordsPage';
-import { AiInsightsPage } from './medivora/AiInsightsPage';
-import { DiagnosticsPage } from './medivora/DiagnosticsPage';
-import { TreatmentsPage } from './medivora/TreatmentsPage';
-import { MedicationsPage } from './medivora/MedicationsPage';
-import { ReportsPage } from './medivora/ReportsPage';
-import { AnalyticsPage } from './medivora/AnalyticsPage';
-import { AlertsPage } from './medivora/AlertsPage';
-import { MessagesPage } from './medivora/MessagesPage';
-import { SettingsPage } from './medivora/SettingsPage';
+import { HealthChangeLab } from './HealthChangeLab';
+import { IncidentReplay } from './IncidentReplay';
+import { PatternExplorer } from './PatternExplorer';
+import { MyBaseline } from './MyBaseline';
+import { DailyCheck } from './DailyCheck';
+import { ExplainableAlert } from './ExplainableAlert';
+import { PersonalHealthRecord } from './PersonalHealthRecord';
+import { PilotCenter } from './PilotCenter';
+import { CostModel } from './CostModel';
+import { ConsentCenter } from './ConsentCenter';
+import { INITIAL_METRICS, INITIAL_CHECKIN, GENERATE_30_DAY_HISTORY } from '../data/mockData';
+import { evaluateHealthPattern } from '../engine/baselineEngine';
+import type { MetricData, CheckInState } from '../types/health';
 
 export const MedivoraDashboard: React.FC = () => {
   const [activeMenu, setActiveMenu] = useState('Dashboard');
@@ -19,11 +20,42 @@ export const MedivoraDashboard: React.FC = () => {
   const [selectedOrgan, setSelectedOrgan] = useState<string>('Heart');
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
 
+  // Baseline Engine State
+  const [metrics, setMetrics] = useState<MetricData[]>(INITIAL_METRICS);
+  const [checkIn, setCheckIn] = useState<CheckInState>(INITIAL_CHECKIN);
+  const [history] = useState(() => GENERATE_30_DAY_HISTORY());
+
+  const evalResult = useMemo(() => {
+    return evaluateHealthPattern(metrics, checkIn);
+  }, [metrics, checkIn]);
+
+  const anomalyReport = useMemo(() => {
+    return {
+      overallRiskScore: evalResult.divergenceScore,
+      divergenceLevel: evalResult.severity,
+      flaggedMetrics: evalResult.deltaSummary.map(d => `${d.metric} (${d.change})`),
+      clinicalRationale: evalResult.rationale,
+      boundaryWarning: 'Clinical Guardrail: HealthShield AI is not a diagnostic device. It detects early deviations from personal baselines to prompt timely, safe preventive care before acute escalation.',
+      ruleTriggered: {
+        id: evalResult.triggeredRuleId,
+        name: evalResult.ruleName,
+        condition: 'Multi-parameter covariance shift over 48h rolling window',
+        action: evalResult.ruleAction
+      },
+      recommendedSteps: evalResult.nextSteps.map((s, idx) => ({
+        priority: idx + 1,
+        title: s.title,
+        description: s.desc,
+        urgency: s.urgency
+      }))
+    };
+  }, [evalResult]);
+
   // Local Qwen2.5-Coder-7B AI Chat State
   const [chatMessages, setChatMessages] = useState<Array<{ role: 'user' | 'assistant'; text: string; time: string }>>([
     {
       role: 'assistant',
-      text: 'Hello, Dr. Reynolds. I am your Medivora AI Copilot powered by the on-device Qwen2.5-Coder-7B GGUF model. How can I assist with patient telemetry analysis or baseline trends today?',
+      text: 'Hello, Dr. Reynolds. I am your Medivora AI Copilot powered by the on-device Qwen2.5-Coder-7B GGUF model. How can I assist with personal baseline telemetry or deviation analysis today?',
       time: '10:42 AM'
     }
   ]);
@@ -70,18 +102,16 @@ export const MedivoraDashboard: React.FC = () => {
 
   const navItems = [
     { name: 'Dashboard', icon: 'grid_view' },
-    { name: 'Patients', icon: 'people' },
-    { name: 'Appointments', icon: 'calendar_month' },
-    { name: 'Health Records', icon: 'folder_shared' },
-    { name: 'AI Insights', icon: 'auto_awesome' },
-    { name: 'Diagnostics', icon: 'biotech' },
-    { name: 'Treatments', icon: 'medication' },
-    { name: 'Medications', icon: 'pill' },
-    { name: 'Reports', icon: 'description' },
-    { name: 'Analytics', icon: 'bar_chart' },
-    { name: 'Alerts', icon: 'notifications', badge: 6 },
-    { name: 'Messages', icon: 'chat_bubble' },
-    { name: 'Settings', icon: 'settings' },
+    { name: 'Health Change Lab', icon: 'biotech' },
+    { name: 'Incident Replay', icon: 'history' },
+    { name: 'My Baseline', icon: 'stacked_line_chart' },
+    { name: 'Daily Check', icon: 'fact_check' },
+    { name: 'Change Explained', icon: 'warning', badge: 1 },
+    { name: 'Pattern Explorer', icon: 'monitoring' },
+    { name: 'Health Record', icon: 'folder_shared' },
+    { name: 'Pilot Evidence', icon: 'verified' },
+    { name: 'Cost & Scale', icon: 'payments' },
+    { name: 'Privacy & Consent', icon: 'lock_person' },
   ];
 
   const upcomingAppointments = [
@@ -420,19 +450,50 @@ export const MedivoraDashboard: React.FC = () => {
 
         {/* Clinical Workspace Body */}
         <main style={{ padding: '24px 32px 48px', display: 'flex', flexDirection: 'column', gap: 24, flex: 1, minWidth: 0 }}>
-          {/* Sub-Pages for All 12 Navigation Items */}
-          {activeMenu === 'Patients' && <PatientsPage />}
-          {activeMenu === 'Appointments' && <AppointmentsPage />}
-          {activeMenu === 'Health Records' && <HealthRecordsPage />}
-          {activeMenu === 'AI Insights' && <AiInsightsPage />}
-          {activeMenu === 'Diagnostics' && <DiagnosticsPage />}
-          {activeMenu === 'Treatments' && <TreatmentsPage />}
-          {activeMenu === 'Medications' && <MedicationsPage />}
-          {activeMenu === 'Reports' && <ReportsPage />}
-          {activeMenu === 'Analytics' && <AnalyticsPage />}
-          {activeMenu === 'Alerts' && <AlertsPage />}
-          {activeMenu === 'Messages' && <MessagesPage />}
-          {activeMenu === 'Settings' && <SettingsPage />}
+          {/* Sub-Pages for Theme 3 Problem-Solving Modules */}
+          {activeMenu === 'Health Change Lab' && <HealthChangeLab />}
+          {activeMenu === 'Incident Replay' && <IncidentReplay />}
+          {activeMenu === 'My Baseline' && (
+            <MyBaseline 
+              metrics={metrics} 
+              history={history} 
+              onNavigate={(tab) => setActiveMenu(tab === 'checkin' ? 'Daily Check' : tab === 'alert' ? 'Change Explained' : 'Dashboard')} 
+            />
+          )}
+          {activeMenu === 'Daily Check' && (
+            <DailyCheck 
+              initialCheckIn={checkIn} 
+              onSubmitCheckIn={(newCheckIn) => {
+                setCheckIn(newCheckIn);
+                setMetrics(prev => prev.map(m => {
+                  if (m.id === 'sleep') {
+                    const delta = ((newCheckIn.sleepHours - m.baselineAvg) / m.baselineAvg) * 100;
+                    return {
+                      ...m,
+                      todayValue: newCheckIn.sleepHours,
+                      deltaPercent: parseFloat(delta.toFixed(1)),
+                      status: newCheckIn.sleepHours < 6.0 ? 'changed' : 'stable'
+                    };
+                  }
+                  return m;
+                }));
+              }} 
+              onNavigate={(tab) => setActiveMenu(tab === 'baseline' ? 'My Baseline' : 'Change Explained')} 
+            />
+          )}
+          {activeMenu === 'Change Explained' && (
+            <ExplainableAlert 
+              anomalyReport={anomalyReport} 
+              metrics={metrics} 
+              onNavigate={(tab) => setActiveMenu(tab === 'baseline' ? 'My Baseline' : 'Dashboard')} 
+              onOpenEmergency={() => {}} 
+            />
+          )}
+          {activeMenu === 'Pattern Explorer' && <PatternExplorer />}
+          {activeMenu === 'Health Record' && <PersonalHealthRecord />}
+          {activeMenu === 'Pilot Evidence' && <PilotCenter />}
+          {activeMenu === 'Cost & Scale' && <CostModel />}
+          {activeMenu === 'Privacy & Consent' && <ConsentCenter />}
 
           {/* Medivora Core Dashboard View */}
           {activeMenu === 'Dashboard' && (
@@ -1117,12 +1178,12 @@ export const MedivoraDashboard: React.FC = () => {
             
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 12 }}>
               {[
-                { title: 'Add Patient', sub: 'Create new profile', icon: 'person_add', color: '#2563EB', target: 'Patients' },
-                { title: 'Schedule Appointment', sub: 'Book a new slot', icon: 'calendar_add_on', color: '#7C3AED', target: 'Appointments' },
-                { title: 'Order Lab Test', sub: 'Request test', icon: 'science', color: '#0EA47A', target: 'Diagnostics' },
-                { title: 'Generate Report', sub: 'AI summary', icon: 'summarize', color: '#F59E0B', target: 'Reports' },
-                { title: 'Prescription', sub: 'Write prescription', icon: 'prescription', color: '#EC4899', target: 'Medications' },
-                { title: 'Send Message', sub: 'To patient', icon: 'chat', color: '#6366F1', target: 'Messages' },
+                { title: 'Change Lab', sub: 'Interactive stress test', icon: 'biotech', color: '#0EA47A', target: 'Health Change Lab' },
+                { title: 'Incident Replay', sub: 'Play days 1-21 drift', icon: 'history', color: '#2563EB', target: 'Incident Replay' },
+                { title: 'My Baseline', sub: '30-day personal pattern', icon: 'stacked_line_chart', color: '#7C3AED', target: 'My Baseline' },
+                { title: 'Daily Check', sub: '60s health check-in', icon: 'fact_check', color: '#059669', target: 'Daily Check' },
+                { title: 'Explain Alert', sub: 'Evidence-based rationale', icon: 'warning', color: '#DC2626', target: 'Change Explained' },
+                { title: 'Pattern Explorer', sub: 'Observed co-occurrence', icon: 'monitoring', color: '#6366F1', target: 'Pattern Explorer' },
               ].map(action => (
                 <button
                   key={action.title}
