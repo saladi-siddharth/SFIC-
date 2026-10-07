@@ -49,8 +49,8 @@ export const CostModel: React.FC = () => {
               </tr>
               <tr style={{ borderBottom: '1px solid #E2E8F0' }}>
                 <td style={{ padding: '12px 14px', fontWeight: 700, color: '#0F172A' }}>Local AI Inference</td>
-                <td style={{ padding: '12px 14px', color: '#16A34A', fontWeight: 700 }}>₹0 Cloud Cost (Device-Dependent)</td>
-                <td style={{ padding: '12px 14px', color: '#64748B' }}>Runs on user&apos;s laptop/phone via multi-threaded CPU runtime. Zero cloud GPU costs.</td>
+                <td style={{ padding: '12px 14px', color: '#16A34A', fontWeight: 700 }}>No per-token API cost when local inference is used</td>
+                <td style={{ padding: '12px 14px', color: '#64748B' }}>Runs on user&apos;s laptop/phone via multi-threaded CPU runtime. Zero third-party cloud API costs.</td>
               </tr>
               <tr style={{ borderBottom: '1px solid #E2E8F0' }}>
                 <td style={{ padding: '12px 14px', fontWeight: 700, color: '#0F172A' }}>Baseline Engine &amp; Offline Sync</td>
@@ -113,9 +113,12 @@ export const CostModel: React.FC = () => {
 
       {/* Interactive Exploration Calculator */}
       <div style={{ background: '#FFFFFF', borderRadius: 16, border: '1px solid #E2E8F0', padding: 24, boxShadow: '0 2px 8px rgba(0,0,0,0.03)', marginBottom: 28 }}>
-        <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', marginBottom: 16 }}>
-          Interactive Cohort Cost Estimator (₹ INR)
+        <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>
+          Illustrative Deployment Scenario (Interactive Estimator)
         </h3>
+        <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 16px', lineHeight: 1.5 }}>
+          Actual deployment costs depend on hosting provider, storage volume, notification frequency, and the specific institution deployment model.
+        </p>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 24, alignItems: 'center' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -169,7 +172,7 @@ export const CostModel: React.FC = () => {
           </div>
 
           <div style={{ background: '#F0FDF4', border: '1.5px solid #BBF7D0', borderRadius: 14, padding: 20, textAlign: 'center' }}>
-            <div style={{ fontSize: 11, fontWeight: 800, color: '#166534', letterSpacing: '0.04em' }}>ESTIMATED PER-USER COST</div>
+            <div style={{ fontSize: 11, fontWeight: 800, color: '#166534', letterSpacing: '0.04em' }}>SCENARIO ESTIMATED PER-USER COST</div>
             <div style={{ fontSize: 32, fontWeight: 900, color: '#00694D', margin: '8px 0' }}>
               ₹{estimatedCostPerUser}
             </div>
@@ -187,7 +190,7 @@ export const CostModel: React.FC = () => {
           <span>SFIC EVALUATION MAPPING</span>
         </div>
         <h2 style={{ fontSize: 22, fontWeight: 800, margin: '0 0 6px', letterSpacing: '-0.02em' }}>
-          Why HealthShield AI is Deployable &amp; Winning
+          How HealthShield Meets SFIC Evaluation Criteria
         </h2>
         <p style={{ fontSize: 13, color: '#94A3B8', margin: '0 0 20px', lineHeight: 1.5 }}>
           Direct mapping against the 6 official SFIC scoring criteria for Track A:

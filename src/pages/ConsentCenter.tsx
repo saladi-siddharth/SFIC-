@@ -139,7 +139,7 @@ export const ConsentCenter: React.FC = () => {
             Consent & Privacy Center
           </h1>
           <p style={{ fontSize: 14, color: '#64748B', margin: 0, maxWidth: 680 }}>
-            Informed, purpose-specific consent controls. No generic &ldquo;Privacy: ON&rdquo; checkboxes. You retain explicit granular control and the statutory right to withdraw permission anytime.
+            Informed, purpose-specific consent controls. Privacy-first architecture with local data processing and user-controlled sharing. <em>Note: This prototype is not presented as legally certified or clinically compliant.</em>
           </p>
         </div>
 

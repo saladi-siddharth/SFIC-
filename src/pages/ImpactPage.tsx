@@ -108,7 +108,7 @@ export const ImpactPage: React.FC<ImpactPageProps> = ({ onNavigate }) => {
             <div style={{ borderLeft: '3px solid #7C3AED', paddingLeft: 16 }}>
               <strong style={{ fontSize: 14, color: '#0F172A' }}>Demonstrated Feasibility:</strong>
               <p style={{ fontSize: 13, color: '#475569', marginTop: 4, lineHeight: 1.5 }}>
-                Full working prototype running real z-score calculations, Mahalanobis divergence scoring, deterministic rule trees, and voice check-in capabilities.
+                Full working prototype running personal z-score calculations, multi-signal deviation analysis, deterministic safety rules, and voice check-in capabilities.
               </p>
             </div>
 

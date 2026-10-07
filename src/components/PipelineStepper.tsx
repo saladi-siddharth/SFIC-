@@ -11,7 +11,7 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
     { id: '1', key: 'telemetry', label: '1. User Telemetry', sub: 'Continuous Ingest', status: 'completed', icon: 'sensors' },
     { id: '2', key: 'checkin', label: '2. Daily Health Check', sub: 'Completed 07:15', status: 'completed', icon: 'fact_check' },
     { id: '3', key: 'baseline', label: '3. Personal Baseline', sub: '30-Day Model Sync', status: 'completed', icon: 'stacked_line_chart' },
-    { id: '4', key: 'detect', label: '4. Change Detection', sub: 'Mahalanobis Divergence', status: 'active', icon: 'sync' },
+    { id: '4', key: 'detect', label: '4. Change Detection', sub: 'Multi-Signal Deviation', status: 'active', icon: 'sync' },
     { id: '5', key: 'rules', label: '5. Safety Rules Engine', sub: 'Rule #204 Triggered', status: 'active', icon: 'gavel' },
     { id: '6', key: 'alert', label: '6. Explainable Alert', sub: 'Priority 2 Advisory', status: 'active', icon: 'warning' },
     { id: '7', key: 'action', label: '7. Recommended Step', sub: 'Hydrate & Retest in 4h', status: 'pending', icon: 'task_alt' },

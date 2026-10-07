@@ -385,22 +385,32 @@ export const HealthChangeLab: React.FC = () => {
             ))}
           </div>
 
-          {/* Why Was This Flagged? & What Next? */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+          {/* Why Was This Flagged? What It Does Not Do & Next Step */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
             <div style={{ background: '#FFFFFF', padding: 16, borderRadius: 12, border: '1px solid #E2E8F0' }}>
               <div style={{ fontSize: 12, fontWeight: 800, color: '#0F172A', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span>🔍</span>
-                <span>WHY WAS THIS FLAGGED?</span>
+                <span>WHY FLAGGED?</span>
               </div>
               <p style={{ fontSize: 13, color: '#334155', lineHeight: 1.5, margin: 0 }}>
                 {evaluationResult.explanation}
               </p>
             </div>
 
+            <div style={{ background: '#FFFBEB', padding: 16, borderRadius: 12, border: '1px solid #FDE68A' }}>
+              <div style={{ fontSize: 12, fontWeight: 800, color: '#92400E', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span>⚠️</span>
+                <span>WHAT IT DOES NOT DO</span>
+              </div>
+              <p style={{ fontSize: 13, color: '#78350F', lineHeight: 1.5, margin: 0 }}>
+                HealthShield does not identify disease, diagnose medical conditions, or predict clinical etiology. It detects multi-signal deviation for preventive awareness.
+              </p>
+            </div>
+
             <div style={{ background: '#FFFFFF', padding: 16, borderRadius: 12, border: '1px solid #E2E8F0' }}>
               <div style={{ fontSize: 12, fontWeight: 800, color: '#0F172A', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span>🛡️</span>
-                <span>WHAT NEXT?</span>
+                <span>NEXT STEP</span>
               </div>
               <p style={{ fontSize: 13, color: '#334155', lineHeight: 1.5, margin: 0 }}>
                 {evaluationResult.nextStep}

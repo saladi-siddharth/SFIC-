@@ -1,7 +1,7 @@
 /**
- * HealthShield AI — Local Qwen2.5-Coder-7B AI Client Service
- * Directly integrates the local GGUF model (`d:\SFIC\Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf`)
- * with deterministic fallback to ensure 100% offline availability and safety.
+ * HealthShield AI — AI-Assisted Explanation Service
+ * Provides natural-language and multilingual explanations for detected baseline changes.
+ * Operates gracefully with deterministic fallback if an on-device language model server is offline.
  */
 
 export interface ModelStatus {
@@ -26,7 +26,7 @@ class LocalAiService {
 
   public async getStatus(): Promise<ModelStatus> {
     try {
-      const res = await fetch(`${this.baseUrl}/status`, { signal: AbortSignal.timeout(2000) });
+      const res = await fetch(`${this.baseUrl}/status`, { signal: AbortSignal.timeout(1500) });
       if (res.ok) {
         return await res.json();
       }
@@ -34,10 +34,10 @@ class LocalAiService {
       // offline or server not ready
     }
     return {
-      modelName: 'Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf',
-      modelPath: 'd:\\SFIC\\Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf',
-      provider: 'Local GGUF (CPU Runtime)',
-      isReady: true,
+      modelName: 'On-Device Language Model (Optional)',
+      modelPath: 'Local Quantized Model Runtime',
+      provider: 'Deterministic Rule Engine (Fallback Active)',
+      isReady: false,
       isInitializing: false
     };
   }
@@ -48,24 +48,24 @@ class LocalAiService {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message }),
-        signal: AbortSignal.timeout(25000)
+        signal: AbortSignal.timeout(15000)
       });
       if (res.ok) {
         const data = await res.json();
         return data.reply;
       }
     } catch {
-      // Graceful local on-device fallback
+      // Graceful local deterministic fallback
     }
 
-    // High-quality contextual fallback
-    if (message.toLowerCase().includes('heart') || message.toLowerCase().includes('bpm')) {
-      return 'Resting heart rate elevation (+8.3%) reflects physiological strain. For wellness recovery, avoid vigorous cardiovascular stress, maintain hydration, and consult a physician if chest tightness or lightheadedness occurs.';
+    const query = message.toLowerCase();
+    if (query.includes('heart') || query.includes('bpm')) {
+      return "Observed change: Resting heart rate was observed above your recent personal baseline. Why flagged: It differs from your learned 30-day pattern. What HealthShield does not know: It does not determine the medical cause. What you can do: Avoid intense physical strain today, stay hydrated, and consult a doctor if discomfort persists.";
     }
-    if (message.toLowerCase().includes('sleep')) {
-      return 'Consecutive nights below your 7.1h baseline diminish restorative sleep stages. We recommend dimming screens 1 hour before bed and planning an 8-hour sleep opportunity tonight.';
+    if (query.includes('sleep') || query.includes('tired')) {
+      return "Observed change: Sleep duration is lower than your recent baseline. Why flagged: Consecutive nights below your personal pattern indicate compounded fatigue. What you can do: Review your pacing today and plan for an earlier, screen-free bedtime.";
     }
-    return 'HealthShield AI analyzes deviations from your personal 30-day baseline. Maintain hydration, rest adequately, and note any persistent shifts for medical consultation.';
+    return "HealthShield AI compares today's observations against your personal 30-day pattern rather than population averages. It does not provide medical diagnoses. If unusual sensations persist, consider seeking guidance from a healthcare professional.";
   }
 
   public async generateExplanation(params: {
@@ -78,13 +78,13 @@ class LocalAiService {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(params),
-        signal: AbortSignal.timeout(25000)
+        signal: AbortSignal.timeout(15000)
       });
       if (res.ok) {
         const data = await res.json();
         return {
           ...data.explanation,
-          modelUsed: 'Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf (Local GGUF)'
+          modelUsed: 'Local Language Model (On-Device Inference)'
         };
       }
     } catch {
@@ -92,18 +92,18 @@ class LocalAiService {
     }
 
     return {
-      summary: `Resting heart rate is elevated (+${params.metrics[0]?.delta || 8.3}%) alongside reduced sleep duration from your personal baseline.`,
-      observedChanges: params.metrics.map(m => `${m.metric}: ${m.current} ${m.unit} (Baseline: ${m.baseline} ${m.unit})`),
+      summary: `Observations differ from your recent personal 30-day baseline across multiple signals.`,
+      observedChanges: params.metrics.map(m => `${m.metric}: ${m.current} ${m.unit} (Personal baseline: ${m.baseline} ${m.unit})`),
       whyFlagged: [
-        'Multi-day shift exceeds 2 standard deviations from your established normal range',
-        'Compound fatigue marker detected across cardiovascular and sleep parameters'
+        'Multiple observations moved away from your established personal pattern at the same time.',
+        'HealthShield does not identify disease or clinical causes; it flags compound deviations for early awareness.'
       ],
       nextSteps: [
-        'Prioritize 7-8 hours of sleep tonight with reduced screen time',
-        'Avoid intense cardiovascular exercise and hydrate regularly',
-        'If chest discomfort or dizziness occurs, seek immediate clinical evaluation'
+        'Review recent sleep schedule, daily exertion, and hydration.',
+        'Log tomorrow\'s 60-second check-in to see if signals return toward baseline.',
+        'Seek professional medical advice if symptoms concern you or persist.'
       ],
-      modelUsed: 'Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf (Local GGUF)'
+      modelUsed: 'Deterministic Safety Engine (Offline Standard)'
     };
   }
 
@@ -117,7 +117,7 @@ class LocalAiService {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(params),
-        signal: AbortSignal.timeout(20000)
+        signal: AbortSignal.timeout(15000)
       });
       if (res.ok) {
         const data = await res.json();
@@ -128,9 +128,9 @@ class LocalAiService {
     }
 
     if (params.wellbeingScore === 'NOT_WELL' || params.sleepHours < 6) {
-      return `Your check-in reflects elevated fatigue today (${params.sleepHours}h sleep). Plan an earlier bedtime and consider lighter physical tasks today.`;
+      return `Today's check-in notes lower sleep (${params.sleepHours}h) and fatigue. HealthShield suggests lighter pacing today and monitoring whether this pattern persists tomorrow.`;
     }
-    return `Great consistency! Your reported wellness aligns with your stable recovery baseline. Keep up your healthy hydration and daily movement.`;
+    return `Your observations align closely with your established personal pattern. Keep up your regular daily reflection.`;
   }
 }
 

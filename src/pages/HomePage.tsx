@@ -58,14 +58,27 @@ export const HomePage: React.FC<HomePageProps> = ({
             </span>
           </h1>
 
-          {/* Subheading */}
+          {/* Subheading with Immediate Problem Clarity */}
           <p 
             style={{ 
               fontSize: 'clamp(16px, 2vw, 19px)', 
-              color: '#475569', 
-              maxWidth: 720, 
+              color: '#1E293B', 
+              maxWidth: 740, 
+              margin: '0 auto 12px',
+              lineHeight: 1.6,
+              fontWeight: 600
+            }}
+          >
+            A single health reading can be normal for one person and unusual for another. HealthShield compares today&apos;s observations with the person&apos;s own recent pattern.
+          </p>
+
+          <p 
+            style={{ 
+              fontSize: 14, 
+              color: '#64748B', 
+              maxWidth: 680, 
               margin: '0 auto 36px',
-              lineHeight: 1.6
+              lineHeight: 1.5
             }}
           >
             A preventive-health awareness prototype designed to identify meaningful deviations from a person’s usual personal pattern and guide them toward an appropriate next step — without claiming to diagnose disease.
@@ -79,7 +92,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               style={{ padding: '14px 28px', fontSize: 16, borderRadius: 12, boxShadow: '0 4px 14px rgba(14, 164, 122, 0.35)' }}
             >
               <span className="material-symbols-outlined" style={{ fontSize: 20 }}>play_arrow</span>
-              ▶ Launch Judge Demo (90s Story)
+              ▶ Start Judge Demo (90s Story)
             </button>
             <button 
               onClick={() => onNavigate('lab')} 
@@ -93,7 +106,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               onClick={() => onNavigate('baseline')} 
               style={{ padding: '13px 24px', fontSize: 14, borderRadius: 12, background: '#F8FAFC', border: '1px solid #CBD5E1', color: '#1E293B', fontWeight: 700, cursor: 'pointer' }}
             >
-              📈 View My Baseline
+              📈 Explore My Baseline
             </button>
           </div>
 
@@ -116,8 +129,34 @@ export const HomePage: React.FC<HomePageProps> = ({
       </section>
 
       {/* Live Animated Dashboard Console Preview (The Centerpiece) */}
-      <section style={{ padding: '20px 0 60px' }}>
+      <section style={{ padding: '10px 0 50px' }}>
         <div className="container-max" style={{ maxWidth: 1040 }}>
+          
+          {/* Prominent Simulated Demo Data Warning Banner Directly Above Centerpiece */}
+          <div 
+            style={{ 
+              background: '#FEF3C7', 
+              border: '1.5px solid #FCD34D', 
+              borderRadius: 12, 
+              padding: '10px 18px', 
+              marginBottom: 16, 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: 8,
+              boxShadow: '0 2px 6px rgba(245, 158, 11, 0.1)'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, fontWeight: 900, color: '#92400E', letterSpacing: '0.02em' }}>
+              <span style={{ fontSize: 16 }}>⚠️</span>
+              <span>SIMULATED DEMONSTRATION DATA</span>
+            </div>
+            <div style={{ fontSize: 12, color: '#78350F', fontWeight: 600 }}>
+              Demonstrating the HealthShield multi-signal detection workflow. Not real patient records.
+            </div>
+          </div>
+
           <div 
             className="glass-card" 
             style={{ 
@@ -132,13 +171,13 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <span className="status-dot status-dot-green pulse-anim" />
                 <div>
                   <span style={{ fontSize: 13, fontWeight: 900, letterSpacing: '0.04em', color: '#0F172A', textTransform: 'uppercase' }}>
-                    MY BASELINE • YOUR RECENT HEALTH PATTERN
+                    YOUR PERSONAL PATTERN • RECENT HEALTH BASELINE
                   </span>
-                  <div style={{ fontSize: 11, color: '#64748B' }}>Learned individual 30-day normal bounds vs today's incoming observations</div>
+                  <div style={{ fontSize: 11, color: '#64748B' }}>Personal 30-day normal bounds vs today&apos;s observations</div>
                 </div>
               </div>
               <div style={{ background: '#FEF2F2', border: '1px solid #FCA5A5', color: '#DC2626', padding: '4px 12px', borderRadius: 20, fontSize: 11, fontWeight: 800 }}>
-                ⚠ PATTERN CHANGE DETECTED
+                ⚠ CHANGE DETECTED
               </div>
             </div>
 
@@ -339,6 +378,66 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
+      {/* Visual Originality Comparison: Generic Apps vs HealthShield AI */}
+      <section style={{ padding: '0 0 50px' }}>
+        <div className="container-max" style={{ maxWidth: 1040 }}>
+          <div style={{ background: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: 16, padding: 32, boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
+            <div style={{ textAlign: 'center', marginBottom: 24 }}>
+              <div style={{ fontSize: 11, fontWeight: 800, color: '#0EA47A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                ORIGINALITY &amp; PROBLEM SOLVING
+              </div>
+              <h3 style={{ fontSize: 22, fontWeight: 900, color: '#0F172A', margin: '4px 0 0' }}>
+                How HealthShield Differs from Generic Health Trackers
+              </h3>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+              {/* Left: Generic Apps */}
+              <div style={{ background: '#FEF2F2', border: '1.5px solid #FECACA', borderRadius: 12, padding: 22 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#991B1B', fontWeight: 800, fontSize: 14, marginBottom: 14 }}>
+                  <span>❌</span>
+                  <span>GENERIC HEALTH TRACKERS</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 13, color: '#7F1D1D' }}>
+                  <div style={{ background: '#FFFFFF', padding: '10px 14px', borderRadius: 8, border: '1px solid #FCA5A5' }}>
+                    1. Isolated Health Reading (e.g. 78 bpm)
+                  </div>
+                  <div style={{ textAlign: 'center', fontWeight: 800, color: '#DC2626' }}>↓</div>
+                  <div style={{ background: '#FFFFFF', padding: '10px 14px', borderRadius: 8, border: '1px solid #FCA5A5' }}>
+                    2. Generic Population Cutoff (Textbook: 60–100)
+                  </div>
+                  <div style={{ textAlign: 'center', fontWeight: 800, color: '#DC2626' }}>↓</div>
+                  <div style={{ background: '#FFFFFF', padding: '10px 14px', borderRadius: 8, border: '1px solid #FCA5A5', color: '#DC2626', fontWeight: 700 }}>
+                    3. Noisy Single-Signal Alarm or Missed Personal Change
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: HealthShield */}
+              <div style={{ background: '#F0FDF4', border: '1.5px solid #BBF7D0', borderRadius: 12, padding: 22 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#166534', fontWeight: 800, fontSize: 14, marginBottom: 14 }}>
+                  <span>✓</span>
+                  <span>HEALTHSHIELD PERSONAL BASELINE</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 13, color: '#14532D' }}>
+                  <div style={{ background: '#FFFFFF', padding: '10px 14px', borderRadius: 8, border: '1px solid #86EFAC' }}>
+                    1. Learned 30-Day Personal History
+                  </div>
+                  <div style={{ textAlign: 'center', fontWeight: 800, color: '#16A34A' }}>↓</div>
+                  <div style={{ background: '#FFFFFF', padding: '10px 14px', borderRadius: 8, border: '1px solid #86EFAC' }}>
+                    2. Individual Normal Variation Corridor
+                  </div>
+                  <div style={{ textAlign: 'center', fontWeight: 800, color: '#16A34A' }}>↓</div>
+                  <div style={{ background: '#FFFFFF', padding: '10px 14px', borderRadius: 8, border: '1px solid #86EFAC', color: '#16A34A', fontWeight: 700 }}>
+                    3. Multi-Signal Deviation + Explainable Guidance
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Theme 3 Assistive Technology & Inclusion Section */}
       <section style={{ padding: '20px 0 60px', background: '#F8FAFC', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0' }}>
         <div className="container-max" style={{ maxWidth: 1120 }}>
@@ -348,7 +447,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               <span>THEME 3 CORE SCOPE • ASSISTIVE TECH &amp; INCLUSION</span>
             </div>
             <h2 style={{ fontSize: 30, fontWeight: 800, color: '#0F172A', letterSpacing: '-0.02em', margin: 0 }}>
-              Built for More People
+              HEALTHSHIELD IS DESIGNED FOR INCLUSION
             </h2>
             <p style={{ fontSize: 14, color: '#64748B', marginTop: 8 }}>
               Healthcare technology must be accessible regardless of age, literacy, language, or connectivity.
@@ -358,9 +457,9 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div style={{ background: '#FFFFFF', padding: 20, borderRadius: 14, border: '1px solid #E2E8F0', textAlign: 'center' }}>
               <div style={{ fontSize: 32, marginBottom: 8 }}>👵</div>
-              <h4 style={{ fontSize: 14, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>Elderly Users</h4>
+              <h4 style={{ fontSize: 14, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>Simple Mode</h4>
               <p style={{ fontSize: 12, color: '#64748B', margin: 0, lineHeight: 1.4 }}>
-                One-tap Simple Mode with large friendly touch cards and zero technical jargon.
+                Large touch controls + fewer decisions. Designed for elderly and first-time digital users.
               </p>
             </div>
 
@@ -368,31 +467,31 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div style={{ fontSize: 32, marginBottom: 8 }}>🗣️</div>
               <h4 style={{ fontSize: 14, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>Voice Users</h4>
               <p style={{ fontSize: 12, color: '#64748B', margin: 0, lineHeight: 1.4 }}>
-                Ask &quot;How has my health changed this week?&quot; with on-device vocal response.
+                &quot;How has my health pattern changed?&quot; with audio reflection.
               </p>
             </div>
 
             <div style={{ background: '#FFFFFF', padding: 20, borderRadius: 14, border: '1px solid #E2E8F0', textAlign: 'center' }}>
               <div style={{ fontSize: 32, marginBottom: 8 }}>🇮🇳</div>
-              <h4 style={{ fontSize: 14, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>Indian Languages</h4>
-              <p style={{ fontSize: 12, color: '#64748B', margin: 0, lineHeight: 1.4 }}>
-                Full first-class localization in English, తెలుగు (Telugu), and हिन्दी (Hindi).
+              <h4 style={{ fontSize: 14, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>Telugu</h4>
+              <p style={{ fontSize: 12, color: '#0EA47A', margin: 0, lineHeight: 1.4, fontWeight: 700 }}>
+                ఈరోజు నా ఆరోగ్య నమూనాలో ఏమి మారింది?
               </p>
             </div>
 
             <div style={{ background: '#FFFFFF', padding: 20, borderRadius: 14, border: '1px solid #E2E8F0', textAlign: 'center' }}>
-              <div style={{ fontSize: 32, marginBottom: 8 }}>👁️</div>
-              <h4 style={{ fontSize: 14, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>Low-Vision</h4>
-              <p style={{ fontSize: 12, color: '#64748B', margin: 0, lineHeight: 1.4 }}>
-                Instant dynamic text scaling (A / A+ / A++) and WCAG AAA high-contrast toggle.
+              <div style={{ fontSize: 32, marginBottom: 8 }}>🇮🇳</div>
+              <h4 style={{ fontSize: 14, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>Hindi</h4>
+              <p style={{ fontSize: 12, color: '#2563EB', margin: 0, lineHeight: 1.4, fontWeight: 700 }}>
+                आज मेरे स्वास्थ्य पैटर्न में क्या बदला?
               </p>
             </div>
 
             <div style={{ background: '#FFFFFF', padding: 20, borderRadius: 14, border: '1px solid #E2E8F0', textAlign: 'center' }}>
               <div style={{ fontSize: 32, marginBottom: 8 }}>📵</div>
-              <h4 style={{ fontSize: 14, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>Low-Connectivity</h4>
+              <h4 style={{ fontSize: 14, fontWeight: 800, color: '#0F172A', marginBottom: 6 }}>Low Connectivity</h4>
               <p style={{ fontSize: 12, color: '#64748B', margin: 0, lineHeight: 1.4 }}>
-                Offline-first local check-ins queueing securely in browser until sync returns.
+                Offline-first local check-in queueing securely in browser until sync returns.
               </p>
             </div>
           </div>

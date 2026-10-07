@@ -26,7 +26,9 @@ dist-ssr
 # Local Large Language Models and Local Databases
 *.gguf
 *.sqlite
-data/
+/data/
+!src/data/
+!src/data/**
 .env
 .env.*
 !.env.example

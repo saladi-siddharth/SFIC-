@@ -442,7 +442,7 @@ export const DailyCheck: React.FC<DailyCheckProps> = ({
                   </div>
                   <div>
                     <strong style={{ color: '#0F172A' }}>Change Detection Engine:</strong>
-                    <div style={{ color: '#64748B', fontSize: 11 }}>Mahalanobis anomaly cluster analysis</div>
+                    <div style={{ color: '#64748B', fontSize: 11 }}>Multi-signal personal deviation analysis</div>
                   </div>
                 </div>
 
@@ -452,7 +452,7 @@ export const DailyCheck: React.FC<DailyCheckProps> = ({
                   </div>
                   <div>
                     <strong style={{ color: '#0F172A' }}>Deterministic Safety Rules:</strong>
-                    <div style={{ color: '#64748B', fontSize: 11 }}>Rule #204 verified; clinical triage</div>
+                    <div style={{ color: '#64748B', fontSize: 11 }}>Rule HS-SAFE-001 verified; safety threshold checks</div>
                   </div>
                 </div>
               </div>

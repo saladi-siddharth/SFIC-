@@ -63,7 +63,7 @@ export const MyBaseline: React.FC<MyBaselineProps> = ({
                   YOUR BASELINE (30-Day Model)
                 </h3>
               </div>
-              <span className="badge badge-stable">CALIBRATED</span>
+              <span className="badge badge-stable">ESTABLISHED PERSONAL PATTERN</span>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -156,10 +156,10 @@ export const MyBaseline: React.FC<MyBaselineProps> = ({
           <div className="flex items-center justify-between" style={{ marginBottom: 20 }}>
             <div>
               <div style={{ fontSize: 11, fontWeight: 700, color: '#2563EB', textTransform: 'uppercase' }}>
-                MATHEMATICAL HOMEOSTASIS VISUALIZATION
+                PERSONAL VARIATION OVER TIME
               </div>
               <h3 style={{ fontSize: 18, fontWeight: 800, color: '#0F172A' }}>
-                30-Day Physiological Baseline Corridor
+                30-Day Personal Pattern Corridor
               </h3>
             </div>
 

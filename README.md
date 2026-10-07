@@ -12,7 +12,7 @@
 2. **Multi-Signal Change Detection:** Requires synchronized shifts across multiple signals (sleep duration, physical activity, resting heart rate, and subjective well-being) before flagging a meaningful divergence.
 3. **Structured Explainable Alerts ("Explain My Change"):** Distinguishes between *what changed*, *what supports the change*, *what HealthShield knows*, *what it does not know*, and *what the user can do*.
 4. **Deterministic Safety Layer:** Baseline math, covariance shift detection, and safety rules are strictly deterministic code. The system does not claim to diagnose disease or prescribe treatments.
-5. **On-Device AI Explanation Layer:** Quantized on-device LLM (`Qwen2.5-Coder-7B-Instruct GGUF`) is used exclusively for conversational explanation, natural-language summarization, and multilingual assistance.
+5. **On-Device AI Explanation Layer:** Quantized local language model (e.g. Qwen2.5-Instruct GGUF) is used optionally for conversational explanation, natural-language summarization, and multilingual assistance. If the model is not running, the application seamlessly provides structured deterministic explanations.
 6. **Offline-First • User-Controlled Data:** Core observation logging, local baseline evaluation, and daily check-ins operate entirely offline with resilient client-side queuing.
 7. **Assistive & Multilingual Accessibility:** Built for diverse users with multi-language support (English, తెలుగు, हिंदी), voice query integration, large text, high contrast, and a 1-click Simple Mode.
 
@@ -165,4 +165,4 @@ npm run dev
 npx tsx server/index.ts
 ```
 The web application will be accessible at `http://localhost:5173/`.
-Click **▶ JUDGE MODE** in the top navigation bar to launch the 90-second guided evaluation walkthrough!
+Click **▶ JUDGE MODE** in the left sidebar or top banner to launch the 90-second guided evaluation walkthrough!
