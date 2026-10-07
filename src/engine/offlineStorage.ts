@@ -5,7 +5,7 @@
 
 export interface PendingSyncItem {
   idempotencyKey: string;
-  type: 'CHECKIN' | 'OBSERVATION' | 'CONSENT' | 'FEEDBACK';
+  type: 'CHECKIN' | 'OBSERVATION' | 'CONSENT' | 'FEEDBACK' | 'PROFILE';
   payload: Record<string, unknown>;
   queuedAt: string;
   retryCount: number;

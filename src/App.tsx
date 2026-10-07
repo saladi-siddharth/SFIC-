@@ -14,6 +14,10 @@ import { TrustedCircle } from './pages/TrustedCircle';
 import { SimpleMode } from './pages/SimpleMode';
 import { TechnologyPage } from './pages/TechnologyPage';
 import { ImpactPage } from './pages/ImpactPage';
+import { HealthProfile } from './pages/HealthProfile';
+import { HealthAssistant } from './pages/HealthAssistant';
+import { AccessibilityPage } from './pages/AccessibilityPage';
+import { HealthTrends } from './pages/HealthTrends';
 
 import { LeftSidebar } from './components/LeftSidebar';
 import { TopBar } from './components/TopBar';
@@ -35,6 +39,10 @@ export type AppTab =
   | 'checkin' 
   | 'lab' 
   | 'alert' 
+  | 'profile'
+  | 'assistant'
+  | 'accessibility'
+  | 'trends'
   | 'record' 
   | 'timeline' 
   | 'pilot' 
@@ -174,7 +182,15 @@ const MainAppContent: React.FC = () => {
       technology: 'technology',
       tech: 'technology',
       impact: 'impact',
-      simple: 'simple'
+      simple: 'simple',
+      profile: 'profile',
+      healthprofile: 'profile',
+      assistant: 'assistant',
+      aiassistant: 'assistant',
+      voice: 'assistant',
+      accessibility: 'accessibility',
+      trends: 'trends',
+      healthtrends: 'trends'
     };
     if (tabMap[target]) {
       handleSelectTab(tabMap[target]);
@@ -251,6 +267,35 @@ const MainAppContent: React.FC = () => {
               metrics={metrics} 
               onNavigate={(t) => handleJumpToTab(t)} 
               onOpenEmergency={() => setIsEmergencyOpen(true)} 
+            />
+          )}
+
+          {currentTab === 'profile' && (
+            <HealthProfile onNavigate={(t) => handleJumpToTab(t)} />
+          )}
+
+          {currentTab === 'assistant' && (
+            <HealthAssistant 
+              metrics={metrics} 
+              checkIn={checkIn} 
+              anomalyReport={anomalyReport} 
+              onNavigate={(t) => handleJumpToTab(t)} 
+            />
+          )}
+
+          {currentTab === 'accessibility' && (
+            <AccessibilityPage 
+              onToggleSimpleMode={() => handleSelectTab('simple')}
+              isSimpleMode={false}
+              onNavigate={(t) => handleJumpToTab(t)}
+            />
+          )}
+
+          {currentTab === 'trends' && (
+            <HealthTrends 
+              metrics={metrics} 
+              history={history} 
+              onNavigate={(t) => handleJumpToTab(t)} 
             />
           )}
 

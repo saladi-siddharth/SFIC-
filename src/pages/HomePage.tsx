@@ -84,29 +84,37 @@ export const HomePage: React.FC<HomePageProps> = ({
             A preventive-health awareness prototype designed to identify meaningful deviations from a person’s usual personal pattern and guide them toward an appropriate next step — without claiming to diagnose disease.
           </p>
 
-          {/* Action Buttons */}
+          {/* Action Buttons (Aligned to Section 17) */}
           <div className="flex items-center justify-center gap-4" style={{ marginBottom: 48, flexWrap: 'wrap' }}>
             <button 
-              onClick={onLaunchDemo} 
+              onClick={() => onNavigate('checkin')} 
               className="btn-primary" 
-              style={{ padding: '14px 28px', fontSize: 16, borderRadius: 12, boxShadow: '0 4px 14px rgba(14, 164, 122, 0.35)' }}
+              style={{ padding: '14px 28px', fontSize: 16, borderRadius: 12, boxShadow: '0 4px 14px rgba(14, 164, 122, 0.35)', display: 'flex', alignItems: 'center', gap: 8 }}
             >
-              <span className="material-symbols-outlined" style={{ fontSize: 20 }}>play_arrow</span>
-              ▶ Start Judge Demo (90s Story)
-            </button>
-            <button 
-              onClick={() => onNavigate('lab')} 
-              className="btn-secondary" 
-              style={{ padding: '13px 26px', fontSize: 15, borderRadius: 12 }}
-            >
-              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>science</span>
-              ⚡ Health Change Lab
+              <span className="material-symbols-outlined" style={{ fontSize: 20 }}>edit_calendar</span>
+              START TODAY&apos;S CHECK
             </button>
             <button 
               onClick={() => onNavigate('baseline')} 
-              style={{ padding: '13px 24px', fontSize: 14, borderRadius: 12, background: '#F8FAFC', border: '1px solid #CBD5E1', color: '#1E293B', fontWeight: 700, cursor: 'pointer' }}
+              className="btn-secondary" 
+              style={{ padding: '13px 24px', fontSize: 15, borderRadius: 12, display: 'flex', alignItems: 'center', gap: 8 }}
             >
-              📈 Explore My Baseline
+              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>stacked_line_chart</span>
+              VIEW MY BASELINE
+            </button>
+            <button 
+              onClick={onLaunchDemo} 
+              style={{ padding: '13px 24px', fontSize: 14, borderRadius: 12, background: '#EFF6FF', border: '1.5px solid #3B82F6', color: '#1D4ED8', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>gavel</span>
+              JUDGE MODE (90s)
+            </button>
+            <button 
+              onClick={() => onNavigate('lab')} 
+              style={{ padding: '13px 20px', fontSize: 14, borderRadius: 12, background: '#F8FAFC', border: '1px solid #CBD5E1', color: '#1E293B', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>science</span>
+              Change Lab
             </button>
           </div>
 

@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import type { AnomalyReport, MetricData } from '../types/health';
 import { PipelineStepper } from '../components/PipelineStepper';
 
-import { localAiService } from '../services/localAiService';
-
 interface ExplainableAlertProps {
   anomalyReport: AnomalyReport;
   metrics?: MetricData[];
@@ -17,10 +15,7 @@ export const ExplainableAlert: React.FC<ExplainableAlertProps> = ({
   onOpenEmergency,
 }) => {
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
-  const [caregiverNotified, setCaregiverNotified] = useState(false);
-  const [assistantQuery, setAssistantQuery] = useState('');
-  const [assistantResponse, setAssistantResponse] = useState<string | null>(null);
-  const [isLoadingAi, setIsLoadingAi] = useState<boolean>(false);
+  const [trustedContactNotified, setTrustedContactNotified] = useState(false);
 
   const toggleStep = (idx: number) => {
     if (completedSteps.includes(idx)) {
@@ -30,31 +25,18 @@ export const ExplainableAlert: React.FC<ExplainableAlertProps> = ({
     }
   };
 
-  const handleAskAssistant = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!assistantQuery.trim()) return;
-
-    setIsLoadingAi(true);
-    try {
-      const response = await localAiService.askAssistant(assistantQuery);
-      setAssistantResponse(response);
-    } finally {
-      setIsLoadingAi(false);
-    }
-  };
-
   return (
     <div style={{ paddingBottom: 60 }}>
       <PipelineStepper onSelectStep={(step) => onNavigate(step)} />
 
       <main className="container-max" style={{ paddingTop: 28, maxWidth: 1040 }}>
-        {/* Banner Alert Card (THE WOW SCREEN) */}
+        {/* Banner Alert Card (FLAGSHIP FEATURE 05: THE SHOWCASE SCREEN) */}
         <div 
           className="glass-card" 
           style={{ 
             padding: 36, 
             border: '2px solid #EF4444', 
-            background: 'linear-gradient(180deg, #FFF8F8, #FFFFFF)', 
+            background: 'linear-gradient(180deg, #FFF9F9, #FFFFFF)', 
             boxShadow: '0 20px 40px -10px rgba(239, 68, 68, 0.12)',
             marginBottom: 32 
           }}
@@ -75,156 +57,214 @@ export const ExplainableAlert: React.FC<ExplainableAlertProps> = ({
                 }}
               >
                 <span className="material-symbols-outlined" style={{ fontSize: 32 }}>
-                  crisis_alert
+                  warning
                 </span>
               </div>
               <div>
-                <h1 style={{ fontSize: 28, fontWeight: 800, color: '#991B1B', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
-                  ⚠️ Something changed in your pattern
+                <div style={{ fontSize: 11, fontWeight: 800, color: '#DC2626', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                  FEATURE 05 • EXPLAINABLE EARLY WARNING
+                </div>
+                <h1 style={{ fontSize: 28, fontWeight: 900, color: '#991B1B', letterSpacing: '-0.02em', lineHeight: 1.1, margin: '2px 0 0' }}>
+                  SOMETHING CHANGED
                 </h1>
-                <div style={{ fontSize: 13, color: '#7F1D1D', marginTop: 4, fontWeight: 600 }}>
-                  Explainable Early Deviation Advisory • Non-Emergency Priority 2
+                <div style={{ fontSize: 14, color: '#7F1D1D', marginTop: 4, fontWeight: 600 }}>
+                  Multiple observations moved away from your recent personal pattern.
                 </div>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="badge badge-alert" style={{ fontSize: 13, padding: '6px 14px', background: '#FEF2F2', color: '#DC2626', border: '1px solid #FECACA', fontWeight: 800 }}>
-                Pattern Status: SIGNIFICANT CHANGE
+              <span className="badge badge-alert" style={{ fontSize: 12, padding: '6px 14px', background: '#FEF2F2', color: '#DC2626', border: '1px solid #FECACA', fontWeight: 800 }}>
+                CHANGE DETECTED
               </span>
             </div>
           </div>
 
-          {/* Structured "Explain My Change" Core Decision Card */}
-          <div style={{ background: '#FFFFFF', border: '1.5px solid #E2E8F0', borderRadius: 14, padding: 22, marginBottom: 28, boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-              <span style={{ fontSize: 22 }}>📋</span>
+          {/* Side-by-Side: YOUR PATTERN vs TODAY */}
+          <div style={{ marginBottom: 28 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, color: '#64748B', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 12 }}>
+              EVIDENCE BREAKDOWN: YOUR PATTERN VS TODAY
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {/* Sleep */}
+              <div style={{ background: '#FFFFFF', padding: 16, borderRadius: 12, border: '1px solid #FECACA', borderTop: '4px solid #EF4444' }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: '#64748B' }}>Sleep Duration</div>
+                <div className="flex items-baseline justify-between" style={{ marginTop: 6 }}>
+                  <div>
+                    <div style={{ fontSize: 24, fontWeight: 800, color: '#991B1B', fontFamily: 'Space Grotesk' }}>5.4 h</div>
+                    <div style={{ fontSize: 11, color: '#DC2626', fontWeight: 700 }}>Today (↓ 24%)</div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#475569' }}>7.1 h</div>
+                    <div style={{ fontSize: 10, color: '#94A3B8' }}>Your Baseline</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Activity */}
+              <div style={{ background: '#FFFFFF', padding: 16, borderRadius: 12, border: '1px solid #FECACA', borderTop: '4px solid #EF4444' }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: '#64748B' }}>Physical Activity</div>
+                <div className="flex items-baseline justify-between" style={{ marginTop: 6 }}>
+                  <div>
+                    <div style={{ fontSize: 24, fontWeight: 800, color: '#991B1B', fontFamily: 'Space Grotesk' }}>4,900</div>
+                    <div style={{ fontSize: 11, color: '#DC2626', fontWeight: 700 }}>Today (↓ 37%)</div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#475569' }}>7,800</div>
+                    <div style={{ fontSize: 10, color: '#94A3B8' }}>Your Baseline</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Resting HR */}
+              <div style={{ background: '#FFFFFF', padding: 16, borderRadius: 12, border: '1px solid #FECACA', borderTop: '4px solid #EF4444' }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: '#64748B' }}>Resting Heart Rate</div>
+                <div className="flex items-baseline justify-between" style={{ marginTop: 6 }}>
+                  <div>
+                    <div style={{ fontSize: 24, fontWeight: 800, color: '#991B1B', fontFamily: 'Space Grotesk' }}>78 bpm</div>
+                    <div style={{ fontSize: 11, color: '#DC2626', fontWeight: 700 }}>Today (↑ 8%)</div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#475569' }}>72 bpm</div>
+                    <div style={{ fontSize: 10, color: '#94A3B8' }}>Your Baseline</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Well-being */}
+              <div style={{ background: '#FFFFFF', padding: 16, borderRadius: 12, border: '1px solid #FECACA', borderTop: '4px solid #EF4444' }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: '#64748B' }}>Well-Being State</div>
+                <div className="flex items-baseline justify-between" style={{ marginTop: 6 }}>
+                  <div>
+                    <div style={{ fontSize: 24, fontWeight: 800, color: '#991B1B', fontFamily: 'Space Grotesk' }}>LOW</div>
+                    <div style={{ fontSize: 11, color: '#DC2626', fontWeight: 700 }}>Today</div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#475569' }}>GOOD</div>
+                    <div style={{ fontSize: 10, color: '#94A3B8' }}>Your Baseline</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Section: WHY WAS THIS FLAGGED? */}
+          <div style={{ background: '#F8FAFC', borderRadius: 14, border: '1px solid #E2E8F0', padding: 22, marginBottom: 28 }}>
+            <div className="flex items-center gap-2" style={{ marginBottom: 12 }}>
+              <span className="material-symbols-outlined" style={{ color: '#2563EB', fontSize: 20 }}>checklist</span>
               <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', margin: 0 }}>
-                Structured Explainability Card (Explain My Change)
+                WHY DID HEALTHSHIELD NOTICE THIS?
               </h3>
+            </div>
+            <p style={{ fontSize: 13, color: '#475569', marginBottom: 14 }}>
+              Several observations moved away from your recent personal pattern at the same time:
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3" style={{ fontSize: 13 }}>
+              <div style={{ background: '#FFFFFF', padding: '12px 16px', borderRadius: 10, border: '1px solid #E2E8F0', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ color: '#DC2626', fontWeight: 800 }}>01</span>
+                <span style={{ color: '#1E293B', fontWeight: 600 }}>Sleep is below your recent pattern (5.4h vs 7.1h).</span>
+              </div>
+              <div style={{ background: '#FFFFFF', padding: '12px 16px', borderRadius: 10, border: '1px solid #E2E8F0', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ color: '#DC2626', fontWeight: 800 }}>02</span>
+                <span style={{ color: '#1E293B', fontWeight: 600 }}>Activity is lower than your usual level (4,900 vs 7,800 steps).</span>
+              </div>
+              <div style={{ background: '#FFFFFF', padding: '12px 16px', borderRadius: 10, border: '1px solid #E2E8F0', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ color: '#DC2626', fontWeight: 800 }}>03</span>
+                <span style={{ color: '#1E293B', fontWeight: 600 }}>Resting heart rate is higher than your recent pattern (78 vs 72 bpm).</span>
+              </div>
+              <div style={{ background: '#FFFFFF', padding: '12px 16px', borderRadius: 10, border: '1px solid #E2E8F0', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ color: '#DC2626', fontWeight: 800 }}>04</span>
+                <span style={{ color: '#1E293B', fontWeight: 600 }}>Your reported well-being changed from Good to Low.</span>
+              </div>
+            </div>
+
+            <div style={{ marginTop: 14, fontSize: 12, color: '#0EA47A', fontWeight: 700 }}>
+              ✓ Governing Rule: {anomalyReport.ruleTriggered.name} ({anomalyReport.ruleTriggered.id}) verified • Status: {anomalyReport.patternStatus}.
+            </div>
+          </div>
+
+          {/* Section: HEALTHSHIELD EXPLAINS (5-Part AI Explanation Format) */}
+          <div style={{ background: '#FFFFFF', border: '1.5px solid #CBD5E1', borderRadius: 14, padding: 22, marginBottom: 28, boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+            <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined" style={{ color: '#0EA47A', fontSize: 22 }}>psychology</span>
+                <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', margin: 0 }}>
+                  HEALTHSHIELD EXPLAINS (AI-Assisted Structured Format)
+                </h3>
+              </div>
+              <span className="badge badge-stable" style={{ fontSize: 10 }}>
+                AI Explains • Deterministic Safety Guardrail
+              </span>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 12 }}>
-              <div style={{ background: '#F8FAFC', padding: 12, borderRadius: 10, borderLeft: '4px solid #2563EB' }}>
-                <span style={{ fontSize: 11, fontWeight: 800, color: '#2563EB', textTransform: 'uppercase' }}>WHAT CHANGED?</span>
+              {/* 1. What Changed */}
+              <div style={{ background: '#F8FAFC', padding: 14, borderRadius: 10, borderLeft: '4px solid #2563EB' }}>
+                <span style={{ fontSize: 11, fontWeight: 800, color: '#2563EB', textTransform: 'uppercase' }}>
+                  1. WHAT CHANGED?
+                </span>
                 <p style={{ fontSize: 13, color: '#1E293B', margin: '4px 0 0', fontWeight: 600 }}>
-                  Your sleep duration (5.4h vs 7.1h) and physical activity (4,900 vs 7,800 steps) are significantly lower than your personal 30-day baseline, while resting heart rate has trended upward (78 vs 72 bpm).
+                  Your sleep duration (5.4h vs 7.1h) and daily steps (4,900 vs 7,800) are noticeably lower than your recent personal baseline, while resting heart rate shifted upward to 78 bpm.
                 </p>
               </div>
 
-              <div style={{ background: '#F8FAFC', padding: 12, borderRadius: 10, borderLeft: '4px solid #0EA47A' }}>
-                <span style={{ fontSize: 11, fontWeight: 800, color: '#0EA47A', textTransform: 'uppercase' }}>WHAT SUPPORTS THIS?</span>
+              {/* 2. Why Flagged */}
+              <div style={{ background: '#F8FAFC', padding: 14, borderRadius: 10, borderLeft: '4px solid #0EA47A' }}>
+                <span style={{ fontSize: 11, fontWeight: 800, color: '#0EA47A', textTransform: 'uppercase' }}>
+                  2. WHY WAS IT FLAGGED?
+                </span>
                 <p style={{ fontSize: 13, color: '#1E293B', margin: '4px 0 0', fontWeight: 600 }}>
-                  Three independent personal telemetry observations shifted together over consecutive cycles, confirmed by deterministic rule HS-RULE-001.
+                  Multiple observations shifted away from your recent personal pattern at the same time. HealthShield avoids triggering alarms from a single weak signal, but flags synchronized multi-signal shifts.
                 </p>
               </div>
 
-              <div style={{ background: '#F8FAFC', padding: 12, borderRadius: 10, borderLeft: '4px solid #7C3AED' }}>
-                <span style={{ fontSize: 11, fontWeight: 800, color: '#7C3AED', textTransform: 'uppercase' }}>WHAT DOES HEALTHSHIELD KNOW?</span>
+              {/* 3. What HealthShield Knows */}
+              <div style={{ background: '#F8FAFC', padding: 14, borderRadius: 10, borderLeft: '4px solid #7C3AED' }}>
+                <span style={{ fontSize: 11, fontWeight: 800, color: '#7C3AED', textTransform: 'uppercase' }}>
+                  3. WHAT HEALTHSHIELD KNOWS
+                </span>
                 <p style={{ fontSize: 13, color: '#1E293B', margin: '4px 0 0', fontWeight: 600 }}>
-                  HealthShield knows that these values diverge meaningfully from your own historical norms learned across the past 30 days.
+                  HealthShield knows that today&apos;s observations differ meaningfully from your learned 30-day personal baseline data.
                 </p>
               </div>
 
-              <div style={{ background: '#FFFBEB', padding: 12, borderRadius: 10, borderLeft: '4px solid #F59E0B' }}>
-                <span style={{ fontSize: 11, fontWeight: 800, color: '#B45309', textTransform: 'uppercase' }}>WHAT DOES IT NOT KNOW?</span>
+              {/* 4. What HealthShield Does NOT Know */}
+              <div style={{ background: '#FFFBEB', padding: 14, borderRadius: 10, borderLeft: '4px solid #F59E0B' }}>
+                <span style={{ fontSize: 11, fontWeight: 800, color: '#B45309', textTransform: 'uppercase' }}>
+                  4. WHAT HEALTHSHIELD DOES NOT KNOW
+                </span>
                 <p style={{ fontSize: 13, color: '#78350F', margin: '4px 0 0', fontWeight: 600 }}>
-                  HealthShield cannot determine the clinical or medical cause of this change. It does not diagnose illness, infections, or pathology.
+                  These observations show a meaningful change from your recent pattern. They do not identify a medical cause or diagnose illness.
                 </p>
               </div>
 
-              <div style={{ background: '#F0FDF4', padding: 12, borderRadius: 10, borderLeft: '4px solid #16A34A' }}>
-                <span style={{ fontSize: 11, fontWeight: 800, color: '#15803D', textTransform: 'uppercase' }}>WHAT CAN YOU DO?</span>
+              {/* 5. What You Can Do Next */}
+              <div style={{ background: '#F0FDF4', padding: 14, borderRadius: 10, borderLeft: '4px solid #16A34A' }}>
+                <span style={{ fontSize: 11, fontWeight: 800, color: '#15803D', textTransform: 'uppercase' }}>
+                  5. WHAT YOU CAN DO NEXT
+                </span>
                 <p style={{ fontSize: 13, color: '#14532D', margin: '4px 0 0', fontWeight: 600 }}>
-                  Review your recent sleep and physical strain. Monitor tomorrow&apos;s 60-second check-in, and seek professional medical guidance if discomfort or fatigue persists or worsens.
+                  Monitor your pattern. Complete another check-in tomorrow morning. Hydrate, rest, and seek professional medical advice if symptoms concern you or persist.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Section 1: Detailed Signal Deltas */}
+          {/* Section: ACTION CHECKLIST & CONSERVATIVE NEXT STEPS */}
           <div style={{ marginBottom: 28 }}>
             <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 12 }}>
-              1. Observed Signal Departures vs Personal 30-Day Baseline
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div style={{ background: '#FFF', padding: 16, borderRadius: 12, border: '1px solid #FECACA' }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: '#DC2626', marginBottom: 4 }}>
-                  Sleep Curtailment
-                </div>
-                <div style={{ fontSize: 24, fontWeight: 800, color: '#991B1B', fontFamily: 'Space Grotesk' }}>
-                  ↓ 35%
-                </div>
-                <div style={{ fontSize: 12, color: '#64748B', marginTop: 4 }}>
-                  5.2 hrs logged vs 8.1 hrs 30-day baseline average
-                </div>
-              </div>
-
-              <div style={{ background: '#FFF', padding: 16, borderRadius: 12, border: '1px solid #FECACA' }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: '#DC2626', marginBottom: 4 }}>
-                  HRV Parasympathetic Drop
-                </div>
-                <div style={{ fontSize: 24, fontWeight: 800, color: '#991B1B', fontFamily: 'Space Grotesk' }}>
-                  ↓ 30%
-                </div>
-                <div style={{ fontSize: 12, color: '#64748B', marginTop: 4 }}>
-                  38 ms rMSSD vs 55 ms typical recovery norm
-                </div>
-              </div>
-
-              <div style={{ background: '#FFF', padding: 16, borderRadius: 12, border: '1px solid #FECACA' }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: '#DC2626', marginBottom: 4 }}>
-                  Resting Heart Rate Drift
-                </div>
-                <div style={{ fontSize: 24, fontWeight: 800, color: '#991B1B', fontFamily: 'Space Grotesk' }}>
-                  ↑ 19%
-                </div>
-                <div style={{ fontSize: 12, color: '#64748B', marginTop: 4 }}>
-                  74 bpm vs 62 bpm resting baseline mean
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Section 2: Why did HealthShield flag this? */}
-          <div style={{ marginBottom: 28, background: '#F8FAFC', padding: 20, borderRadius: 12, border: '1px solid #E2E8F0' }}>
-            <h3 style={{ fontSize: 15, fontWeight: 800, color: '#0F172A', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span className="material-symbols-outlined" style={{ color: '#2563EB' }}>psychology</span>
-              2. Why did HealthShield flag this?
-            </h3>
-            <p style={{ fontSize: 14, color: '#334155', lineHeight: 1.6 }}>
-              {anomalyReport.clinicalRationale}
-            </p>
-            <div style={{ marginTop: 10, fontSize: 12, color: '#00694D', fontWeight: 600 }}>
-              ✓ Deterministic Rule Triggered: <strong>{anomalyReport.ruleTriggered.name}</strong> ({anomalyReport.ruleTriggered.id})
-            </div>
-          </div>
-
-          {/* Section 3: Clinical Boundary Guardrail */}
-          <div 
-            style={{ 
-              background: '#FEF2F2', 
-              border: '1.5px solid #FCA5A5', 
-              borderRadius: 12, 
-              padding: '16px 20px',
-              marginBottom: 28,
-              fontSize: 13,
-              color: '#991B1B',
-              lineHeight: 1.5
-            }}
-          >
-            <strong>Clinical Boundary Notice:</strong> HealthShield AI is not a diagnosis tool. It does not declare diseases, infections, or arrhythmias. Instead, it identifies meaningful departures from your normal rhythm so you can take safe preventive steps and consult your doctor before escalation.
-          </div>
-
-          {/* Section 4: What Should You Do Next? */}
-          <div>
-            <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 12 }}>
-              3. Recommended Next Steps (Action Checklist)
+              Action Checklist
             </h3>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
-              {anomalyReport.recommendedSteps.map((step, idx) => {
+              {[
+                { title: 'Prioritize Restorative Rest Tonight', description: 'Aim for 7–8 hours of restful sleep and reduce late-night screen exposure.', urgency: 'ROUTINE' },
+                { title: 'Hydrate & Lighten Physical Exertion', description: 'Avoid strenuous high-intensity workouts while your resting heart rate is elevated.', urgency: 'WITHIN HOURS' },
+                { title: 'Log Check-in Tomorrow Morning', description: 'Observe if values begin returning toward your personal 30-day baseline corridor.', urgency: 'ROUTINE' },
+                { title: 'Seek Professional Care If Symptoms Persist', description: 'If unusual sensations, chest tightness, or severe discomfort arise, consult a doctor immediately.', urgency: 'IMMEDIATE' }
+              ].map((step, idx) => {
                 const isDone = completedSteps.includes(idx);
                 return (
                   <div
@@ -266,10 +306,10 @@ export const ExplainableAlert: React.FC<ExplainableAlertProps> = ({
                           Step {idx + 1}: {step.title}
                         </strong>
                         <span 
-                          className={`badge ${step.urgency === 'immediate' ? 'badge-alert' : step.urgency === 'within_hours' ? 'badge-monitor' : 'badge-stable'}`}
+                          className={`badge ${step.urgency === 'IMMEDIATE' ? 'badge-alert' : step.urgency === 'WITHIN HOURS' ? 'badge-monitor' : 'badge-stable'}`}
                           style={{ fontSize: 11 }}
                         >
-                          {step.urgency.toUpperCase()}
+                          {step.urgency}
                         </span>
                       </div>
                       <p style={{ fontSize: 12, color: isDone ? '#15803D' : '#475569', marginTop: 4, lineHeight: 1.5 }}>
@@ -281,94 +321,56 @@ export const ExplainableAlert: React.FC<ExplainableAlertProps> = ({
               })}
             </div>
 
-            {/* Action Bar */}
+            {/* Prominent Action Bar with ASK AI and VIEW TREND */}
             <div className="flex items-center gap-3 flex-wrap">
               <button
-                onClick={() => setCaregiverNotified(true)}
+                onClick={() => onNavigate('assistant')}
                 className="btn-primary"
-                style={{ padding: '12px 20px', fontSize: 14 }}
+                style={{ padding: '12px 20px', fontSize: 14, display: 'flex', alignItems: 'center', gap: 8 }}
               >
-                <span className="material-symbols-outlined">send</span>
-                {caregiverNotified ? 'Dr. Patel Notified ✓' : 'Transmit Summary to Dr. Patel'}
+                <span className="material-symbols-outlined">chat</span>
+                ASK AI ABOUT THIS ALERT
               </button>
 
               <button
-                onClick={() => alert('Structured Clinician Summary exported as encrypted JSON/PDF payload.')}
+                onClick={() => onNavigate('trends')}
                 className="btn-secondary"
-                style={{ padding: '12px 20px', fontSize: 14 }}
+                style={{ padding: '12px 20px', fontSize: 14, display: 'flex', alignItems: 'center', gap: 8 }}
               >
-                <span className="material-symbols-outlined">download</span>
-                Export Clinician PDF
+                <span className="material-symbols-outlined">trending_up</span>
+                VIEW 30-DAY TREND
+              </button>
+
+              <button
+                onClick={() => setTrustedContactNotified(true)}
+                className="btn-secondary"
+                style={{ padding: '12px 20px', fontSize: 14, display: 'flex', alignItems: 'center', gap: 8 }}
+              >
+                <span className="material-symbols-outlined">send</span>
+                {trustedContactNotified ? 'Trusted Contact Notified ✓' : 'Notify Trusted Contact'}
               </button>
 
               <button
                 onClick={onOpenEmergency}
-                className="btn-danger"
-                style={{ padding: '12px 20px', fontSize: 14 }}
+                style={{
+                  background: '#FEF2F2',
+                  border: '1px solid #FCA5A5',
+                  color: '#DC2626',
+                  padding: '12px 18px',
+                  borderRadius: 8,
+                  fontSize: 13,
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6
+                }}
               >
-                <span className="material-symbols-outlined">emergency</span>
-                Emergency Override
+                <span className="material-symbols-outlined" style={{ fontSize: 18 }}>emergency</span>
+                Safety Hotline / Emergency
               </button>
             </div>
-
-            {caregiverNotified && (
-              <div style={{ marginTop: 12, color: '#059669', fontSize: 12, fontWeight: 700 }}>
-                ✓ Encrypted clinical delta package dispatched to Dr. Rajesh Patel (Internal Medicine).
-              </div>
-            )}
           </div>
-        </div>
-
-        {/* Secondary Assistant ("Ask HealthShield") */}
-        <div className="glass-card" style={{ padding: 28 }}>
-          <div className="flex items-center gap-2" style={{ marginBottom: 12 }}>
-            <span className="material-symbols-outlined" style={{ color: '#7C3AED', fontSize: 24 }}>smart_toy</span>
-            <h3 style={{ fontSize: 18, fontWeight: 800, color: '#0F172A' }}>
-              Ask HealthShield (Data-Grounded Assistant)
-            </h3>
-          </div>
-          <p style={{ fontSize: 13, color: '#64748B', marginBottom: 16 }}>
-            Ask questions grounded strictly in your personal baseline telemetry rather than unvalidated web prompts.
-          </p>
-
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#F5F3FF', border: '1px solid #DDD6FE', padding: '4px 10px', borderRadius: 8, fontSize: 11, fontWeight: 700, color: '#6D28D9', marginBottom: 12 }}>
-            <span>🤖</span>
-            <span>Local Model Active: Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf (On-Device Inference)</span>
-          </div>
-
-          <form onSubmit={handleAskAssistant} className="flex gap-2" style={{ marginBottom: 16 }}>
-            <input
-              type="text"
-              placeholder='Try: "I have been feeling tired recently, what does my data show?"'
-              value={assistantQuery}
-              onChange={(e) => setAssistantQuery(e.target.value)}
-              disabled={isLoadingAi}
-              style={{
-                flex: 1,
-                padding: '12px 16px',
-                borderRadius: 10,
-                border: '1px solid #CBD5E1',
-                fontSize: 14
-              }}
-            />
-            <button type="submit" disabled={isLoadingAi} className="btn-primary" style={{ background: '#7C3AED', minWidth: 140 }}>
-              {isLoadingAi ? 'Thinking...' : 'Ask Assistant'}
-            </button>
-          </form>
-
-          {assistantResponse && (
-            <div style={{ background: '#F5F3FF', border: '1px solid #DDD6FE', borderRadius: 10, padding: 16 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: '#5B21B6' }}>
-                  HealthShield Local Qwen2.5 Analysis:
-                </div>
-                <span style={{ fontSize: 10, color: '#7C3AED', fontWeight: 600 }}>Q4_K_M GGUF</span>
-              </div>
-              <p style={{ fontSize: 13, color: '#3B0764', lineHeight: 1.6, margin: 0 }}>
-                {assistantResponse}
-              </p>
-            </div>
-          )}
         </div>
       </main>
     </div>

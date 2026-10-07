@@ -127,6 +127,38 @@ export const PAGE_SEO_REGISTRY: Record<string, PageSEOMetadata> = {
     h1: 'Assistive Simple Health Mode',
     badge: 'ASSISTIVE TECHNOLOGY & INCLUSION',
     path: '#/simple-mode'
+  },
+  profile: {
+    title: 'My Health Profile — Personal Health Identity & Context',
+    description: 'Personal health context, routines, optional conditions, emergency contact, accessibility preferences, and completeness indicator.',
+    keywords: 'personal health profile, wellness routine, health identity, user context, non diagnostic profile',
+    h1: 'My Health Profile & Personal Context',
+    badge: 'FLAGSHIP FEATURE 01 • PERSONAL CONTEXT',
+    path: '#/health-profile'
+  },
+  assistant: {
+    title: 'AI Health Assistant — Voice & Data-Grounded Intelligence',
+    description: 'Ask questions by voice or text grounded in your personal 30-day baseline telemetry, with strict non-diagnostic safety guardrails.',
+    keywords: 'AI health assistant, voice query, personal baseline AI, non diagnostic assistant, Telugu Hindi voice',
+    h1: 'Personal AI Health Assistant',
+    badge: 'DATA-GROUNDED PREVENTIVE INTELLIGENCE',
+    path: '#/ai-assistant'
+  },
+  accessibility: {
+    title: 'Accessibility & Inclusion — Regional Languages & Assistive Tech',
+    description: 'Multilingual health intelligence in Telugu, Hindi, and English with 1-click Simple Mode, text scaling, and WCAG AA contrast.',
+    keywords: 'Theme 3 assistive technology, inclusion, Telugu health AI, Hindi health AI, WCAG AAA accessibility',
+    h1: 'Accessibility & Inclusive Health Access',
+    badge: 'SFIC THEME 3 • ASSISTIVE TECH & INCLUSION',
+    path: '#/accessibility'
+  },
+  trends: {
+    title: 'Health Trends — Longitudinal Pattern & Corridor Analysis',
+    description: 'Compare today\'s readings against your personal 7-day and 30-day physiological corridor rather than generic thresholds.',
+    keywords: 'health trends, personal corridor, today vs baseline, 30 day wellness trend, pattern shift',
+    h1: 'How Has My Pattern Changed?',
+    badge: 'LONGITUDINAL PATTERN ANALYSIS',
+    path: '#/health-trends'
   }
 };
 
@@ -205,7 +237,15 @@ export function getTabFromHash(hash: string): string {
     'pattern-explorer': 'explorer',
     'explorer': 'explorer',
     'simple-mode': 'simple',
-    'simple': 'simple'
+    'simple': 'simple',
+    'health-profile': 'profile',
+    'profile': 'profile',
+    'ai-assistant': 'assistant',
+    'assistant': 'assistant',
+    'voice': 'assistant',
+    'accessibility': 'accessibility',
+    'health-trends': 'trends',
+    'trends': 'trends'
   };
   return hashToTabMap[clean] || 'home';
 }
@@ -229,7 +269,11 @@ export function getHashForTab(tabKey: string): string {
     circle: '#/trusted-circle',
     impact: '#/beneficiary-impact',
     explorer: '#/pattern-explorer',
-    simple: '#/simple-mode'
+    simple: '#/simple-mode',
+    profile: '#/health-profile',
+    assistant: '#/ai-assistant',
+    accessibility: '#/accessibility',
+    trends: '#/health-trends'
   };
   return tabToHashMap[tabKey] || '#/home';
 }

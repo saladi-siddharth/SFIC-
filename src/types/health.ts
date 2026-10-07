@@ -56,3 +56,126 @@ export interface DayHistoryPoint {
   activitySteps: number;
   isBaseline: boolean;
 }
+
+// ==========================================
+// MASTER PRODUCT DATA MODELS (SECTION 23)
+// ==========================================
+
+export interface UserProfile {
+  // ABOUT ME
+  id: string;
+  name: string;
+  age: number;
+  gender?: 'male' | 'female' | 'non_binary' | 'prefer_not_to_say';
+  heightCm?: number;
+  weightKg?: number;
+  
+  // MY ROUTINE
+  activityLevel: 'sedentary' | 'light' | 'moderate' | 'active' | 'very_active';
+  typicalSleepHours: number;
+  typicalStepGoal: number;
+
+  // HEALTH CONTEXT (Optional, user-entered, non-diagnostic)
+  conditions: string[];
+  allergies: string[];
+  medications: string[];
+
+  // SAFETY
+  emergencyContact: {
+    name: string;
+    relationship: string;
+    phone: string;
+  };
+
+  // ACCESSIBILITY
+  preferredLanguage: 'en' | 'te' | 'hi';
+  accessibilityPreferences: AccessibilityPreference;
+
+  // PRIVACY
+  trustedContact: TrustedContact;
+  privacyPreferences: PrivacyPreference;
+
+  updatedAt: string;
+}
+
+export interface AccessibilityPreference {
+  simpleMode: boolean;
+  largeText: boolean;
+  highContrast: boolean;
+  reducedMotion: boolean;
+  voiceAssistance: boolean;
+  screenReaderOptimized: boolean;
+}
+
+export interface TrustedContact {
+  name: string;
+  relationship: string;
+  contactMethod: 'sms' | 'email' | 'phone';
+  contactValue: string;
+  shareCheckInStatus: boolean;
+  shareAlertSummary: boolean;
+  lastNotified?: string;
+}
+
+export interface PrivacyPreference {
+  storeObservationsLocally: boolean;
+  storeMeasurementsLocally: boolean;
+  localInferenceOnly: boolean;
+  sharingEnabled: boolean;
+  allowTrustedContactAccess: boolean;
+  retentionDays: number;
+}
+
+export interface HealthMeasurement {
+  id: string;
+  heartRate?: number;
+  temperature?: number;
+  bloodPressure?: {
+    systolic: number;
+    diastolic: number;
+  };
+  steps?: number;
+  sleepHours?: number;
+  source: 'manual' | 'simulated_demo' | 'device_adapter';
+  timestamp: string;
+  isValidated: boolean;
+}
+
+export interface BaselineSnapshot {
+  userId: string;
+  calculatedAt: string;
+  totalDaysObserved: number;
+  isStable: boolean;
+  metrics: {
+    metric: string;
+    average: number;
+    variationStdDev: number;
+    minTypical: number;
+    maxTypical: number;
+    trendDirection: 'stable' | 'increasing' | 'decreasing';
+    signalConsistency: number; // 0-100%
+  }[];
+}
+
+export interface HealthChange {
+  id: string;
+  detectedAt: string;
+  changeLevel: 'STABLE' | 'WATCH' | 'CHANGE DETECTED';
+  flaggedSignals: string[];
+  summary: string;
+  observedChanges: {
+    signal: string;
+    typical: string;
+    today: string;
+    changePercentage: number;
+  }[];
+}
+
+export interface AIExplanation {
+  whatChanged: string;
+  whyFlagged: string[];
+  whatWeKnow: string;
+  whatWeDoNotKnow: string;
+  nextSteps: string[];
+  disclaimer: string;
+}

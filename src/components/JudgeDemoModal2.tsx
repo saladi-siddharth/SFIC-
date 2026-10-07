@@ -24,7 +24,7 @@ const STEPS: Step[] = [
     narrative: 'Raw health telemetry tells users what a number is (e.g., 78 BPM), but fails to explain whether that number represents a meaningful, personal change. Users are either panicked by generic alarms or ignore subtle early shifts.',
     visualHighlight: 'Isolated heart rate reading (78 BPM) without context leaves users confused.',
     keyTakeaway: 'The core challenge is personal clinical meaning, not raw data collection.',
-    tabTarget: 'command'
+    tabTarget: 'home'
   },
   {
     stepNumber: '02',
@@ -37,21 +37,21 @@ const STEPS: Step[] = [
   },
   {
     stepNumber: '03',
-    title: 'NEW OBSERVATIONS',
+    title: 'NEW OBSERVATIONS & DAILY CHECK',
     timeMark: '0:40 - 0:55',
-    narrative: 'New observations arrive via the device normalizer adapter: Sleep drops to 5.4h, Steps decrease to 4,900, Resting HR shifts to 78 BPM, and the user self-reports LOW energy.',
-    visualHighlight: 'Data Provenance verified: Simulated BLE Adapter + Self-Reported Check-in.',
+    narrative: 'New observations arrive via the 60-second check-in: Sleep drops to 5.4h, Steps decrease to 4,900, Resting HR shifts to 78 BPM, and the user self-reports LOW energy.',
+    visualHighlight: 'Data Provenance verified: Simulated Demo + Self-Reported Check-in.',
     keyTakeaway: 'Full provenance tracking distinguishes observed, self-reported, and simulated data.',
-    tabTarget: 'record'
+    tabTarget: 'checkin'
   },
   {
     stepNumber: '04',
-    title: 'CHANGE DETECTED',
+    title: 'CHANGE DETECTED (CHANGE LAB)',
     timeMark: '0:55 - 1:15',
-    narrative: 'The Pattern Engine detects a multi-parameter covariance shift: Resting HR is +8.3% above baseline, while sleep duration has contracted by -23.9% across consecutive nights.',
-    visualHighlight: 'Divergence Status: SIGNIFICANT CHANGE (Calculated delta > 2.0 SD).',
+    narrative: 'The Pattern Engine detects a multi-signal deviation: Resting HR is +8% above baseline, while sleep duration contracted by -24% across consecutive nights.',
+    visualHighlight: 'Divergence Status: SIGNIFICANT CHANGE (Multi-signal departure confirmed).',
     keyTakeaway: 'Early pattern recognition happens days before acute symptoms manifest.',
-    tabTarget: 'alert'
+    tabTarget: 'lab'
   },
   {
     stepNumber: '05',
@@ -67,18 +67,18 @@ const STEPS: Step[] = [
     title: 'SAFETY ENGINE GUARDRAIL',
     timeMark: '1:30 - 1:45',
     narrative: 'Hard Architectural Rule: AI can explain a result; AI cannot override the safety engine. All pattern logic follows deterministic Rule HS-RULE-001. HealthShield never claims medical diagnosis.',
-    visualHighlight: 'Safety Engine HS-RULE-001 active; AI explanation bound; deterministic triage locked.',
+    visualHighlight: 'Safety Engine HS-RULE-001 active; AI explanation bound; deterministic guardrail locked.',
     keyTakeaway: 'Deterministic safety rules protect beneficiaries from language model hallucinations.',
     tabTarget: 'technology'
   },
   {
     stepNumber: '07',
-    title: 'INCLUSION 2.0 (THEME 3)',
+    title: 'INCLUSION & ASSISTIVE TECH (THEME 3)',
     timeMark: '1:45 - 2:00',
     narrative: 'Assistive inclusion for diverse demographics. One tap switches to authentic Telugu localization, Simple Mode with huge touch buttons (😊 GOOD / 😐 OKAY / 😟 NOT WELL), and browser speech synthesis.',
     visualHighlight: 'Telugu Interface: "ఈరోజు మీ ఆరోగ్యం ఎలా ఉంది?" + Speech output.',
     keyTakeaway: 'Genuine inclusion reaches elderly citizens and rural communities.',
-    tabTarget: 'simple'
+    tabTarget: 'accessibility'
   },
   {
     stepNumber: '08',
@@ -87,14 +87,14 @@ const STEPS: Step[] = [
     narrative: 'Field-ready resilience: In intermittent connectivity areas, check-ins persist in browser IndexedDB. Upon reconnection, records sync idempotently without duplicate observations.',
     visualHighlight: 'Sync banner: LOCAL MODE → SYNC PENDING → SYNC COMPLETE.',
     keyTakeaway: 'Network outages do not interrupt vital personal health logging.',
-    tabTarget: 'dashboard'
+    tabTarget: 'home'
   },
   {
     stepNumber: '09',
     title: 'TRUSTED CIRCLE & DPDP CONSENT',
     timeMark: '2:15 - 2:30',
     narrative: 'User remains sovereign over their data. Granular DPDP consents allow sharing sleep trends with family while keeping detailed telemetry and AI interactions strictly private.',
-    visualHighlight: 'Trusted Contact Ananya Rao: Sleep trend shared ✓, Raw observations private ✕.',
+    visualHighlight: 'Trusted Contact: Sleep trend shared ✓, Raw observations private ✕.',
     keyTakeaway: 'DPDP Act 2023 compliant privacy by design, not a single blanket checkbox.',
     tabTarget: 'consent'
   },
@@ -103,7 +103,7 @@ const STEPS: Step[] = [
     title: 'PILOT EVIDENCE & HONESTY',
     timeMark: '2:30 - 2:45',
     narrative: 'SFIC Evaluators value verifiable evidence over fake claims. We display completed software prototype verification (baseline math, offline storage, covariance stress testing) and openly outline our 30-50 participant campus pilot as PLANNED.',
-    visualHighlight: 'Evidence Scorecard: 5 Verified Prototype Tests + 30-Day Planned Pilot Framework.',
+    visualHighlight: 'Evidence Scorecard: 8 Verified Prototype Tests + 30-Day Planned Pilot Framework.',
     keyTakeaway: 'Honesty and demonstrated prototype feasibility build undeniable credibility.',
     tabTarget: 'pilot'
   },
@@ -111,8 +111,8 @@ const STEPS: Step[] = [
     stepNumber: '11',
     title: 'COST & WHO PAYS?',
     timeMark: '2:45 - 2:55',
-    narrative: 'Transparent cost model: ₹8.40 per user per month. Feasible for college student welfare funds, NGO community grants, and District Health Societies.',
-    visualHighlight: 'Interactive Calculator: 500 users = ₹4,200/mo total platform infrastructure.',
+    narrative: 'Illustrative deployment model: Software-first architecture with optional local inference. Low recurring operational costs for college student welfare funds, NGO community grants, and District Health Societies.',
+    visualHighlight: 'Illustrative Scenario: Campus cohort deployment with user-controlled profiles.',
     keyTakeaway: 'Economically sustainable without high proprietary cloud lock-in.',
     tabTarget: 'cost'
   },
@@ -123,7 +123,7 @@ const STEPS: Step[] = [
     narrative: '"HealthShield doesn\'t try to tell people what disease they have. It helps them understand when their own health pattern changes — and what the appropriate next step may be."',
     visualHighlight: 'Scale Pathway: Individual → Family → Campus Cohort → Community → District.',
     keyTakeaway: 'Scalable preventive health architecture ready for SFIC Track A national finals.',
-    tabTarget: 'readiness'
+    tabTarget: 'impact'
   }
 ];
 

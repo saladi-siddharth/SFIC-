@@ -31,18 +31,20 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
     { id: 'checkin' as AppTab, label: 'Health Check', icon: 'fact_check', testId: 'sidebar-nav-checkin' },
     { id: 'lab' as AppTab, label: 'Change Lab', icon: 'biotech', badge: 'Demo', testId: 'sidebar-nav-lab' },
     { id: 'alert' as AppTab, label: 'Change Explained', icon: 'warning', testId: 'sidebar-nav-alert' },
-    { id: 'record' as AppTab, label: 'Health Record', icon: 'folder_shared', testId: 'sidebar-nav-record' },
+    { id: 'profile' as AppTab, label: 'My Health Profile', icon: 'account_circle', testId: 'sidebar-nav-profile' },
   ];
 
   const EVIDENCE_ITEMS = [
-    { id: 'timeline' as AppTab, label: 'Health Timeline', icon: 'history', testId: 'sidebar-nav-timeline' },
-    { id: 'pilot' as AppTab, label: 'Pilot Evidence', icon: 'verified', testId: 'sidebar-nav-pilot' },
-    { id: 'cost' as AppTab, label: 'Cost & Scale', icon: 'payments', badge: 'SFIC 6', testId: 'sidebar-nav-cost' },
-    { id: 'technology' as AppTab, label: 'Technology', icon: 'memory', testId: 'sidebar-nav-tech' },
-    { id: 'consent' as AppTab, label: 'Privacy & DPDP', icon: 'lock', testId: 'sidebar-nav-consent' },
+    { id: 'trends' as AppTab, label: 'Health Trends', icon: 'trending_up', testId: 'sidebar-nav-trends' },
+    { id: 'assistant' as AppTab, label: 'AI Assistant & Voice', icon: 'mic', testId: 'sidebar-nav-assistant' },
+    { id: 'accessibility' as AppTab, label: 'Accessibility & Inclusion', icon: 'accessibility_new', testId: 'sidebar-nav-accessibility' },
     { id: 'circle' as AppTab, label: 'Trusted Circle', icon: 'group', testId: 'sidebar-nav-circle' },
+    { id: 'consent' as AppTab, label: 'Privacy Center', icon: 'lock', testId: 'sidebar-nav-consent' },
+    { id: 'technology' as AppTab, label: 'Technology', icon: 'memory', testId: 'sidebar-nav-tech' },
+    { id: 'cost' as AppTab, label: 'Cost & Scale', icon: 'payments', badge: 'SFIC 6', testId: 'sidebar-nav-cost' },
     { id: 'impact' as AppTab, label: 'Impact & Scale', icon: 'public', testId: 'sidebar-nav-impact' },
-    { id: 'explorer' as AppTab, label: 'Pattern Explorer', icon: 'monitoring', testId: 'sidebar-nav-explorer' },
+    { id: 'pilot' as AppTab, label: 'Pilot Evidence', icon: 'verified', testId: 'sidebar-nav-pilot' },
+    { id: 'record' as AppTab, label: 'Health Record & FHIR', icon: 'folder_shared', testId: 'sidebar-nav-record' },
   ];
 
   const width = isCollapsed ? 76 : 260;

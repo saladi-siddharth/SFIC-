@@ -64,35 +64,50 @@ export const PilotCenter: React.FC = () => {
             </h3>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {[
               {
-                title: 'Core Interaction Testing',
-                desc: '60-second check-in, smooth state transitions, and interactive touch controls verified across desktop and mobile viewports.',
-                status: 'Verified ✓'
+                title: 'Personal Health Profile',
+                desc: 'User identity, routine, personal context, and completeness tracking.',
+                status: 'Demonstrated ✓'
               },
               {
-                title: 'Baseline Calculation Testing',
-                desc: 'Deterministic rolling 30-day mean and variance z-score mathematics verified against test vectors without drift.',
-                status: 'Verified ✓'
+                title: 'Daily Health Check',
+                desc: '30–60 second subjective check-in with data quality range validation.',
+                status: 'Demonstrated ✓'
               },
               {
-                title: 'Change-Detection Scenario Testing',
-                desc: 'Stress testing with multi-parameter covariance deviations (sleep contraction + resting HR shift) accurately triggering rule HS-RULE-001.',
-                status: 'Verified ✓'
+                title: 'Personal Baseline Engine',
+                desc: '30-day personal pattern calculation with normal variance corridor.',
+                status: 'Demonstrated ✓'
               },
               {
-                title: 'Offline Workflow Testing',
-                desc: 'Browser IndexedDB queue verified; check-in entries persist offline and automatically synchronize when connectivity returns.',
-                status: 'Verified ✓'
+                title: 'Multi-Signal Change Detection',
+                desc: 'Simultaneous multi-signal deviation analysis in interactive Change Lab.',
+                status: 'Demonstrated ✓'
               },
               {
-                title: 'Accessibility & Multilingual Testing',
-                desc: 'English, Telugu (తెలుగు), and Hindi localization verified alongside Simple Mode, text scaling (A/A+/A++), and voice input.',
-                status: 'Verified ✓'
+                title: 'Explainable AI Early-Warning Alert',
+                desc: '5-part structured explainability card (What changed, Why flagged, What we know, What we do not know, Next steps).',
+                status: 'Demonstrated ✓'
+              },
+              {
+                title: 'Personal AI Health Assistant',
+                desc: 'Data-grounded assistant with voice queries and strict non-diagnostic boundaries.',
+                status: 'Demonstrated ✓'
+              },
+              {
+                title: 'Accessibility & Multilingual Inclusion',
+                desc: '1-click Simple Mode, text scaling, high contrast, and English/Telugu/Hindi support.',
+                status: 'Demonstrated ✓'
+              },
+              {
+                title: 'Offline-Compatible Core Workflow',
+                desc: 'Client-side IndexedDB persistence and resilient background sync queue.',
+                status: 'Demonstrated ✓'
               }
             ].map(item => (
-              <div key={item.title} style={{ background: '#F8FAFC', padding: '12px 14px', borderRadius: 10, border: '1px solid #E2E8F0' }}>
+              <div key={item.title} style={{ background: '#F8FAFC', padding: '10px 14px', borderRadius: 10, border: '1px solid #E2E8F0' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <strong style={{ fontSize: 13, color: '#0F172A' }}>{item.title}</strong>
                   <span style={{ fontSize: 11, fontWeight: 800, color: '#16A34A', background: '#DCFCE7', padding: '2px 8px', borderRadius: 6 }}>
